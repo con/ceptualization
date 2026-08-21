@@ -272,3 +272,82 @@ The build is best framed as **collector + store + browser app**, borrowing:
 Nothing in the survey can be adopted wholesale. The genuinely novel, unimplemented parts are:
 the clone-identity/remote-name edge model, the incremental spider-expand loop, the durable
 exploration store, and the repo-level alert layer.
+
+---
+
+## Appendix A — License compatibility notes
+
+The project is expected to be MIT/BSD-ish or at least GPL-compatible. Relevant hazards found:
+
+| Project | License | Consequence |
+|---|---|---|
+| **mhutchie/vscode-git-graph** | **Modified MIT: "Permission is NOT GRANTED to publish, distribute, sublicense, and/or sell derivative works"** | **Hard blocker.** Cannot fork, cannot vendor, cannot ship a derivative. Read for inspiration only. This is the single most likely license trap in this space because the extension is the obvious first thing people point at. |
+| GitLens | MIT + separate proprietary `plus/` tree; several graph features gated behind a GitKraken account | Cannot reuse the interesting parts |
+| Gource, git-tree-viz, gephi-lite, Retina, swh-graph, Gephi | GPL-3.0 | Fine only if the project itself goes GPL-3; blocks an MIT/BSD outcome for linked code (Gource is a separate process, so *piping data to it* is fine) |
+| `git annex map`, git-annex assistant | GPL-3.0 (git-annex) | Reimplementing the *semantics* is unencumbered; copying Haskell source is not, unless the project accepts GPL-3 |
+| gitk, tig, gitg, qgit, git-cola, gitweb, cgit, myrepos, Sapling core | GPL-2 family | Same consideration |
+| **ungit** | MIT | Clean for a fork/BASE |
+| **Argo Lite** (poloclub/argo-graph-lite) | MIT | Clean for a fork/BASE |
+| **Backstage catalog-graph**, **AWS graph-explorer**, **vcstool** | Apache-2.0 | Clean, with patent grant; Apache-2 is GPL-3-compatible but not GPL-2-compatible |
+| **datalad-registry**, **gita**, **meta**, **git-workspace**, **gitpane**, **useful-forks**, **git-truck**, **githru**, **serie**, **git-graph (git-bahn)**, **sigma.js**, **Cytoscape.js**, **Mermaid** | MIT | Clean |
+| **GitList** | BSD-2-Clause (verified from LICENSE file) | Clean |
+| **klaus** | ISC | Clean |
+| PhilippMatthes/Gitgraph | **no license file at all** | Unusable; archived 2020 |
+| activeforks, grawkit, prigitsk, git-draw, CoderCity, git-annex-metadata-gui | not verified | Check before touching |
+
+## Appendix B — Library vs application, and programmatic drivability
+
+For the browser-app plan, what matters is whether a candidate can be *driven from data* rather
+than only from a repo on disk.
+
+- **Data-driven, embeddable, browser-native:** sigma.js, Cytoscape.js, vis-network, Mermaid,
+  gitgraph.js (**archived**; author now recommends Mermaid), Argo Lite, Retina, Gephi Lite,
+  Backstage `EntityRelationsGraph`, AWS graph-explorer. These accept an arbitrary node/edge model —
+  which is what a repo-level worldmap needs, since no git-specific renderer models these nodes.
+- **Repo-driven applications, not embeddable:** ungit, git-truck, githru, Sapling ISL, all TUIs and
+  all desktop clients. They read a repo path and own the whole UI. Forkable, not embeddable.
+- **One-shot exporters (pipe-friendly):** `git annex map` (→ dot), git-tree-viz (→ dot),
+  hoduche/git-graph (→ dot), grawkit (→ svg), Gource (consumes a custom log format —
+  git-annex already emits it via `--gource`), `datalad subdatasets` (→ machine-readable records),
+  `vcs export` (→ YAML), useful-forks (→ GitHub API queries). These are the realistic *inputs*.
+- **Closed/hosted, not usable:** GitHub Insights Network, gat Graph, GitKraken Desktop,
+  Sourcetree, Graphoria (unconfirmed).
+
+## Appendix C — Named in the assignment but not usable / not found
+
+Recorded so the same ground is not re-searched:
+
+- **forkstat** — not a git tool. It is Colin King's Linux kernel process fork/exec/exit event
+  monitor. No relation to fork networks.
+- **"Kohsuke's Network Graph"** — could not confirm a standalone open-source project of this name;
+  GitHub's network graph itself is closed source. `[UNVERIFIED]`
+- **"git-fork-graph"** — no such project confirmed. `[UNVERIFIED]` The functional equivalents that
+  do exist are useful-forks and activeforks.
+- **"Zeeker"** — no repository-visualization project of this name confirmed. `[UNVERIFIED]`
+- **Sourcetrail** — archived source-code (symbol-level) explorer; wrong granularity entirely. REJECT.
+- **gitgraph.js** (nicoespeon) — **ARCHIVED**; the README now points users at Mermaid. Do not build on it.
+- **ChromatixAU/gitlab-network-graph** — archived 2018-08-08.
+- **PhilippMatthes/Gitgraph** — archived 2020-12-02, unlicensed.
+- **irvinlim/git-repo-crawler** — archived 2020-05-16.
+- **hoduche/git-graph** — last release Feb 2020.
+- **GitAhead** — succeeded by Murmele/Gittyup.
+- **GitQlient** — Qt desktop client, commit-DAG for one repo; REJECT (not separately fetched).
+- **Gitea network graph** — requested in go-gitea/gitea#786 (opened 2017), **closed as duplicate**;
+  Gitea/Forgejo ship a per-repo commit graph at `/{owner}/{repo}/graph`, not a fork network.
+
+## Appendix D — Sources fetched and verified
+
+git-bahn/git-graph · mhutchie/vscode-git-graph (+ LICENSE) · kevinw/gitviz · lusingander/serie ·
+FredrikNoren/ungit · git-truck/git-truck · githru/githru · klaussilveira/gitlist (+ LICENSE) ·
+jonashaag/klaus · acaudwell/Gource · nosarthur/gita · mateodelnorte/meta · dirk-thomas/vcstool ·
+affromero/gitpane · orf/git-workspace · useful-forks/useful-forks.github.io ·
+PhilippMatthes/Gitgraph · irvinlim/git-repo-crawler · drewfish/git-moo · git-school/visualizing-git ·
+ewa/git-tree-viz · indigane/git-graph-drawing · aws/graph-explorer · poloclub/argo-graph-lite ·
+anvaka/map-of-github · SoftwareHeritage/swh-graph · datalad/datalad-registry · facebook/sapling ·
+gitkraken/vscode-gitlens · go-gitea/gitea#786 · pypi.org/project/git-graph · con/ceptualization#1.
+
+Not fetchable from this environment (egress-blocked, so relied on secondary sources and flagged
+accordingly): **git-annex.branchable.com**, manpages.debian.org, sources.debian.org, linux.die.net,
+systutorials.com, myrepos.branchable.com. **The `git annex map` man page in particular should be
+re-read directly** before the design settles, especially regarding `--json` and the exact spidering
+behaviour.
