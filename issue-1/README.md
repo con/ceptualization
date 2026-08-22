@@ -23,6 +23,7 @@ them.
 | [ecosystem-and-walker-data-sources.md](./ecosystem-and-walker-data-sources.md) | git-annex/DataLad prior art, forge & discovery APIs, cheap remote-state acquisition |
 | [architecture-persistence-and-prior-art.md](./architecture-persistence-and-prior-art.md) | Expandable-knowledge-map prior art, app architecture, persistence & merge design |
 | [generic-graph-explorer-and-datalad-concepts.md](./generic-graph-explorer-and-datalad-concepts.md) | **Follow-up**: reframing as a generic graph explorer; review of concepts.datalad.org and the orinoco explore view |
+| [pluggable-kg-exploration-and-brainkb.md](./pluggable-kg-exploration-and-brainkb.md) | **Follow-up**: dump-things-service as the store; BrainKB alignment; pluggable-expansion prior art (Translator/TRAPI); evidence modelling; model-driven UI platforms |
 
 ## Provenance and caveats
 
