@@ -25,6 +25,7 @@ them.
 | [generic-graph-explorer-and-datalad-concepts.md](./generic-graph-explorer-and-datalad-concepts.md) | **Follow-up**: reframing as a generic graph explorer; review of concepts.datalad.org and the orinoco explore view |
 | [pluggable-kg-exploration-and-brainkb.md](./pluggable-kg-exploration-and-brainkb.md) | **Follow-up**: dump-things-service as the store; BrainKB alignment; pluggable-expansion prior art (Translator/TRAPI); evidence modelling; model-driven UI platforms |
 | [repo-embedded-things-and-collections.md](./repo-embedded-things-and-collections.md) | **Follow-up**: query-things traversal; storing things in `.git/` vs an `orinoco` branch (tested); repo-as-seed browsing; many collections over common nodes |
+| [vocabulary-for-clones-and-remotes.md](./vocabulary-for-clones-and-remotes.md) | **Follow-up**: what vocabulary exists for clones/remotes/submodules (verified against schema.org 18.0, ForgeFed, SEON, SWHID/purl); extend-and-map recommendation; the W3C question |
 
 ## Provenance and caveats
 
