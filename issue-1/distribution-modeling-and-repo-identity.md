@@ -159,12 +159,18 @@ every clone and is readable **without cloning** (`git cat-file` after a blobless
 fetch, or the forge's raw file API). That makes it the strongest and cheapest
 signal available.
 
-One caveat worth recording, because it is the same trap as the template
-problem: the dataset id lives *in the tree*. `datalad create` mints a fresh one,
-but a repository created by copying a template that already contained
-`.datalad/config` will carry the template's id. So even the UUID is evidence,
-not proof -- and a duplicate dataset id across genuinely different datasets is
-another **error to render loudly**, exactly like duplicate annex UUIDs.
+**In practice this settles ~99% of cases and should be treated that way.**
+The design should lean on the dataset id as *the* identity for DataLad
+datasets, not hedge around it.
+
+The one caveat is worth recording as a lint, not as a reason for doubt: the
+dataset id lives *in the tree*, so while `datalad create` mints a fresh one, a
+repository made by copying a tree that already contained `.datalad/config`
+carries the original's id. That is the template trap one level up. Treat it the
+way issue #1 treats duplicate annex UUIDs -- a **loud error when two
+demonstrably different datasets declare the same id**, not a general suspicion
+of the mechanism. Absent that contradiction, matching dataset ids should merge
+without asking.
 
 Ranked, with cost:
 
@@ -174,9 +180,65 @@ Ranked, with cost:
 | Forge numeric repo id (GitHub/Gitea) + `parent`/`source` | a forge-hosted repo, stable across renames | 1 API call | strong for hosted repos only |
 | annex UUID | **this clone**, not the repository | free from the annex branch | identifies the *copy*; duplicates = error |
 | Shared ref SHAs from `ls-remote` | shared history exists | **0.44 s**, no fetch | cheap positive evidence; no discrimination |
+| Remote graph connected component | lineage cluster | **free** -- already collected | candidate generator, not a decision |
+| Mutual remote references | deliberate peering | free | strong; templates never produce it |
 | merge-base + containment | degree of relatedness | commit graph both sides (~1.08 s / 6.8 MB, measured earlier) | the real discriminator |
 | `git patch-id` overlap | same *work* after history rewriting | expensive | the antidote to false splits |
 | root commit set | shared ancestry | cheap once graphs are local | **not sufficient alone** -- demonstrated |
+
+### The remote graph as an identity signal -- and what it actually says
+
+A further signal: two clones that **share a common clone among their remotes
+for the same tracked default branch**. This is attractive because it costs
+*nothing* -- the walker already collects exactly this:
+
+```
+$ git config --get-regexp '^(remote\..*\.url|branch\..*\.(remote|merge))$'
+remote.origin.url        <url>
+branch.master.remote     origin
+branch.master.merge      refs/heads/master
+```
+
+No fetch, no history, no network. But I ran it against the same four-repo
+fixture, and the result is instructive:
+
+| Repo | `remote.origin.url` | tracks | truth |
+| --- | --- | --- | --- |
+| A | `…/T` | `refs/heads/master` | template sibling |
+| B | `…/T` | `refs/heads/master` | template sibling |
+| C | `…/A` | `refs/heads/master` | **true clone of A** |
+
+Taken alone the signal gets this case **backwards in both directions**: A and B
+share an upstream *and* a tracked branch yet are not the same repository, while
+C -- which genuinely is a clone of A -- has a different upstream URL from both.
+
+The lesson is not that the signal is useless; it is that it measures something
+adjacent. **Sharing an upstream makes two clones peers of a common origin**,
+which is a lineage fact, not an identity fact -- the same limitation history
+overlap has. The remote graph gives you *lineage*, exactly as the commit graph
+does, and for the same underlying reason: a template is a real common ancestor.
+
+Two ways it becomes genuinely strong:
+
+* **Mutual reference.** If A lists B as a remote *and* B lists A, that is a
+  deliberate two-way peering that templates never produce. In the spacetop map
+  of issue #1, `rolando` and `typhon` reference each other exactly this way.
+  Weight mutual edges far above shared-upstream edges.
+* **As a candidate generator, not a decision.** This is where it earns its
+  keep, and it is free:
+
+  1. **Cluster** -- take every clone and every canonicalised remote URL as
+     nodes, take remotes as edges, compute **connected components**. In the
+     fixture, `{T, A, B, C}` is one component. Costs nothing beyond data the
+     walker already has.
+  2. **Discriminate within the component** -- dataset id first (settles it,
+     per above), then containment, then merge-base position. Only the handful
+     of pairs inside a component are ever compared, which is what makes the
+     expensive checks affordable at worldmap scale.
+
+That two-stage shape is worth adopting as the identity algorithm: the remote
+topology bounds the problem, the declared ids resolve it, and history overlap
+is the tiebreaker for the plain-git remainder.
 
 ### Model it as claims over objective relations
 
@@ -209,7 +271,13 @@ Deliberately conservative, and all overridable:
 
 * merge-base == one side's tip → **strict ancestor**, no suggestion needed,
   draw as ahead/behind.
-* matching dataset id or forge parent → **suggest same**, high confidence.
+* matching dataset id → **merge**, no prompt, unless two clones with that id
+  have contradictory content (then: loud error). Forge `parent`/`source` →
+  suggest same, high confidence.
+* mutual remote references (each lists the other) → **suggest same**, high
+  confidence.
+* shared upstream URL + same tracked branch → put in the same **candidate
+  cluster**; suggest nothing on its own.
 * containment ≥ 0.9 **and** no conflicting declared ids → suggest same.
 * 0.1 < containment < 0.9 → draw `shares_history_with`, suggest nothing.
 * containment ≤ 0.1 but shared root → draw `shares_history_with`, tag
