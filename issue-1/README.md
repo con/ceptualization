@@ -22,6 +22,7 @@ them.
 | [semantic-layer-quay-ontosphere-ontologies.md](./semantic-layer-quay-ontosphere-ontologies.md) | Evaluation of quay & ontosphere; vocabularies; RDF vs plain JSON |
 | [ecosystem-and-walker-data-sources.md](./ecosystem-and-walker-data-sources.md) | git-annex/DataLad prior art, forge & discovery APIs, cheap remote-state acquisition |
 | [architecture-persistence-and-prior-art.md](./architecture-persistence-and-prior-art.md) | Expandable-knowledge-map prior art, app architecture, persistence & merge design |
+| [generic-graph-explorer-and-datalad-concepts.md](./generic-graph-explorer-and-datalad-concepts.md) | **Follow-up**: reframing as a generic graph explorer; review of concepts.datalad.org and the orinoco explore view |
 
 ## Provenance and caveats
 
@@ -139,11 +140,17 @@ and author the git layer ourselves.
 **On RDF generally:** the recommendation is to model in **LinkML** (same
 tooling as DANDI and datalad-concepts) and *generate* JSON Schema, Pydantic, TS,
 JSON-LD context, OWL and SHACL from one source -- buying the RDF option without
-paying for an RDF runtime. Two arguments against RDF as the store are decisive
-and worth repeating: our edges carry data (`name`, `ahead.commits`, `ping`,
-`shared_bytes`), which makes this a property graph; and RDF is monotonic, so an
-OWL reasoner would `sameAs`-merge two clones sharing an annex UUID -- whereas
-issue #1 wants exactly that rendered as a **loud error**.
+paying for an RDF runtime. One argument against RDF as the store holds up: RDF is
+monotonic, so an OWL reasoner would `sameAs`-merge two clones sharing an annex
+UUID -- whereas issue #1 wants exactly that rendered as a **loud error**.
+
+**Superseded:** the second argument -- that our edges carry data (`name`,
+`ahead.commits`, `ping`, `shared_bytes`) and so this "must" be a property graph
+-- does not survive contact with the actual model. `dlthings:Statement` plus
+`characterized_by` (reification) gives data-carrying edges inside an
+RDF-compatible model. See
+[generic-graph-explorer-and-datalad-concepts.md](./generic-graph-explorer-and-datalad-concepts.md)
+section 1.
 
 ### 4. Store observations, not a graph
 
