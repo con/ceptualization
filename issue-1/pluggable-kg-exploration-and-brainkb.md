@@ -77,9 +77,15 @@ What it gives, and it is a lot of unglamorous work already done:
 
 Filtering is the `matching` parameter, which is a **substring match with `%`
 wildcards against the JSON string representation** of the record, honoured by
-the SQLite backends and *ignored* by `record_dir`. There is no SPARQL endpoint,
-no traversal, and -- the operative gap -- **no way to ask "what links to this
-`pid`?"**.
+the SQLite backends and *ignored* by `record_dir`. There is no SPARQL endpoint and no
+traversal, and -- as far as *this API* goes -- no way to ask "what links to
+this `pid`?".
+
+> **Superseded in part.** `query-things` implements both link directions
+> client-side, including a recursive backward filter and cross-collection pid
+> resolution. See
+> [repo-embedded-things-and-collections.md](./repo-embedded-things-and-collections.md)
+> section 1. What remains missing is an *index*, not the semantics.
 
 That matters because expansion is a backward query. Records point outward:
 `XYZProject.associated_with -> person`, `Clone.hasRemote -> clone`. Expanding a
