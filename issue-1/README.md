@@ -26,6 +26,7 @@ them.
 | [pluggable-kg-exploration-and-brainkb.md](./pluggable-kg-exploration-and-brainkb.md) | **Follow-up**: dump-things-service as the store; BrainKB alignment; pluggable-expansion prior art (Translator/TRAPI); evidence modelling; model-driven UI platforms |
 | [repo-embedded-things-and-collections.md](./repo-embedded-things-and-collections.md) | **Follow-up**: query-things traversal; storing things in `.git/` vs an `orinoco` branch (tested); repo-as-seed browsing; many collections over common nodes |
 | [vocabulary-for-clones-and-remotes.md](./vocabulary-for-clones-and-remotes.md) | **Follow-up**: what vocabulary exists for clones/remotes/submodules (verified against schema.org 18.0, ForgeFed, SEON, SWHID/purl); extend-and-map recommendation; the W3C question |
+| [distribution-modeling-and-repo-identity.md](./distribution-modeling-and-repo-identity.md) | **Follow-up**: Distribution as the class with form as instance data; why no content-based repo id can exist (measured); identity as claims over objective relations |
 
 ## Provenance and caveats
 

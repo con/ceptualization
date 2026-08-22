@@ -291,6 +291,10 @@ different question.
    `[UNVERIFIED — not checked]`
 3. Is there value in emitting SPDX 3.0 alongside our own model, so a worldmap
    can answer SBOM-shaped questions? Probably not for v1.
-4. Should `Clone` be `is_a: Distribution` (reusing the dcat-aligned class, as
-   the `XYZDistribution` git-commit example hints) or a sibling? This is the
-   one structural choice I would want the datalad-concepts maintainers to make.
+4. ~~Should `Clone` be `is_a: Distribution` or a sibling?~~ **Resolved** in
+   [distribution-modeling-and-repo-identity.md](./distribution-modeling-and-repo-identity.md):
+   `Distribution` is the class and `Clone` disappears entirely, with vcs /
+   layout / annex_mode as instance-level enum slots. Note also that the
+   "LinkML has no multiple inheritance" premise is only half right -- it has
+   `mixins:`, used 50 times in datalad-concepts -- but slots remain correct
+   here because the variation is per-instance, not per-schema.
