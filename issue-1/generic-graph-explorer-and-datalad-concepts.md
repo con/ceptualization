@@ -128,19 +128,65 @@ Grepped across all of `src/`:
 | `Commit` | 2 (**examples only**) |
 | `annex` | 2 (**examples only**) |
 
-The only trace of git/annex in the entire repository is in
-`src/demo-research-assets/unreleased/examples/XYZDistribution-02-attributes.yaml`:
+### Exactly where VCS shows up as intended-but-unbuilt
+
+To be precise about the evidence, because this is an inference from artefacts
+rather than a stated roadmap -- **there is no sentence anywhere in
+datalad-concepts saying "version control is planned"**. What exists is two
+things.
+
+**(a) `src/demo-research-assets/unreleased/examples/XYZDistribution-02-attributes.yaml`**
+-- the whole file, 7 lines:
 
 ```yaml
+pid: https://concepts.datalad.org/ns/gitsha/9a7e16b80140183c9495d549ce117af4eff9de3e
+distribution_of:
+  - https://concepts.datalad.org/ns/dataset-uuid/fd3b41bb-5d75-4cee-b41c-aac0e0cae7f1
 kind: https://example.org/ns/git-commit
-table_221.csv: https://concepts.datalad.org/ns/annex-key/MD5E-s11263--1549566fb97afa879dc9446edcf2015f.csv
+parts:
+  table_221.csv: https://concepts.datalad.org/ns/annex-key/MD5E-s11263--1549566fb97afa879dc9446edcf2015f.csv
+  table_220.csv: https://concepts.datalad.org/ns/annex-key/MD5E-s18872--e4b0710c69297031d63866ce8b888f25.csv
 ```
 
-So the *pattern* -- a git commit as a `Distribution` whose named parts are
-annex keys -- has been sketched, and a `concepts.datalad.org/ns/annex-key/`
-namespace has been reserved. But `kind` points at `example.org`, and there is
-no class, no slot, and no shape. **A `things-vcs` module is the missing piece,
-and the project has clearly anticipated it.**
+(also present as the `.json` sibling). This is a git commit modelled as a
+`Distribution` of a dataset, whose named parts are annex keys. Note which URIs
+are minted under `concepts.datalad.org` and which are not:
+
+| URI | Namespace | Status |
+| --- | --- | --- |
+| `.../ns/gitsha/<sha>` | `concepts.datalad.org` | commit identity |
+| `.../ns/dataset-uuid/<uuid>` | `concepts.datalad.org` | dataset identity |
+| `.../ns/annex-key/<key>` | `concepts.datalad.org` | content identity |
+| `.../ns/git-commit` | **`example.org`** | the **type** -- not minted |
+
+Three VCS *identifier* namespaces are already used under
+`concepts.datalad.org/ns/`; the one thing still pointing at `example.org` is
+the **class**. So identity is settled and typing is not, which is a fairly
+specific kind of unfinished. There is no class, slot, or shape for any of it,
+and none of these three namespaces is declared as a prefix in any schema
+module -- they appear only inside this example.
+
+**(b) `extra-docs/usage-considerations.md`, lines 179-186**, in the section
+"DataLad datasets as a PID provider":
+
+> Every DataLad dataset carries a UUID-4 identifier that is persistent across
+> dataset versions. In addition, each **configured git-annex accessible
+> location within the network of dataset clones** is also identified with a
+> UUID.
+>
+> Type (2) is used to identify dataset content (files), and dataset versions
+> (commits).
+
+That is the annex-UUID-as-clone-location concept and the phrase "network of
+dataset clones" stated outright -- i.e. the *subject matter* of issue #1 is
+already named in the project's own prose. But it is argued there as a source
+of free PIDs, not as something to be modelled.
+
+**My earlier phrasing "the project has clearly anticipated it" overstated
+this.** The accurate claim: the identifier namespaces exist, the concept is
+named in prose, the modelling is absent, and nobody has said they intend to do
+it. That still makes a `things-vcs` proposal a natural extension rather than a
+foreign one -- but it should be raised as a question upstream, not assumed.
 
 Concretely, the gaps against issues #1/#4/#5/#6:
 
@@ -254,6 +300,15 @@ this ecosystem, expressed in the model itself, and is already used to
 generate forms.** The missing step is a parallel set of annotations that drive
 *graph* presentation rather than form presentation.
 
+There is also namespace precedent: `demo-rse-group` and
+`demo-research-information` both declare
+`shaclvue: https://concepts.datalad.org/ns/shaclvue/` and list `shaclvue` in
+`emit_prefixes`. No `shaclvue:` predicate appears anywhere in the schema
+source, so that namespace is reserved for *records and configs* rather than
+used in the model -- but it establishes the convention of a
+`concepts.datalad.org/ns/<tool>/` namespace for tool-specific presentation
+terms. A `.../ns/graph/` namespace would follow the same pattern.
+
 That is a much smaller and better-founded proposal than inventing a new
 configuration system. Sketch:
 
@@ -320,6 +375,74 @@ Three properties fall out:
   their `XYZPerson` and yours are one person. Whether they do publish that way
   is the key unknown -- see below.
 
+## 5a. Plain git repos, ssh, and why the backend is a real program
+
+The annex-branch-first shortcut from the earlier synthesis
+([README](./README.md), finding 2) only works for git-annex repos. For a plain
+git repo there is no `uuid.log` and no `git annex map`: the only source of
+truth about its remotes is `git config --get-regexp '^remote\..*\.url'` (or
+`git remote -v`) **executed where the repo lives**. So walking plain git means
+ssh, and ssh is not an optional extra -- it is the primary mechanism for that
+half of the world. The two paths are complementary:
+
+| Repo kind | Cheapest source of its remotes | Needs shell on the host? |
+| --- | --- | --- |
+| git-annex / DataLad | `git-annex` branch (`uuid.log`, `remote.log`, `trust.log`), fetched anonymously | no |
+| plain git, local | `git config --get-regexp '^remote\.'` | no (it is local) |
+| plain git, remote host | same, over ssh | **yes** |
+| forge-hosted | forge API (`/forks`, `/compare`) | no |
+
+This settles the architecture question rather than leaving it open. A browser
+page cannot open an ssh connection, cannot read `~/.ssh/config`, cannot talk to
+`SSH_AUTH_SOCK`, and cannot prompt for a passphrase on a terminal. **The
+backend must be a real local program with full access to the user's
+environment**, and the browser is only its display surface.
+
+Design consequences, which I think should be treated as fixed points:
+
+* **Do not implement ssh.** Shell out to the system `ssh` binary so that
+  `~/.ssh/config`, `Host` aliases, `ProxyJump`, `IdentityFile`, `Match`
+  blocks, `ControlMaster`/`ControlPersist` and `ssh-agent` all work exactly as
+  the user has already configured them. Anything a Python ssh library
+  reimplements is a thing that will behave differently from the user's own
+  `ssh host` and generate bug reports.
+* **Multi-hop works via agent forwarding**, which is the mechanism issue #1
+  asks for ("configured to forward ssh identity"). Prefer `ProxyJump` where
+  the topology allows it, since it does not expose the agent socket to the
+  intermediate host; fall back to `ForwardAgent` where a genuine second-hop
+  login is required, and say so in the UI when it happens.
+* **Interactive auth must be possible.** If no key is available, `ssh` will
+  want a password or a passphrase. A backend that swallows stdin turns this
+  into a mysterious hang. Options, in order of robustness: run the probe on a
+  PTY and stream the prompt to the browser over the same channel as progress
+  events; or set `SSH_ASKPASS` + `SSH_ASKPASS_REQUIRE=force` to a helper that
+  round-trips the prompt to the UI; or detect
+  `BatchMode=yes` failure and surface "needs credentials" as a node state the
+  user can click to retry interactively. The third is the cheapest and should
+  be the MVP behaviour -- probe with `BatchMode=yes` by default, mark the node,
+  and let the user opt into an interactive retry.
+* **The probe stays a single POSIX `sh` script** piped as `ssh host 'sh -s' <
+  probe.sh`, so no Python is required on the remote. HPC login nodes and
+  storage boxes frequently have neither Python nor DataLad.
+* **Concurrency and timeouts** belong in the backend: a fleet crawl is dozens
+  of independent ssh sessions, each of which can hang for minutes on a dead
+  host. Per-probe timeout, bounded parallelism, and a persisted visited-set
+  keyed by ssh host-key fingerprint (not hostname string) are all backend
+  concerns the browser must not see.
+
+None of this changes the recommended stack -- it is what the architecture track
+already proposed (local FastAPI daemon on `127.0.0.1`, SSE for progress,
+Cytoscape.js frontend). It removes the alternatives: a static site, a pure
+WASM app, or a browser extension cannot do this job, and a Tauri/Rust shell
+would end up spawning the same `ssh` and `git` subprocesses with an extra
+language boundary in the way.
+
+The honest cost: this is a tool you install and run locally, not a URL you
+visit. The compensating move is the **self-contained HTML export** -- crawl
+locally with full credentials, publish a static artefact anyone can open. That
+is also how a worldmap gets shared into an issue, which is where issue #1
+started.
+
 ## 6. Recommendations
 
 **Ranked, cheapest first.**
@@ -344,7 +467,10 @@ Three properties fall out:
 4. **Add `graph:` annotations** alongside the existing `dash:` ones, and build
    the viewer to read them. This is what makes one explorer serve both repos
    and people.
-5. **Build the explorer on Cytoscape.js**, not sigma.js -- compound nodes are
+5. **Treat plain-git-over-ssh as a first-class walker path, not a fallback**
+   (section 5a) -- it is the only way to learn a non-annex repo's remotes, and
+   it fixes the backend as a real local program.
+6. **Build the explorer on Cytoscape.js**, not sigma.js -- compound nodes are
    required for host clustering and subdataset nesting, and sigma has no
    model for them. The existing explore view can keep sigma for its static
    whole-graph overview; they serve different jobs.
