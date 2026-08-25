@@ -1,0 +1,11 @@
+# Build and dependency output from the bake-off prototypes.
+# Source, screenshots, exports and findings are committed; these are not.
+node_modules/
+dist/
+build/
+.vite/
+*.log
+__pycache__/
+.venv/
+venv/
+.pytest_cache/
