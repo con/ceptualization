@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Worldmap — Scale &amp; Filter (Team C)</title>
+<link rel="stylesheet" href="./src/style.css" />
+</head>
+<body>
+<div id="app">
+  <header id="topbar">
+    <div class="brand">
+      <span class="dot"></span>
+      <strong>worldmap</strong>
+      <span class="sub">scale &amp; filter · sigma.js + graphology</span>
+    </div>
+    <nav id="scenario-tabs" class="tabs"></nav>
+    <div class="spacer"></div>
+    <div id="counters" class="counters"></div>
+    <button id="theme-toggle" class="btn ghost" title="Toggle light/dark">◐</button>
+  </header>
+
+  <aside id="left">
+    <section class="panel">
+      <h2>Perspectives</h2>
+      <div id="perspectives" class="persp-list"></div>
+      <p id="persp-desc" class="hint"></p>
+    </section>
+
+    <section class="panel">
+      <h2>Search</h2>
+      <input id="search" type="search" placeholder="path, host, remote name, UUID…" autocomplete="off" />
+      <div id="search-results" class="results"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Filters</h2>
+      <label class="row"><span>Ahead ≥</span>
+        <input id="f-ahead" type="range" min="0" max="25" value="0" />
+        <output id="f-ahead-out">0</output>
+      </label>
+      <div class="seg" id="f-annex">
+        <button data-v="all" class="on">all</button>
+        <button data-v="annex">git-annex</button>
+        <button data-v="plain">plain git</button>
+      </div>
+      <label class="chk"><input type="checkbox" id="f-inactive" checked /> show inactive forks</label>
+      <label class="chk"><input type="checkbox" id="f-hosts-vis" /> show host nodes</label>
+      <h3>Relations</h3>
+      <div id="f-kinds" class="chips"></div>
+      <h3>Hosts / stores</h3>
+      <div id="f-hosts" class="chips"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Grouping</h2>
+      <label class="chk"><input type="checkbox" id="g-hulls" checked /> draw containment</label>
+      <label class="chk"><input type="checkbox" id="g-semzoom" checked /> semantic zoom</label>
+      <div class="btnrow">
+        <button id="g-collapse-all" class="btn">collapse all</button>
+        <button id="g-expand-all" class="btn">expand all</button>
+      </div>
+      <div id="group-list" class="grouplist"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Scale test <span class="tag warn">synthetic</span></h2>
+      <div class="btnrow wrap" id="synth-row">
+        <button class="btn" data-n="500">500</button>
+        <button class="btn" data-n="2000">2000</button>
+        <button class="btn" data-n="5000">5000</button>
+        <button class="btn" data-n="10000">10000</button>
+      </div>
+      <button id="bench" class="btn wide">run 3 s frame benchmark</button>
+      <pre id="bench-out" class="bench"></pre>
+    </section>
+  </aside>
+
+  <main id="stage">
+    <div id="sigma"></div>
+    <div id="legend" class="legend"></div>
+    <div id="hud" class="hud"></div>
+    <div id="toast" class="toast hidden"></div>
+  </main>
+
+  <aside id="right">
+    <section class="panel" id="findings-panel">
+      <h2>Findings</h2>
+      <div id="findings"></div>
+    </section>
+    <section class="panel" id="inspector">
+      <h2>Inspector</h2>
+      <div id="inspector-body" class="hint">Click a node. Expansion probes the
+        server (300–900 ms), and only newly discovered nodes come back.</div>
+    </section>
+  </aside>
+</div>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>

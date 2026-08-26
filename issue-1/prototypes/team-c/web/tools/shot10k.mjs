@@ -1,0 +1,11 @@
+import { chromium } from 'playwright';
+const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium-1194/chrome-linux/chrome'});
+const p=await b.newPage({viewport:{width:1600,height:950}, deviceScaleFactor:2});
+await p.goto('http://127.0.0.1:8853',{waitUntil:'domcontentloaded'});
+await p.waitForFunction(()=>window.__app&&window.__app.ready());
+await p.evaluate(()=>window.__app.actions.loadSynthetic(10000));
+await p.waitForFunction(()=>document.getElementById('toast').classList.contains('hidden'),null,{timeout:300000});
+await p.waitForTimeout(3000);
+console.log(JSON.stringify(await p.evaluate(()=>({...window.__app.counts(), collapsed:window.__app.state.collapsed.size}))));
+await p.screenshot({path:'/home/user/ceptualization/issue-1/prototypes/team-c/screenshots/synthetic-10000.png'});
+await b.close();
