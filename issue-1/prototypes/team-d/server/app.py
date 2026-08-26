@@ -47,12 +47,45 @@ from urllib.parse import urlparse, parse_qs, unquote
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-SCENARIO_DIR = os.path.abspath(os.path.join(ROOT, "..", "..", "scenarios"))
+SCENARIO_DIR = os.path.abspath(os.environ.get(
+    "WORLDMAP_DIR", os.path.join(ROOT, "..", "..", "scenarios")))
 VIEW_DIR = os.path.join(ROOT, "views")
 DIST = os.path.join(ROOT, "web", "dist")
 VIEWER_JS = os.path.join(ROOT, "web", "dist-viewer", "worldmap-viewer.iife.js")
 
-SCENARIOS = ["s1-spacetop", "s2-babs-ria", "s3-forks"]
+def _discover():
+    """Any directory holding a worldmap.json is a scenario.
+
+    Lets `worldmap-crawl.py -o DIR/<name>` output be explored directly:
+        WORLDMAP_DIR=/tmp/wm ./run.sh
+    """
+    try:
+        found = sorted(d for d in os.listdir(SCENARIO_DIR)
+                       if os.path.isfile(os.path.join(SCENARIO_DIR, d, "worldmap.json")))
+    except OSError:
+        found = []
+    return found or ["s1-spacetop", "s2-babs-ria", "s3-forks"]
+
+
+class _Scenarios(list):
+    """Re-scan on every membership test, so a freshly crawled map shows up
+    without restarting the server."""
+
+    def __contains__(self, item):
+        if list.__contains__(self, item):
+            return True
+        fresh = _discover()
+        if item in fresh:
+            self[:] = fresh
+            return True
+        return False
+
+    def __iter__(self):
+        self[:] = _discover()
+        return list.__iter__(self)
+
+
+SCENARIOS = _Scenarios(_discover())
 
 # artificial probe latency, ms -- a real `git ls-remote` over ssh is worse.
 PROBE_MIN_MS = 300
@@ -641,7 +674,7 @@ def main():
     os.makedirs(VIEW_DIR, exist_ok=True)
     srv = ThreadingHTTPServer(("127.0.0.1", port), Handler)
     print(f"team-d worldmap server on http://127.0.0.1:{port}", flush=True)
-    print(f"  scenarios: {SCENARIO_DIR}", flush=True)
+    print(f"  scenarios: {SCENARIO_DIR} -> {list(SCENARIOS)}", flush=True)
     print(f"  static:    {DIST}", flush=True)
     srv.serve_forever()
 

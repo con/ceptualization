@@ -9,7 +9,7 @@ import { worldPositions } from './viewpos.js';
 import { LEAF } from './geometry.js';
 
 const API = '';
-const SCENARIOS = ['s1-spacetop', 's2-babs-ria', 's3-forks'];
+let SCENARIOS = ['s1-spacetop', 's2-babs-ria', 's3-forks'];
 
 const S = {
   scenario: null,
@@ -575,7 +575,26 @@ function shell() {
 shell();
 startWorker();
 call('warm', {}).catch(() => {});
-loadScenario(SCENARIOS[0]);
+// Scenarios come from the server, so any directory holding a worldmap.json
+// works -- including output of issue-1/tools/worldmap-crawl.py:
+//     WORLDMAP_DIR=/tmp/wm ./run.sh
+(async () => {
+  try {
+    const list = await api('/api/scenarios');
+    if (Array.isArray(list) && list.length) {
+      SCENARIOS = list.map((s) => (typeof s === 'string' ? s : s.id));
+      const sel = document.getElementById('scen');
+      if (sel) {
+        sel.innerHTML = SCENARIOS
+          .map((s) => `<option value="${s}">${s}</option>`).join('');
+      }
+    }
+  } catch (e) {
+    console.warn('scenario discovery failed, using built-in list', e);
+  }
+  const wanted = new URLSearchParams(location.search).get('scenario');
+  loadScenario(SCENARIOS.includes(wanted) ? wanted : SCENARIOS[0]);
+})();
 
 window.__wm = {
   get cy() { return cy; },
