@@ -271,3 +271,170 @@ sigma.js MIT · graphology MIT · graphology-layout-forceatlas2 MIT ·
 `@sigma/edge-curve` MIT · Vite MIT. No GPL, no CC-BY-NC, no Cosmograph.
 `@sigma/edge-curve` was added beyond the pre-verified list; it is from the sigma
 monorepo and carries the same MIT licence.
+
+---
+
+## Screenshot gallery
+
+All 38 images below were captured by Playwright against the running app.
+
+### s1 — spacetop
+
+**s1-01-seed.png** — the starting state — only the seed clone and its host
+
+![s1 01 seed](screenshots/s1-01-seed.png)
+
+**s1-02-mid-expansion.png** — after the first probes, as the map grows
+
+![s1 02 mid expansion](screenshots/s1-02-mid-expansion.png)
+
+**s1-03-explored.png**
+
+![s1 03 explored](screenshots/s1-03-explored.png)
+
+**s1-04-duplicate-uuid-error.png** — the duplicate annex UUID rendered as an error
+
+![s1 04 duplicate uuid error](screenshots/s1-04-duplicate-uuid-error.png)
+
+**s1-05-remote-name-disagreement.png** — per-clone remote names, legible without an inspector
+
+![s1 05 remote name disagreement](screenshots/s1-05-remote-name-disagreement.png)
+
+**s1-07-light-theme.png** — light theme
+
+![s1 07 light theme](screenshots/s1-07-light-theme.png)
+
+**s1-08-search-remote-name.png**
+
+![s1 08 search remote name](screenshots/s1-08-search-remote-name.png)
+
+**s1-persp-health.png** — perspective
+
+![s1 persp health](screenshots/s1-persp-health.png)
+
+**s1-persp-lineage.png** — layered lineage view
+
+![s1 persp lineage](screenshots/s1-persp-lineage.png)
+
+**s1-persp-remotes.png** — perspective
+
+![s1 persp remotes](screenshots/s1-persp-remotes.png)
+
+**s1-persp-storage.png** — perspective
+
+![s1 persp storage](screenshots/s1-persp-storage.png)
+
+**s1-persp-topology.png** — perspective
+
+![s1 persp topology](screenshots/s1-persp-topology.png)
+
+### s2 — BABS / RIA
+
+**s2-01-seed.png** — the starting state — only the seed clone and its host
+
+![s2 01 seed](screenshots/s2-01-seed.png)
+
+**s2-02-mid-expansion.png** — after the first probes, as the map grows
+
+![s2 02 mid expansion](screenshots/s2-02-mid-expansion.png)
+
+**s2-03-ria-40-children-expanded.png** — the RIA store and its per-subject repositories
+
+![s2 03 ria 40 children expanded](screenshots/s2-03-ria-40-children-expanded.png)
+
+**s2-04-ria-collapsed-meta-node.png** — the RIA store and its per-subject repositories
+
+![s2 04 ria collapsed meta node](screenshots/s2-04-ria-collapsed-meta-node.png)
+
+**s2-05-light-theme.png** — light theme
+
+![s2 05 light theme](screenshots/s2-05-light-theme.png)
+
+**s2-persp-health.png** — perspective
+
+![s2 persp health](screenshots/s2-persp-health.png)
+
+**s2-persp-lineage.png** — layered lineage view
+
+![s2 persp lineage](screenshots/s2-persp-lineage.png)
+
+**s2-persp-remotes.png** — perspective
+
+![s2 persp remotes](screenshots/s2-persp-remotes.png)
+
+**s2-persp-storage.png** — perspective
+
+![s2 persp storage](screenshots/s2-persp-storage.png)
+
+**s2-persp-topology.png** — perspective
+
+![s2 persp topology](screenshots/s2-persp-topology.png)
+
+### s3 — fork network
+
+**s3-01-seed.png** — the starting state — only the seed clone and its host
+
+![s3 01 seed](screenshots/s3-01-seed.png)
+
+**s3-02-mid-expansion.png** — after the first probes, as the map grows
+
+![s3 02 mid expansion](screenshots/s3-02-mid-expansion.png)
+
+**s3-03-inactive-forks-greyed.png** — the fork network, inactive forks greyed
+
+![s3 03 inactive forks greyed](screenshots/s3-03-inactive-forks-greyed.png)
+
+**s3-04-inactive-filtered-out.png**
+
+![s3 04 inactive filtered out](screenshots/s3-04-inactive-filtered-out.png)
+
+**s3-05-lineage-template-trap.png** — layered lineage view
+
+![s3 05 lineage template trap](screenshots/s3-05-lineage-template-trap.png)
+
+**s3-06-candidate-same-as-rejected.png**
+
+![s3 06 candidate same as rejected](screenshots/s3-06-candidate-same-as-rejected.png)
+
+**s3-07-light-theme.png** — light theme
+
+![s3 07 light theme](screenshots/s3-07-light-theme.png)
+
+**s3-08-semantic-zoom-collapsed.png**
+
+![s3 08 semantic zoom collapsed](screenshots/s3-08-semantic-zoom-collapsed.png)
+
+**s3-persp-health.png** — perspective
+
+![s3 persp health](screenshots/s3-persp-health.png)
+
+**s3-persp-lineage.png** — layered lineage view
+
+![s3 persp lineage](screenshots/s3-persp-lineage.png)
+
+**s3-persp-remotes.png** — perspective
+
+![s3 persp remotes](screenshots/s3-persp-remotes.png)
+
+**s3-persp-storage.png** — perspective
+
+![s3 persp storage](screenshots/s3-persp-storage.png)
+
+**s3-persp-topology.png** — perspective
+
+![s3 persp topology](screenshots/s3-persp-topology.png)
+
+### Synthetic scale tests
+
+**synthetic-10000.png** — synthetic scale test (not real fixture data)
+
+![synthetic 10000](screenshots/synthetic-10000.png)
+
+**synthetic-2000.png** — synthetic scale test (not real fixture data)
+
+![synthetic 2000](screenshots/synthetic-2000.png)
+
+**synthetic-500.png** — synthetic scale test (not real fixture data)
+
+![synthetic 500](screenshots/synthetic-500.png)
+

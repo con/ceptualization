@@ -127,8 +127,10 @@ The *affordance* works, though: in s3 the panel lists `d:proj-a`
 (`con/project-alpha`, 4 nodes) with a `reveal` button, clicking it materialises
 that root, and expanding from there reaches the `identity-ambiguous` finding
 that no team could reach by clicking from the seed. See
-`screenshots/s3-04-unreachable-affordance.png` and `s3-05`, `s3-06`.
+*s3-04-unreachable-affordance.png* and `s3-05`, `s3-06`.
 
+
+![s3 unreachable affordance](screenshots/s3-04-unreachable-affordance.png)
 ## 6. The expand buttons lie about how much work is left
 
 The inspector lists relations as `fork_of:in 60`, `contains:in 1`,

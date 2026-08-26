@@ -94,10 +94,12 @@ move the *smaller* box. I did not implement it.
 ### 3.3 Filtering leaves holes
 
 `hide inactive forks` in s3 removes 52 nodes and, because everything else is pinned, leaves a
-container-sized empty rectangle where they were (`screenshots/s3-05-inactive-forks-hidden.png` — the
+container-sized empty rectangle where they were (*s3-05-inactive-forks-hidden.png* — the
 `github.com` box is mostly whitespace). The user has to press **re-layout**, which costs them the mental map
 they just spent six probes building. Filtering and pinning are in direct conflict and I did not resolve it.
 
+
+![s3 inactive forks hidden](screenshots/s3-05-inactive-forks-hidden.png)
 ---
 
 ## 4. Frame behaviour at 51 and 68 nodes
@@ -136,8 +138,8 @@ smallest of the three fixtures' futures, not from the fixtures themselves.
 
 * **Compound nesting is immediately readable.** s2 renders host → RIA store → 40 repos and host →
   superdataset → subdatasets as three levels of nested boxes with no legend needed
-  (`screenshots/s2-04-deep-nesting-light.png`). Nobody has to be told what containment means.
-* **The duplicate annex UUID is impossible to miss** (`screenshots/s1-04-duplicate-annex-uuid-error.png`):
+  (*s2-04-deep-nesting-light.png*). Nobody has to be told what containment means.
+* **The duplicate annex UUID is impossible to miss** (*s1-04-duplicate-annex-uuid-error.png*):
   a red banner at the top of the canvas, two nodes with 4 px red borders and a red overlay halo, an
   `! ERROR` badge on each, and a 3.5 px red dashed edge labelled `SAME ANNEX UUID` between them. This is the
   best thing in the prototype. It works because Cytoscape lets style be a pure function of data + classes,
@@ -147,6 +149,9 @@ smallest of the three fixtures' futures, not from the fixtures themselves.
   different remote name.
 * **Aheadness** reads well as `▲n` / `▼n` chips on the node and at the source end of each edge.
 
+
+![s2 deep nesting light](screenshots/s2-04-deep-nesting-light.png)
+![s1 duplicate annex uuid error](screenshots/s1-04-duplicate-annex-uuid-error.png)
 ### What does not work
 
 * **Per-edge remote names — the entire point of s1 — are illegible at the default view.** Measured: after
@@ -182,7 +187,7 @@ seven seconds of waiting** to go from a seed to a fully mapped s1. Findings:
 
 * The **in-flight state is essential and it works**: the probed node gets a `probing…` spinner badge, a blue
   border, and a toast naming the node and the relation
-  (`screenshots/s1-02-probing-in-flight.png`). Without it, 700 ms of nothing feels broken.
+  (*s1-02-probing-in-flight.png*). Without it, 700 ms of nothing feels broken.
 * **Nothing is speculative.** There is no prefetch, no optimistic rendering. A real tool should start the
   next probe while the user is still reading the last result; I did not do that, and it would roughly halve
   the perceived cost of walking a chain of clones.
@@ -196,6 +201,8 @@ seven seconds of waiting** to go from a seed to a fully mapped s1. Findings:
   after seven probes on s1 — one edge is still hidden and the only way to find it is to click nodes until a
   `+N` badge shows up. A "show me every unprobed relation" list is missing.
 
+
+![s1 probing in flight](screenshots/s1-02-probing-in-flight.png)
 ### The discovery hole that the fixture exposed
 
 s3's headline finding — `con/project-alpha` vs `con/project-beta`, containment 0.19, *not* the same
@@ -231,11 +238,13 @@ converging on one node stack their alpha into an opaque grey wedge** regardless 
 (they are now hidden by default behind a toggle, since the grey node styling already says "inactive fork");
 and that "greyed out" is a trap in a light theme — at opacity 0.34 the inactive forks were invisible rather
 than recessive, and had to be re-specified with an explicit faint ink colour at 0.6.
-Preview-before-adding works well (`screenshots/s3-03-preview-before-adding.png`): the card states
+Preview-before-adding works well (*s3-03-preview-before-adding.png*): the card states
 "yarikoptic/duct is 14 ahead / 0 behind upstream — has commits upstream does not", and **add as remote**
 draws a new `yarikoptic` remote edge from the seed. It is a local simulation and is labelled as one; nothing
 is written anywhere.
 
+
+![s3 preview before adding](screenshots/s3-03-preview-before-adding.png)
 ---
 
 ## 8. Bugs found in the stack (not in my code)

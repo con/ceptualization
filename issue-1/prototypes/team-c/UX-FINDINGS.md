@@ -135,16 +135,18 @@ not in what the user sees.
 
 Geometrically it held up. Nesting three deep (`ria.datalad.org → ria-store
 /data/ria (ORA) → 40 subject repos`) renders correctly and legibly at every
-zoom (`screenshots/s2-03-ria-40-children-expanded.png`), because sizes are in
+zoom (*s2-03-ria-40-children-expanded.png*), because sizes are in
 graph-position units so a layout radius is a screen radius. Layout time scales
 as 3 ms (24 n) → 16 ms (51 n) → 39 ms (500) → 195 ms (2 000) → 373 ms (5 000)
 → **821 ms (10 000)**. Above about 2 000 it blocks the main thread visibly and
 belongs in a worker.
 
+
+![s2 ria 40 children expanded](screenshots/s2-03-ria-40-children-expanded.png)
 **What did break, in the order it broke:**
 
 1. **~150 nodes — canvas edge labels.** They are already crowded on s1 at 24
-   nodes: the middle of `screenshots/s1-03-explored.png` is a knot of `origin`
+   nodes: the middle of *s1-03-explored.png* is a knot of `origin`
    and `(url only)` labels. sigma only draws an edge label when both endpoint
    node labels are drawn, so they thin out on their own, but by a few hundred
    nodes they are gone entirely. **Compound nodes would not have helped this.**
@@ -160,7 +162,7 @@ belongs in a worker.
    load; 821 ms at 10 000 is a stall.
 4. **~5 000 nodes — perspective switching stops feeling instant** (110 ms).
 5. **10 000 nodes — the map becomes meaningless**, and the screenshot
-   (`screenshots/synthetic-10000.png`) is the honest proof. Semantic zoom
+   (*synthetic-10000.png*) is the honest proof. Semantic zoom
    collapsed 623 hosts into 623 meta-nodes, exactly as designed, and the result
    is a solid blue hairball of 16 260 edges with unreadable overlapping labels.
    **The failure is edge aggregation, not node nesting.** Cytoscape compound
@@ -169,6 +171,9 @@ belongs in a worker.
    unbounded. At 10 000 nodes it renders 623 chips and pushes the entire scale
    panel off the bottom of the sidebar. Filtering UI needs its own LOD.
 
+
+![s1 explored](screenshots/s1-03-explored.png)
+![synthetic 10000](screenshots/synthetic-10000.png)
 So the honest verdict on the assigned thesis: **sigma's lack of compound nodes
 is survivable — I survived it — but it bought nothing at the scale where these
 fixtures live, and at the scale where sigma's WebGL would have mattered the
@@ -193,12 +198,15 @@ The scenario's point is that the same peer is `origin` here and
   and `spacetop-rolando-exchange` from a fifth — under an explicit
   **"2 different names for this same repo"** badge. The measured alias scan
   found exactly one such node in s1, which matches the fixture.
-  (`screenshots/s1-05-remote-name-disagreement.png`)
+  (*s1-05-remote-name-disagreement.png*)
 * Searching `rolando-exchange` greys everything else and lists the six clones
-  that use that name (`screenshots/s1-08-search-remote-name.png`). This is the
+  that use that name (*s1-08-search-remote-name.png*). This is the
   fastest way to answer "who calls what what", and it is a text box, not a
   graph.
 
+
+![s1 remote name disagreement](screenshots/s1-05-remote-name-disagreement.png)
+![s1 search remote name](screenshots/s1-08-search-remote-name.png)
 **The duplicate annex UUID is loud** and stays loud in every perspective:
 thick red `same annex UUID` edge, both nodes red with a pulsing dashed ring and
 forced labels, a red alert block in the inspector with the full
@@ -206,8 +214,10 @@ forced labels, a red alert block in the inspector with the full
 the camera to it. It is also visible *before* discovery — the findings panel
 shows `1/2 discovered` from the first frame, so you know the error exists
 before you have explored far enough to see it.
-(`screenshots/s1-04-duplicate-uuid-error.png`)
+(*s1-04-duplicate-uuid-error.png*)
 
+
+![s1 duplicate uuid error](screenshots/s1-04-duplicate-uuid-error.png)
 Nit that annoyed me: the dead remote (`old-backup`, `trust: dead`) gets an
 amber warning ring but is otherwise styled like any other node in the `remotes`
 perspective. It should be visually struck through. It is only obviously dead in
@@ -219,15 +229,19 @@ Expanded, the 40 subject repos are individually labelled and packed inside a
 dashed inner disc inside the host's disc — the nesting reads instantly. What
 does *not* read is the 40-way fan of `origin` edges from the subject repos back
 to the superdataset, which collapses into a single illegible bundle with 40
-overlapping labels (`screenshots/s2-03-ria-40-children-expanded.png`). This is
+overlapping labels (*s2-03-ria-40-children-expanded.png*). This is
 the strongest argument in the whole exercise for edge bundling, which I did not
 build.
 
+
+![s2 ria 40 children expanded](screenshots/s2-03-ria-40-children-expanded.png)
 Collapsing the store fixes it completely: **8.6 ms, 48 drawn nodes → 8, one
 `origin x40` meta-edge, and no node moves.** Keeping positions frozen through
 collapse was the right call — expanding again restores the picture you had.
-(`screenshots/s2-04-ria-collapsed-meta-node.png`)
+(*s2-04-ria-collapsed-meta-node.png*)
 
+
+![s2 ria collapsed meta node](screenshots/s2-04-ria-collapsed-meta-node.png)
 One visible flaw in that shot: the host's containment disc used to stay at full
 size around the now-tiny collapsed store, leaving a crater. I fixed that during
 the session — hulls are now drawn around what is actually visible inside them —
@@ -236,18 +250,20 @@ containment geometry yourself.
 
 The `storage` perspective is where s2 makes most sense: the RIA store in its own
 colour, the 40 bare repos in another, everything that is not storage dimmed to
-grey (`screenshots/s2-persp-storage.png`).
+grey (*s2-persp-storage.png*).
 
+
+![s2 persp storage](screenshots/s2-persp-storage.png)
 ### s3-forks — 52 forks with nothing new
 
 This scenario made the best case for the whole approach.
 
 * **52 of 60 forks greyed** (measured: 52 nodes carrying `inactive`), rendered
   at 62 % size with labels suppressed, so the 8 forks that are actually ahead
-  read immediately (`screenshots/s3-03-inactive-forks-greyed.png`).
+  read immediately (*s3-03-inactive-forks-greyed.png*).
   Unchecking "show inactive forks" drops the drawn count from **66 to 10** and
   the map becomes a summary of what matters
-  (`screenshots/s3-04-inactive-filtered-out.png`).
+  (*s3-04-inactive-filtered-out.png*).
 * **The template trap works.** In `lineage`, `con/python-template` is amber
   with two `containment 0.19` edges to `project-alpha` and `project-beta`, the
   `candidate_same_as` between those two is drawn in red labelled
@@ -255,13 +271,17 @@ This scenario made the best case for the whole approach.
   and labelled `conf 1.00 · accepted`. **Drawing the rejected candidate rather
   than hiding it is the right decision** — the interesting fact is that the
   system considered and rejected it.
-  (`screenshots/s3-05-lineage-template-trap.png`)
+  (*s3-05-lineage-template-trap.png*)
 * The template subgraph is only reachable through the **derived `contains`
   relation** on `github.com`. Without synthesising containment as a walkable
   relation from the `parent` field, a quarter of s3 is unreachable from the
   seed. That is a data-model finding, not a rendering one, and it applies to
   any prototype in this bake-off.
 
+
+![s3 inactive forks greyed](screenshots/s3-03-inactive-forks-greyed.png)
+![s3 inactive filtered out](screenshots/s3-04-inactive-filtered-out.png)
+![s3 lineage template trap](screenshots/s3-05-lineage-template-trap.png)
 ## 7. Themes
 
 Both themes are readable. The light theme uses a separate, darker categorical

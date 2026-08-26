@@ -194,3 +194,130 @@ tools/
    server-side took 20 lines and closed the failure that broke all three
    previous teams. It belongs in `repo-embedded-things-and-collections.md`, not
    in three separate client-side workarounds.
+
+---
+
+## Screenshot gallery
+
+All 28 images below were captured by Playwright against the running app.
+
+### Self-contained exports
+
+**export-s1-spacetop-file-url-light.png** — light theme
+
+![export s1 spacetop file url light](screenshots/export-s1-spacetop-file-url-light.png)
+
+**export-s1-spacetop-file-url.png** — self-contained HTML export, loaded over file://
+
+![export s1 spacetop file url](screenshots/export-s1-spacetop-file-url.png)
+
+**export-s2-babs-ria-file-url-light.png** — the RIA store and its per-subject repositories
+
+![export s2 babs ria file url light](screenshots/export-s2-babs-ria-file-url-light.png)
+
+**export-s2-babs-ria-file-url.png** — the RIA store and its per-subject repositories
+
+![export s2 babs ria file url](screenshots/export-s2-babs-ria-file-url.png)
+
+**export-s3-forks-file-url-light.png** — the fork network, inactive forks greyed
+
+![export s3 forks file url light](screenshots/export-s3-forks-file-url-light.png)
+
+**export-s3-forks-file-url.png** — the fork network, inactive forks greyed
+
+![export s3 forks file url](screenshots/export-s3-forks-file-url.png)
+
+### s1 — spacetop
+
+**s1-01-seed-dark.png** — the starting state — only the seed clone and its host
+
+![s1 01 seed dark](screenshots/s1-01-seed-dark.png)
+
+**s1-02-mid-expansion.png** — after the first probes, as the map grows
+
+![s1 02 mid expansion](screenshots/s1-02-mid-expansion.png)
+
+**s1-03-expanded.png**
+
+![s1 03 expanded](screenshots/s1-03-expanded.png)
+
+**s1-04-duplicate-uuid-error.png** — the duplicate annex UUID rendered as an error
+
+![s1 04 duplicate uuid error](screenshots/s1-04-duplicate-uuid-error.png)
+
+**s1-05-name-disagreement-fitzoom.png** — per-clone remote names, legible without an inspector
+
+![s1 05 name disagreement fitzoom](screenshots/s1-05-name-disagreement-fitzoom.png)
+
+**s1-06-name-disagreement-reading.png** — per-clone remote names, legible without an inspector
+
+![s1 06 name disagreement reading](screenshots/s1-06-name-disagreement-reading.png)
+
+**s1-07-selected-edge-labels.png**
+
+![s1 07 selected edge labels](screenshots/s1-07-selected-edge-labels.png)
+
+**s1-08-light-theme.png** — light theme
+
+![s1 08 light theme](screenshots/s1-08-light-theme.png)
+
+### s2 — BABS / RIA
+
+**s2-01-seed-dark.png** — the starting state — only the seed clone and its host
+
+![s2 01 seed dark](screenshots/s2-01-seed-dark.png)
+
+**s2-02-ria-discovered.png** — the RIA store and its per-subject repositories
+
+![s2 02 ria discovered](screenshots/s2-02-ria-discovered.png)
+
+**s2-03-ria-expanded.png** — the RIA store and its per-subject repositories
+
+![s2 03 ria expanded](screenshots/s2-03-ria-expanded.png)
+
+**s2-04-ria-collapsed-edges-aggregated.png** — the RIA store and its per-subject repositories
+
+![s2 04 ria collapsed edges aggregated](screenshots/s2-04-ria-collapsed-edges-aggregated.png)
+
+**s2-05-all-collapsed.png**
+
+![s2 05 all collapsed](screenshots/s2-05-all-collapsed.png)
+
+**s2-06-light-theme.png** — light theme
+
+![s2 06 light theme](screenshots/s2-06-light-theme.png)
+
+### s3 — fork network
+
+**s3-01-seed-dark.png** — the starting state — only the seed clone and its host
+
+![s3 01 seed dark](screenshots/s3-01-seed-dark.png)
+
+**s3-02-forks-greyed.png** — the fork network, inactive forks greyed
+
+![s3 02 forks greyed](screenshots/s3-02-forks-greyed.png)
+
+**s3-03-forks-not-greyed.png** — the fork network, inactive forks greyed
+
+![s3 03 forks not greyed](screenshots/s3-03-forks-not-greyed.png)
+
+**s3-04-unreachable-affordance.png** — the unreachable-component affordance
+
+![s3 04 unreachable affordance](screenshots/s3-04-unreachable-affordance.png)
+
+**s3-05-second-component-revealed.png**
+
+![s3 05 second component revealed](screenshots/s3-05-second-component-revealed.png)
+
+**s3-06-template-trap.png** — the template trap — shared upstream, 0.19 containment
+
+![s3 06 template trap](screenshots/s3-06-template-trap.png)
+
+**s3-07-template-trap-selected.png** — the template trap — shared upstream, 0.19 containment
+
+![s3 07 template trap selected](screenshots/s3-07-template-trap-selected.png)
+
+**s3-08-light-theme.png** — light theme
+
+![s3 08 light theme](screenshots/s3-08-light-theme.png)
+

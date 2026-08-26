@@ -17,6 +17,67 @@ taken from the teams' own summaries.
 | Persistence | **none** | **0 px drift on reload** | **none** |
 | Self-contained export | no | **3 files, 0 external refs, verified over `file://`** | no |
 
+## Side by side: the same moment, four ways
+
+### s1 — the duplicate annex UUID, the shared correctness benchmark
+
+Every team had to make this loud. All four did, differently.
+
+**Team A** — compound host box, red halo, `! ERROR` badges, and a live
+layout-stability HUD reading `mean 0px · max 0px (15 pinned)`.
+
+![team A s1 duplicate annex uuid error](team-a/screenshots/s1-04-duplicate-annex-uuid-error.png)
+
+**Team B** — Graphviz cluster geometry; the error inside a `cluster_discovery`
+box laid out by `dot`.
+
+![team B s1 duplicate uuid](team-b/screenshots/s1-03-duplicate-uuid.png)
+
+**Team C** — no compound nodes: containment is a tinted disc behind the nodes,
+with the finding echoed in a right-hand inspector.
+
+![team C s1 duplicate uuid error](team-c/screenshots/s1-04-duplicate-uuid-error.png)
+
+**Team D** — containers as ordinary nodes with explicit geometry, which is what
+made them pinnable.
+
+![team D s1 duplicate uuid error](team-d/screenshots/s1-04-duplicate-uuid-error.png)
+
+### s3 — 52 inactive forks, the scale-and-legibility benchmark
+
+**Team A** — pinned layout; note the container-sized hole filtering leaves behind.
+
+![team A s3 forks greyed out](team-a/screenshots/s3-02-forks-greyed-out.png)
+
+**Team B** — the layered lineage view, and the best rendering of this scenario in
+round 1: forks on an 8×8 grid, active ones separated, and a
+*NOT REACHABLE BY EXPANDING* panel.
+
+![team B s3 lineage greyed](team-b/screenshots/s3-04-lineage-greyed.png)
+
+**Team C** — greying plus filters; hiding inactive forks drops drawn nodes 66 → 10.
+
+![team C s3 inactive forks greyed](team-c/screenshots/s3-03-inactive-forks-greyed.png)
+
+**Team D** — greyed forks with the reach panel quantifying what the seed cannot see.
+
+![team D s3 forks greyed](team-d/screenshots/s3-02-forks-greyed.png)
+
+### The one thing no team in round 1 could do
+
+Issue #1 exists because the same repository is `rolando-exchange` to four clones
+and `spacetop-rolando-exchange` to a fifth. Round 1 could only tell you that
+through an inspector. Team D renders it **at fit zoom, nothing selected, no
+inspector open** — 13 px labels, a `⚠ 2 names` node badge, and a sidebar panel
+naming the disagreement:
+
+![team D s1 name disagreement at fit zoom](team-d/screenshots/s1-05-name-disagreement-fitzoom.png)
+
+And the affordance that stops a disconnected component from vanishing silently —
+the failure all three round-1 teams hit:
+
+![team D s3 unreachable affordance](team-d/screenshots/s3-04-unreachable-affordance.png)
+
 ## Verification performed
 
 * Every one of the **79 screenshots** was analysed for blankness (distinct

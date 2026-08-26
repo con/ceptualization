@@ -151,10 +151,12 @@ s3: 62 of 68 by relations, 6 only via `contains`, in 2 components.
 
 The number the UI shows is computed from the *current* visible set, so it
 counts down as you explore and never goes stale — see
-`screenshots/s3-04-unreachable-affordance.png`, where it reads **4** with a
+*s3-04-unreachable-affordance.png*, where it reads **4** with a
 `reveal` button next to `d:proj-a`, the root of the component the seed cannot
 reach.
 
+
+![s3 unreachable affordance](screenshots/s3-04-unreachable-affordance.png)
 ---
 
 ## 6. Label-on-demand: rendered px at fit zoom
@@ -182,12 +184,14 @@ Two mechanisms, both in `labels.js`:
    map is fitted to 68 nodes or zoomed into one. Because rule 1 keeps the set
    to a handful of edges, restyling them on zoom is cheap.
 
-`screenshots/s1-05-name-disagreement-fitzoom.png` is the evidence: at zoom
+*s1-05-name-disagreement-fitzoom.png* is the evidence: at zoom
 0.577, with no inspector open and nothing selected, the map reads
 `rolando-exchange ▼12` and `spacetop-rolando-exchange ▲12` on two different
 edges pointing at the same node, both at 13 px. That is issue #1's sentence,
 drawn.
 
+
+![s1 name disagreement fitzoom](screenshots/s1-05-name-disagreement-fitzoom.png)
 **Where this loses.** Plain node text is *not* zoom-compensated (compensating
 it overflowed the box and collided with neighbours — an earlier build did this
 visibly). At fit zoom a node label renders at **6.8–6.9 px**, worse than team

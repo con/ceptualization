@@ -252,26 +252,100 @@ to beziers, since Graphviz's waypoints for them are no longer meaningful.
 
 All produced by `tools/drive.mjs` / `tools/export-check.mjs` against the running app.
 
-| file | what |
-| --- | --- |
-| `s1-01-seed.png` | seed only — one clone on lena, nothing probed |
-| `s1-02-mid-expansion.png` | after one probe of lena's remotes: six host clusters, per-edge remote names |
-| `s1-03-duplicate-uuid.png` | the duplicate annex UUID error, discovered |
-| `s1-04-duplicate-uuid-light.png` | same, light theme |
-| `s1-05-dot-roundtrip.png` | the DOT the browser is about to lay out |
-| `s1-06-after-second-save.png` | s1 fully expanded, second view saved |
-| `s1-07-reloaded-step1.png` | step1 restored from file, no layout run |
-| `s2-01-seed.png` / `s2-02-ria-discovered.png` | BABS superdataset, then the RIA store as a collapsed remote |
-| `s2-03-ria-expanded.png` | RIA cluster expanded: 40 gridded repos, 12 UNMERGED in amber |
-| `s2-04-lineage.png` | layered lineage of s2 |
-| `s3-01-seed.png` / `s3-02-upstream.png` | plain-git clone with no UUID; upstream found via `origin` |
-| `s3-03-forks-map.png` | 60 forks gridded inside the github.com cluster |
-| `s3-04-lineage-greyed.png` | layered lineage: 8 active forks by hub, 52 inactive greyed |
-| `s3-05-lineage-light.png` | same, light theme |
-| `s3-07-other-component.png` | the second connected component, revealed explicitly |
-| `s3-08-template-trap.png` | `candidate_same_as` rejected at containment 0.19 |
-| `s3-09-template-trap-zoom.png` | zoomed onto the identity-ambiguous finding |
-| `export-*-file-url*.png` | the exports, loaded over `file://` with the network blocked |
+**s1-01-seed.png** — seed only — one clone on lena, nothing probed
+
+![s1 01 seed](screenshots/s1-01-seed.png)
+
+**s1-02-mid-expansion.png** — after one probe of lena's remotes: six host clusters, per-edge remote names
+
+![s1 02 mid expansion](screenshots/s1-02-mid-expansion.png)
+
+**s1-03-duplicate-uuid.png** — the duplicate annex UUID error, discovered
+
+![s1 03 duplicate uuid](screenshots/s1-03-duplicate-uuid.png)
+
+**s1-04-duplicate-uuid-light.png** — same, light theme
+
+![s1 04 duplicate uuid light](screenshots/s1-04-duplicate-uuid-light.png)
+
+**s1-05-dot-roundtrip.png** — the DOT the browser is about to lay out
+
+![s1 05 dot roundtrip](screenshots/s1-05-dot-roundtrip.png)
+
+**s1-06-after-second-save.png** — s1 fully expanded, second view saved
+
+![s1 06 after second save](screenshots/s1-06-after-second-save.png)
+
+**s1-07-reloaded-step1.png** — step1 restored from file, no layout run
+
+![s1 07 reloaded step1](screenshots/s1-07-reloaded-step1.png)
+
+**s2-01-seed.png / s2-02-ria-discovered.png** — BABS superdataset, then the RIA store as a collapsed remote
+
+![s2 01 seed](screenshots/s2-01-seed.png)
+![s2 02 ria discovered](screenshots/s2-02-ria-discovered.png)
+
+**s2-03-ria-expanded.png** — RIA cluster expanded: 40 gridded repos, 12 UNMERGED in amber
+
+![s2 03 ria expanded](screenshots/s2-03-ria-expanded.png)
+
+**s2-04-lineage.png** — layered lineage of s2
+
+![s2 04 lineage](screenshots/s2-04-lineage.png)
+
+**s3-01-seed.png / s3-02-upstream.png** — plain-git clone with no UUID; upstream found via `origin`
+
+![s3 01 seed](screenshots/s3-01-seed.png)
+![s3 02 upstream](screenshots/s3-02-upstream.png)
+
+**s3-03-forks-map.png** — 60 forks gridded inside the github.com cluster
+
+![s3 03 forks map](screenshots/s3-03-forks-map.png)
+
+**s3-04-lineage-greyed.png** — layered lineage: 8 active forks by hub, 52 inactive greyed
+
+![s3 04 lineage greyed](screenshots/s3-04-lineage-greyed.png)
+
+**s3-05-lineage-light.png** — same, light theme
+
+![s3 05 lineage light](screenshots/s3-05-lineage-light.png)
+
+**s3-07-other-component.png** — the second connected component, revealed explicitly
+
+![s3 07 other component](screenshots/s3-07-other-component.png)
+
+**s3-08-template-trap.png** — `candidate_same_as` rejected at containment 0.19
+
+![s3 08 template trap](screenshots/s3-08-template-trap.png)
+
+**s3-09-template-trap-zoom.png** — zoomed onto the identity-ambiguous finding
+
+![s3 09 template trap zoom](screenshots/s3-09-template-trap-zoom.png)
+
+**export-s1-spacetop-file-url-light.png** — self-contained export loaded over `file://`
+
+![export s1 spacetop file url light](screenshots/export-s1-spacetop-file-url-light.png)
+
+**export-s1-spacetop-file-url.png** — self-contained export loaded over `file://`
+
+![export s1 spacetop file url](screenshots/export-s1-spacetop-file-url.png)
+
+**export-s2-babs-ria-file-url-light.png** — self-contained export loaded over `file://`
+
+![export s2 babs ria file url light](screenshots/export-s2-babs-ria-file-url-light.png)
+
+**export-s2-babs-ria-file-url.png** — self-contained export loaded over `file://`
+
+![export s2 babs ria file url](screenshots/export-s2-babs-ria-file-url.png)
+
+**export-s3-forks-file-url-light.png** — self-contained export loaded over `file://`
+
+![export s3 forks file url light](screenshots/export-s3-forks-file-url-light.png)
+
+**export-s3-forks-file-url.png** — self-contained export loaded over `file://`
+
+![export s3 forks file url](screenshots/export-s3-forks-file-url.png)
+
 
 ## Layout of this directory
 
@@ -293,3 +367,118 @@ screenshots/       real Playwright PNGs
 Licences: cytoscape MIT, `@hpcc-js/wasm` Apache-2.0 (Graphviz itself EPL, shipped as a WASM
 blob), `cytoscape-elk` MIT over elkjs (EPL-2.0 OR GPL-3.0 — pick EPL; it is only needed for the
 lineage view and the export does not contain it).
+
+---
+
+## Screenshot gallery
+
+All 25 images below were captured by Playwright against the running app.
+
+### Self-contained exports
+
+**export-s1-spacetop-file-url-light.png** — light theme
+
+![export s1 spacetop file url light](screenshots/export-s1-spacetop-file-url-light.png)
+
+**export-s1-spacetop-file-url.png** — self-contained HTML export, loaded over file://
+
+![export s1 spacetop file url](screenshots/export-s1-spacetop-file-url.png)
+
+**export-s2-babs-ria-file-url-light.png** — the RIA store and its per-subject repositories
+
+![export s2 babs ria file url light](screenshots/export-s2-babs-ria-file-url-light.png)
+
+**export-s2-babs-ria-file-url.png** — the RIA store and its per-subject repositories
+
+![export s2 babs ria file url](screenshots/export-s2-babs-ria-file-url.png)
+
+**export-s3-forks-file-url-light.png** — the fork network, inactive forks greyed
+
+![export s3 forks file url light](screenshots/export-s3-forks-file-url-light.png)
+
+**export-s3-forks-file-url.png** — the fork network, inactive forks greyed
+
+![export s3 forks file url](screenshots/export-s3-forks-file-url.png)
+
+### s1 — spacetop
+
+**s1-01-seed.png** — the starting state — only the seed clone and its host
+
+![s1 01 seed](screenshots/s1-01-seed.png)
+
+**s1-02-mid-expansion.png** — after the first probes, as the map grows
+
+![s1 02 mid expansion](screenshots/s1-02-mid-expansion.png)
+
+**s1-03-duplicate-uuid.png** — the duplicate annex UUID rendered as an error
+
+![s1 03 duplicate uuid](screenshots/s1-03-duplicate-uuid.png)
+
+**s1-04-duplicate-uuid-light.png** — the duplicate annex UUID rendered as an error
+
+![s1 04 duplicate uuid light](screenshots/s1-04-duplicate-uuid-light.png)
+
+**s1-05-dot-roundtrip.png**
+
+![s1 05 dot roundtrip](screenshots/s1-05-dot-roundtrip.png)
+
+**s1-06-after-second-save.png**
+
+![s1 06 after second save](screenshots/s1-06-after-second-save.png)
+
+**s1-07-reloaded-step1.png**
+
+![s1 07 reloaded step1](screenshots/s1-07-reloaded-step1.png)
+
+### s2 — BABS / RIA
+
+**s2-01-seed.png** — the starting state — only the seed clone and its host
+
+![s2 01 seed](screenshots/s2-01-seed.png)
+
+**s2-02-ria-discovered.png** — the RIA store and its per-subject repositories
+
+![s2 02 ria discovered](screenshots/s2-02-ria-discovered.png)
+
+**s2-03-ria-expanded.png** — the RIA store and its per-subject repositories
+
+![s2 03 ria expanded](screenshots/s2-03-ria-expanded.png)
+
+**s2-04-lineage.png** — layered lineage view
+
+![s2 04 lineage](screenshots/s2-04-lineage.png)
+
+### s3 — fork network
+
+**s3-01-seed.png** — the starting state — only the seed clone and its host
+
+![s3 01 seed](screenshots/s3-01-seed.png)
+
+**s3-02-upstream.png**
+
+![s3 02 upstream](screenshots/s3-02-upstream.png)
+
+**s3-03-forks-map.png** — the fork network, inactive forks greyed
+
+![s3 03 forks map](screenshots/s3-03-forks-map.png)
+
+**s3-04-lineage-greyed.png** — layered lineage view
+
+![s3 04 lineage greyed](screenshots/s3-04-lineage-greyed.png)
+
+**s3-05-lineage-light.png** — layered lineage view
+
+![s3 05 lineage light](screenshots/s3-05-lineage-light.png)
+
+**s3-07-other-component.png**
+
+![s3 07 other component](screenshots/s3-07-other-component.png)
+
+**s3-08-template-trap.png** — the template trap — shared upstream, 0.19 containment
+
+![s3 08 template trap](screenshots/s3-08-template-trap.png)
+
+**s3-09-template-trap-zoom.png** — the template trap — shared upstream, 0.19 containment
+
+![s3 09 template trap zoom](screenshots/s3-09-template-trap-zoom.png)
+

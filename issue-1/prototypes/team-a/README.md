@@ -171,3 +171,80 @@ produced through it.
    and replace the badge rendering with canvas-drawn glyphs gated behind a zoom threshold.
 7. **Undo.** "Add as remote" mutates the graph with no way back, and there is no history of the exploration
    beyond the probe log.
+
+---
+
+## Screenshot gallery
+
+All 16 images below were captured by Playwright against the running app.
+
+### s1 — spacetop
+
+**s1-01-seed-dark.png** — the starting state — only the seed clone and its host
+
+![s1 01 seed dark](screenshots/s1-01-seed-dark.png)
+
+**s1-02-probing-in-flight.png** — light theme
+
+![s1 02 probing in flight](screenshots/s1-02-probing-in-flight.png)
+
+**s1-03-expanded-dark.png**
+
+![s1 03 expanded dark](screenshots/s1-03-expanded-dark.png)
+
+**s1-04-duplicate-annex-uuid-error.png** — the duplicate annex UUID rendered as an error
+
+![s1 04 duplicate annex uuid error](screenshots/s1-04-duplicate-annex-uuid-error.png)
+
+**s1-05-inspector-seed.png** — the starting state — only the seed clone and its host
+
+![s1 05 inspector seed](screenshots/s1-05-inspector-seed.png)
+
+**s1-06-expanded-light.png** — light theme
+
+![s1 06 expanded light](screenshots/s1-06-expanded-light.png)
+
+### s2 — BABS / RIA
+
+**s2-01-seed-dark.png** — the starting state — only the seed clone and its host
+
+![s2 01 seed dark](screenshots/s2-01-seed-dark.png)
+
+**s2-02-ria-store-expanded.png** — the RIA store and its per-subject repositories
+
+![s2 02 ria store expanded](screenshots/s2-02-ria-store-expanded.png)
+
+**s2-03-ria-store-collapsed.png** — the RIA store and its per-subject repositories
+
+![s2 03 ria store collapsed](screenshots/s2-03-ria-store-collapsed.png)
+
+**s2-04-deep-nesting-light.png** — light theme
+
+![s2 04 deep nesting light](screenshots/s2-04-deep-nesting-light.png)
+
+### s3 — fork network
+
+**s3-01-seed-dark.png** — the starting state — only the seed clone and its host
+
+![s3 01 seed dark](screenshots/s3-01-seed-dark.png)
+
+**s3-02-forks-greyed-out.png** — the fork network, inactive forks greyed
+
+![s3 02 forks greyed out](screenshots/s3-02-forks-greyed-out.png)
+
+**s3-03-preview-before-adding.png**
+
+![s3 03 preview before adding](screenshots/s3-03-preview-before-adding.png)
+
+**s3-04-fork-added-as-remote.png**
+
+![s3 04 fork added as remote](screenshots/s3-04-fork-added-as-remote.png)
+
+**s3-05-inactive-forks-hidden.png** — the fork network, inactive forks greyed
+
+![s3 05 inactive forks hidden](screenshots/s3-05-inactive-forks-hidden.png)
+
+**s3-06-identity-trap.png**
+
+![s3 06 identity trap](screenshots/s3-06-identity-trap.png)
+
