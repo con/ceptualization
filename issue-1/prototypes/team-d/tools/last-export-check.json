@@ -1,0 +1,45 @@
+[
+  {
+    "scen": "s1-spacetop",
+    "kB": 469.3,
+    "externalRefs": 0,
+    "n": 24,
+    "e": 25,
+    "zoom": 0.617,
+    "labels": [
+      13,
+      13,
+      13
+    ],
+    "hasInspector": true,
+    "blockedRequests": 0,
+    "errors": []
+  },
+  {
+    "scen": "s2-babs-ria",
+    "kB": 501.4,
+    "externalRefs": 0,
+    "n": 50,
+    "e": 86,
+    "zoom": 0.482,
+    "labels": [],
+    "hasInspector": true,
+    "blockedRequests": 0,
+    "errors": []
+  },
+  {
+    "scen": "s3-forks",
+    "kB": 511,
+    "externalRefs": 0,
+    "n": 68,
+    "e": 66,
+    "zoom": 0.597,
+    "labels": [
+      13,
+      13
+    ],
+    "hasInspector": true,
+    "blockedRequests": 0,
+    "errors": []
+  }
+]

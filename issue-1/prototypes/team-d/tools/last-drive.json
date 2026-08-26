@@ -1,0 +1,224 @@
+{
+  "log": [
+    {
+      "boot": "cold load to first painted seed",
+      "wallMs": 717
+    },
+    {
+      "shot": "s1-01-seed-dark",
+      "note": "seed only: one clone on lena. \"8 nodes not reachable from here\" is on screen from the first frame.",
+      "n": 2,
+      "e": 0,
+      "zoom": 1.6,
+      "labels": []
+    },
+    {
+      "shot": "s1-02-mid-expansion",
+      "note": "one probe of lena remotes: 8 host boxes placed by tier 1, clones placed by tier 2 inside them",
+      "n": 18,
+      "e": 20,
+      "zoom": 0.617,
+      "labels": [
+        13,
+        13
+      ]
+    },
+    {
+      "shot": "s1-03-expanded",
+      "note": "five probes in: nothing that was already on screen has moved by more than 0 px",
+      "n": 24,
+      "e": 25,
+      "zoom": 0.617,
+      "labels": [
+        13,
+        13,
+        13
+      ]
+    },
+    {
+      "shot": "s1-04-duplicate-uuid-error",
+      "note": "error finding clicked: two discovery clones with the same annex UUID, double red border, error edge labelled",
+      "n": 24,
+      "e": 25,
+      "zoom": 1.4,
+      "labels": [
+        13,
+        13,
+        13
+      ]
+    },
+    {
+      "shot": "s1-05-name-disagreement-fitzoom",
+      "note": "no inspector, no selection, fit-to-everything zoom: d:rolando-x carries \"⇄ rolando-exchange | spacetop-rolando-exchange\" on its face",
+      "n": 24,
+      "e": 25,
+      "zoom": 0.617,
+      "labels": [
+        13,
+        13,
+        13
+      ]
+    },
+    {
+      "shot": "s1-06-name-disagreement-reading",
+      "note": "same thing at reading zoom",
+      "n": 24,
+      "e": 25,
+      "zoom": 0.8,
+      "labels": [
+        13,
+        13,
+        13
+      ]
+    },
+    {
+      "shot": "s1-07-selected-edge-labels",
+      "note": "selecting the node labels its five incident edges with the per-clone remote name, at a constant 13 rendered px",
+      "n": 24,
+      "e": 25,
+      "zoom": 0.8,
+      "labels": [
+        13,
+        13,
+        13,
+        13,
+        13,
+        13,
+        13,
+        13
+      ]
+    },
+    {
+      "shot": "s1-08-light-theme",
+      "note": "same map, light theme",
+      "n": 24,
+      "e": 25,
+      "zoom": 0.617,
+      "labels": [
+        13,
+        13,
+        13
+      ]
+    },
+    {
+      "shot": "s2-01-seed-dark",
+      "note": "seed: the superdataset on discovery",
+      "n": 2,
+      "e": 0,
+      "zoom": 1.6,
+      "labels": []
+    },
+    {
+      "shot": "s2-02-ria-discovered",
+      "note": "the RIA store is on the map but has not been walked: one node, not forty",
+      "n": 10,
+      "e": 6,
+      "zoom": 0.938,
+      "labels": []
+    },
+    {
+      "shot": "s2-03-ria-expanded",
+      "note": "40 per-subject repos arrive at once. The RIA box grew from a fixed corner: every other container and every leaf moved 0.00 px.",
+      "n": 50,
+      "e": 86,
+      "zoom": 0.482,
+      "labels": []
+    },
+    {
+      "shot": "s2-04-ria-collapsed-edges-aggregated",
+      "note": "collapsed: 40 nodes and 40 `part` edges fold into one box and one bundled edge with a count — the edge total FALLS",
+      "n": 10,
+      "e": 7,
+      "zoom": 0.938,
+      "labels": []
+    },
+    {
+      "shot": "s2-05-all-collapsed",
+      "note": "every container collapsed: 50 nodes -> 3, 86 edges -> 3",
+      "n": 3,
+      "e": 3,
+      "zoom": 0.982,
+      "labels": []
+    },
+    {
+      "shot": "s2-06-light-theme",
+      "note": "expanded again, light theme: the 40 repos are back in exactly the slots they left",
+      "n": 50,
+      "e": 86,
+      "zoom": 0.482,
+      "labels": []
+    },
+    {
+      "shot": "s3-01-seed-dark",
+      "note": "seed: my clone of con/duct. \"6 nodes not reachable from here\" is already true and already shown.",
+      "n": 2,
+      "e": 0,
+      "zoom": 1.6,
+      "labels": []
+    },
+    {
+      "shot": "s3-02-forks-greyed",
+      "note": "60 forks; 52 with nothing new are greyed out; the fork edges are aggregated",
+      "n": 64,
+      "e": 61,
+      "zoom": 0.597,
+      "labels": []
+    },
+    {
+      "shot": "s3-03-forks-not-greyed",
+      "note": "the same map with greying off, for comparison",
+      "n": 64,
+      "e": 61,
+      "zoom": 0.597,
+      "labels": []
+    },
+    {
+      "shot": "s3-04-unreachable-affordance",
+      "note": "the reach panel: 6 nodes cannot be reached by probing from here, and the second component root is offered with a reveal button",
+      "n": 64,
+      "e": 61,
+      "zoom": 0.597,
+      "labels": []
+    },
+    {
+      "shot": "s3-05-second-component-revealed",
+      "note": "the template-sibling component, unreachable by expansion, revealed from its root",
+      "n": 65,
+      "e": 61,
+      "zoom": 0.597,
+      "labels": []
+    },
+    {
+      "shot": "s3-06-template-trap",
+      "note": "the identity-ambiguous finding: candidate_same_as, verdict rejected, containment 0.19, drawn and labelled by default",
+      "n": 67,
+      "e": 64,
+      "zoom": 0.597,
+      "labels": [
+        13
+      ]
+    },
+    {
+      "shot": "s3-07-template-trap-selected",
+      "note": "the same, with project-alpha selected: every incident relation labelled",
+      "n": 67,
+      "e": 64,
+      "zoom": 0.597,
+      "labels": [
+        13,
+        13
+      ]
+    },
+    {
+      "shot": "s3-08-light-theme",
+      "note": "light theme",
+      "n": 67,
+      "e": 64,
+      "zoom": 0.597,
+      "labels": [
+        13
+      ]
+    }
+  ],
+  "errors": []
+}

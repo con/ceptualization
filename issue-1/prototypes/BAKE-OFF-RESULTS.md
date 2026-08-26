@@ -173,3 +173,79 @@ Nothing was tested above 68 real nodes; every scale claim beyond that is
 extrapolation from synthetic data and is labelled as such by the teams.
 Rendering was on software WebGL throughout. The fixtures are synthetic,
 structurally faithful but not crawled from real hosts.
+
+---
+
+# Round 2: Team D — the hybrid, built and measured
+
+A fourth team implemented the judgement above. Every number below was
+re-verified against `team-d/tools/last-metrics.json` and the saved view files,
+not taken from the team's prose.
+
+## Head-to-head
+
+| Metric | Best of A/B/C | Team D | |
+| --- | --- | --- | --- |
+| Containers other than the expanded one | 980 px (A) | **0 px on 16/17**, 97 px once | **won** |
+| Leaves inside the expanded container | 0.00 px (A) | 0.00 px on 17/17 | tied |
+| Overlaps / containment violations | — | **0 / 0**, all three fixtures | — |
+| Collapse→expand round trip | not measured | **0.000 px** | **won** |
+| View diff, one expansion | 88 / 155 lines (B) | **16 / 199 lines** | **won** |
+| View diff, identical state | unstable (B) | **0 lines** | **won** |
+| Reload drift | **0 px (B)** | 0.462 px max, 0.006 median | *lost* |
+| Edges after collapse | 773 → **1205** (C, worse) | 86 → **7**, 66 → **3** | **won** |
+| Longest frame, 68 nodes, DPR 1 | 416.6 ms (A) | **100–117 ms** | **won** |
+| Edge label px at fit zoom | 4.3–5.1 px (A) | **13 px** | **won** |
+| Nodes reachable from s3 seed | 67/68 *claimed* (B) | **62/68 measured and displayed** | **won** |
+| First paint | **311 ms (A)** | 324–354 ms | *lost* |
+
+Independently reproduced here: `diff` of the two consecutive saved views gives
+**16 changed lines of 199**; the identical-state diff is **0**; label metrics
+show 13 px rendered at fit zoom 0.577.
+
+**A control arm makes these numbers trustworthy.** Team D ran every scenario
+twice — `sticky` (their design) and `full` (whole-graph re-layout, i.e. Team
+B's behaviour). The control reproduces the failure it was meant to reproduce:
+10/17 zero with displacements up to 607 px, against 16/17 zero in sticky mode.
+Without that arm the result would be unfalsifiable; with it, it stands.
+
+## The judgement was right about the outcome and wrong about the mechanism
+
+Team D's own verdict, which I accept and which corrects the reasoning above:
+
+> The win did not come from "Graphviz for compounds, fCoSE for leaves" —
+> Graphviz contributes one 1–5 ms call that rarely re-runs, and fcose
+> contributes almost nothing. It came from **taking container geometry away
+> from the layout engine entirely** and storing leaf positions relative to a
+> corner that never moves.
+
+Two specifics support this:
+
+* They used **no Cytoscape compound nodes at all**. Containers are ordinary
+  nodes with explicit geometry — *that* is the precondition for pinning them.
+  The bake-off's framing of compound nodes as the decisive capability was
+  wrong; what mattered was owning the geometry.
+* **fcose's output survived in only 2 of 20 tier-2 runs.** Twelve containers
+  have no internal edges, and six produce overlaps when clamped into a
+  rectangle (247 overlapping pairs for the 60 forks), falling back to a slot
+  grid. The force layout is nearly vestigial. Tier 2 wants a **packing
+  algorithm**, not a force layout — the single clearest correction to the
+  design.
+
+So the durable finding is a **data-model** one, not a library-composition one:
+*store leaf positions in container-local coordinates anchored to a corner that
+never moves, and let containers own their own geometry.* That converts 980 px
+and 1588 px into 0 px, and an 88-line diff into a 16-line one, and it is
+portable to any renderer.
+
+## Remaining weaknesses (Team D's own, verified)
+
+Node text renders at **6.8 px** at fit zoom — only *edge* labels are legible
+there, so the label-on-demand fix is partial. Edge aggregation fires only on
+collapse, so an expanded s2 still draws 40 parallel `origin` edges. Containers
+are unclickable except on their title band. Reload drift is 0.462 px rather
+than Team B's 0. No preview-before-add, no node removal.
+
+**And the question the fixtures still cannot answer: nothing has been tested
+above 68 real nodes.** Every scale claim across all four teams is
+extrapolation from synthetic data.

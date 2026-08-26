@@ -1,0 +1,464 @@
+{
+  "collapsed": [],
+  "containers": {
+    "h:github": {
+      "h": 1072,
+      "w": 1686,
+      "x": 1214,
+      "y": 536
+    },
+    "h:lena": {
+      "h": 256,
+      "w": 270,
+      "x": 135,
+      "y": 128
+    }
+  },
+  "expansions": [
+    {
+      "node": "d:mine",
+      "relation": "remote:out"
+    },
+    {
+      "node": "d:proj-a",
+      "relation": "candidate_same_as:out"
+    },
+    {
+      "node": "d:proj-a",
+      "relation": "shares_history_with:out"
+    },
+    {
+      "node": "d:proj-a-clone",
+      "relation": "remote:out"
+    },
+    {
+      "node": "d:tpl",
+      "relation": "shares_history_with:in"
+    },
+    {
+      "node": "d:upstream",
+      "relation": "fork_of:in"
+    },
+    {
+      "node": "h:lena",
+      "relation": "contains:out"
+    }
+  ],
+  "format": "worldmap-view/2-twotier",
+  "generator": "team-d two-tier",
+  "layout_engine": "tier1 graphviz/dot via @hpcc-js/wasm 2.35.0 (format json/xdot) over containers only; tier2 fcose 2.2.0 over leaves in container-local coordinates; both in a Web Worker",
+  "local": {
+    "d:fork-TheChymera": {
+      "in": "h:github",
+      "x": 266,
+      "y": 48
+    },
+    "d:fork-adswa": {
+      "in": "h:github",
+      "x": 502,
+      "y": 48
+    },
+    "d:fork-asmacdo": {
+      "in": "h:github",
+      "x": 738,
+      "y": 48
+    },
+    "d:fork-candleindark": {
+      "in": "h:github",
+      "x": 974,
+      "y": 48
+    },
+    "d:fork-djarecka": {
+      "in": "h:github",
+      "x": 1210,
+      "y": 48
+    },
+    "d:fork-jwodder": {
+      "in": "h:github",
+      "x": 1446,
+      "y": 48
+    },
+    "d:fork-mih": {
+      "in": "h:github",
+      "x": 30,
+      "y": 150
+    },
+    "d:fork-user00": {
+      "in": "h:github",
+      "x": 266,
+      "y": 150
+    },
+    "d:fork-user01": {
+      "in": "h:github",
+      "x": 502,
+      "y": 150
+    },
+    "d:fork-user02": {
+      "in": "h:github",
+      "x": 738,
+      "y": 150
+    },
+    "d:fork-user03": {
+      "in": "h:github",
+      "x": 974,
+      "y": 150
+    },
+    "d:fork-user04": {
+      "in": "h:github",
+      "x": 1210,
+      "y": 150
+    },
+    "d:fork-user05": {
+      "in": "h:github",
+      "x": 1446,
+      "y": 150
+    },
+    "d:fork-user06": {
+      "in": "h:github",
+      "x": 30,
+      "y": 252
+    },
+    "d:fork-user07": {
+      "in": "h:github",
+      "x": 266,
+      "y": 252
+    },
+    "d:fork-user08": {
+      "in": "h:github",
+      "x": 502,
+      "y": 252
+    },
+    "d:fork-user09": {
+      "in": "h:github",
+      "x": 738,
+      "y": 252
+    },
+    "d:fork-user10": {
+      "in": "h:github",
+      "x": 974,
+      "y": 252
+    },
+    "d:fork-user11": {
+      "in": "h:github",
+      "x": 1210,
+      "y": 252
+    },
+    "d:fork-user12": {
+      "in": "h:github",
+      "x": 1446,
+      "y": 252
+    },
+    "d:fork-user13": {
+      "in": "h:github",
+      "x": 30,
+      "y": 354
+    },
+    "d:fork-user14": {
+      "in": "h:github",
+      "x": 266,
+      "y": 354
+    },
+    "d:fork-user15": {
+      "in": "h:github",
+      "x": 502,
+      "y": 354
+    },
+    "d:fork-user16": {
+      "in": "h:github",
+      "x": 738,
+      "y": 354
+    },
+    "d:fork-user17": {
+      "in": "h:github",
+      "x": 974,
+      "y": 354
+    },
+    "d:fork-user18": {
+      "in": "h:github",
+      "x": 1210,
+      "y": 354
+    },
+    "d:fork-user19": {
+      "in": "h:github",
+      "x": 1446,
+      "y": 354
+    },
+    "d:fork-user20": {
+      "in": "h:github",
+      "x": 30,
+      "y": 456
+    },
+    "d:fork-user21": {
+      "in": "h:github",
+      "x": 266,
+      "y": 456
+    },
+    "d:fork-user22": {
+      "in": "h:github",
+      "x": 502,
+      "y": 456
+    },
+    "d:fork-user23": {
+      "in": "h:github",
+      "x": 738,
+      "y": 456
+    },
+    "d:fork-user24": {
+      "in": "h:github",
+      "x": 974,
+      "y": 456
+    },
+    "d:fork-user25": {
+      "in": "h:github",
+      "x": 1210,
+      "y": 456
+    },
+    "d:fork-user26": {
+      "in": "h:github",
+      "x": 1446,
+      "y": 456
+    },
+    "d:fork-user27": {
+      "in": "h:github",
+      "x": 30,
+      "y": 558
+    },
+    "d:fork-user28": {
+      "in": "h:github",
+      "x": 266,
+      "y": 558
+    },
+    "d:fork-user29": {
+      "in": "h:github",
+      "x": 502,
+      "y": 558
+    },
+    "d:fork-user30": {
+      "in": "h:github",
+      "x": 738,
+      "y": 558
+    },
+    "d:fork-user31": {
+      "in": "h:github",
+      "x": 974,
+      "y": 558
+    },
+    "d:fork-user32": {
+      "in": "h:github",
+      "x": 1210,
+      "y": 558
+    },
+    "d:fork-user33": {
+      "in": "h:github",
+      "x": 1446,
+      "y": 558
+    },
+    "d:fork-user34": {
+      "in": "h:github",
+      "x": 30,
+      "y": 660
+    },
+    "d:fork-user35": {
+      "in": "h:github",
+      "x": 266,
+      "y": 660
+    },
+    "d:fork-user36": {
+      "in": "h:github",
+      "x": 502,
+      "y": 660
+    },
+    "d:fork-user37": {
+      "in": "h:github",
+      "x": 738,
+      "y": 660
+    },
+    "d:fork-user38": {
+      "in": "h:github",
+      "x": 974,
+      "y": 660
+    },
+    "d:fork-user39": {
+      "in": "h:github",
+      "x": 1210,
+      "y": 660
+    },
+    "d:fork-user40": {
+      "in": "h:github",
+      "x": 1446,
+      "y": 660
+    },
+    "d:fork-user41": {
+      "in": "h:github",
+      "x": 30,
+      "y": 762
+    },
+    "d:fork-user42": {
+      "in": "h:github",
+      "x": 266,
+      "y": 762
+    },
+    "d:fork-user43": {
+      "in": "h:github",
+      "x": 502,
+      "y": 762
+    },
+    "d:fork-user44": {
+      "in": "h:github",
+      "x": 738,
+      "y": 762
+    },
+    "d:fork-user45": {
+      "in": "h:github",
+      "x": 974,
+      "y": 762
+    },
+    "d:fork-user46": {
+      "in": "h:github",
+      "x": 1210,
+      "y": 762
+    },
+    "d:fork-user47": {
+      "in": "h:github",
+      "x": 1446,
+      "y": 762
+    },
+    "d:fork-user48": {
+      "in": "h:github",
+      "x": 30,
+      "y": 864
+    },
+    "d:fork-user49": {
+      "in": "h:github",
+      "x": 266,
+      "y": 864
+    },
+    "d:fork-user50": {
+      "in": "h:github",
+      "x": 502,
+      "y": 864
+    },
+    "d:fork-user51": {
+      "in": "h:github",
+      "x": 738,
+      "y": 864
+    },
+    "d:fork-yarikoptic": {
+      "in": "h:github",
+      "x": 974,
+      "y": 864
+    },
+    "d:mine": {
+      "in": "h:lena",
+      "x": 30,
+      "y": 48
+    },
+    "d:proj-a": {
+      "in": "h:github",
+      "x": 1210,
+      "y": 864
+    },
+    "d:proj-a-clone": {
+      "in": "h:lena",
+      "x": 30,
+      "y": 150
+    },
+    "d:proj-b": {
+      "in": "h:github",
+      "x": 30,
+      "y": 966
+    },
+    "d:tpl": {
+      "in": "h:github",
+      "x": 1446,
+      "y": 864
+    },
+    "d:upstream": {
+      "in": "h:github",
+      "x": 30,
+      "y": 48
+    }
+  },
+  "saved_at": "2026-08-26T03:40:11Z",
+  "scenario": "s3-forks",
+  "sizes": {},
+  "view": {
+    "labels": "demand",
+    "pan": {
+      "x": 56,
+      "y": 180
+    },
+    "theme": "dark",
+    "zoom": 0.5969
+  },
+  "visible": [
+    "d:fork-TheChymera",
+    "d:fork-adswa",
+    "d:fork-asmacdo",
+    "d:fork-candleindark",
+    "d:fork-djarecka",
+    "d:fork-jwodder",
+    "d:fork-mih",
+    "d:fork-user00",
+    "d:fork-user01",
+    "d:fork-user02",
+    "d:fork-user03",
+    "d:fork-user04",
+    "d:fork-user05",
+    "d:fork-user06",
+    "d:fork-user07",
+    "d:fork-user08",
+    "d:fork-user09",
+    "d:fork-user10",
+    "d:fork-user11",
+    "d:fork-user12",
+    "d:fork-user13",
+    "d:fork-user14",
+    "d:fork-user15",
+    "d:fork-user16",
+    "d:fork-user17",
+    "d:fork-user18",
+    "d:fork-user19",
+    "d:fork-user20",
+    "d:fork-user21",
+    "d:fork-user22",
+    "d:fork-user23",
+    "d:fork-user24",
+    "d:fork-user25",
+    "d:fork-user26",
+    "d:fork-user27",
+    "d:fork-user28",
+    "d:fork-user29",
+    "d:fork-user30",
+    "d:fork-user31",
+    "d:fork-user32",
+    "d:fork-user33",
+    "d:fork-user34",
+    "d:fork-user35",
+    "d:fork-user36",
+    "d:fork-user37",
+    "d:fork-user38",
+    "d:fork-user39",
+    "d:fork-user40",
+    "d:fork-user41",
+    "d:fork-user42",
+    "d:fork-user43",
+    "d:fork-user44",
+    "d:fork-user45",
+    "d:fork-user46",
+    "d:fork-user47",
+    "d:fork-user48",
+    "d:fork-user49",
+    "d:fork-user50",
+    "d:fork-user51",
+    "d:fork-yarikoptic",
+    "d:mine",
+    "d:proj-a",
+    "d:proj-a-clone",
+    "d:proj-b",
+    "d:tpl",
+    "d:upstream",
+    "h:github",
+    "h:lena"
+  ]
+}

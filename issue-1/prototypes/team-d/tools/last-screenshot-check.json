@@ -1,0 +1,226 @@
+[
+  {
+    "file": "export-s1-spacetop-file-url-light.png",
+    "w": 1600,
+    "h": 980,
+    "distinct": 1196,
+    "dominant": 0.552,
+    "suspect": false
+  },
+  {
+    "file": "export-s1-spacetop-file-url.png",
+    "w": 1600,
+    "h": 980,
+    "distinct": 1117,
+    "dominant": 0.569,
+    "suspect": false
+  },
+  {
+    "file": "export-s2-babs-ria-file-url-light.png",
+    "w": 1600,
+    "h": 980,
+    "distinct": 868,
+    "dominant": 0.572,
+    "suspect": false
+  },
+  {
+    "file": "export-s2-babs-ria-file-url.png",
+    "w": 1600,
+    "h": 980,
+    "distinct": 843,
+    "dominant": 0.477,
+    "suspect": false
+  },
+  {
+    "file": "export-s3-forks-file-url-light.png",
+    "w": 1600,
+    "h": 980,
+    "distinct": 891,
+    "dominant": 0.308,
+    "suspect": false
+  },
+  {
+    "file": "export-s3-forks-file-url.png",
+    "w": 1600,
+    "h": 980,
+    "distinct": 868,
+    "dominant": 0.301,
+    "suspect": false
+  },
+  {
+    "file": "s1-01-seed-dark.png",
+    "w": 1680,
+    "h": 1000,
+    "distinct": 752,
+    "dominant": 0.67,
+    "suspect": false
+  },
+  {
+    "file": "s1-02-mid-expansion.png",
+    "w": 1680,
+    "h": 1000,
+    "distinct": 940,
+    "dominant": 0.615,
+    "suspect": false
+  },
+  {
+    "file": "s1-03-expanded.png",
+    "w": 1680,
+    "h": 1000,
+    "distinct": 1094,
+    "dominant": 0.581,
+    "suspect": false
+  },
+  {
+    "file": "s1-04-duplicate-uuid-error.png",
+    "w": 1680,
+    "h": 1000,
+    "distinct": 1057,
+    "dominant": 0.527,
+    "suspect": false
+  },
+  {
+    "file": "s1-05-name-disagreement-fitzoom.png",
+    "w": 1680,
+    "h": 1000,
+    "distinct": 1086,
+    "dominant": 0.581,
+    "suspect": false
+  },
+  {
+    "file": "s1-06-name-disagreement-reading.png",
+    "w": 1680,
+    "h": 1000,
+    "distinct": 1123,
+    "dominant": 0.522,
+    "suspect": false
+  },
+  {
+    "file": "s1-07-selected-edge-labels.png",
+    "w": 1680,
+    "h": 1000,
+    "distinct": 1117,
+    "dominant": 0.455,
+    "suspect": false
+  },
+  {
+    "file": "s1-08-light-theme.png",
+    "w": 1680,
+    "h": 1000,
+    "distinct": 1102,
+    "dominant": 0.621,
+    "suspect": false
+  },
+  {
+    "file": "s2-01-seed-dark.png",
+    "w": 1680,
+    "h": 1000,
+    "distinct": 737,
+    "dominant": 0.67,
+    "suspect": false
+  },
+  {
+    "file": "s2-02-ria-discovered.png",
+    "w": 1680,
+    "h": 1000,
+    "distinct": 876,
+    "dominant": 0.575,
+    "suspect": false
+  },
+  {
+    "file": "s2-03-ria-expanded.png",
+    "w": 1680,
+    "h": 1000,
+    "distinct": 837,
+    "dominant": 0.487,
+    "suspect": false
+  },
+  {
+    "file": "s2-04-ria-collapsed-edges-aggregated.png",
+    "w": 1680,
+    "h": 1000,
+    "distinct": 911,
+    "dominant": 0.574,
+    "suspect": false
+  },
+  {
+    "file": "s2-05-all-collapsed.png",
+    "w": 1680,
+    "h": 1000,
+    "distinct": 831,
+    "dominant": 0.694,
+    "suspect": false
+  },
+  {
+    "file": "s2-06-light-theme.png",
+    "w": 1680,
+    "h": 1000,
+    "distinct": 845,
+    "dominant": 0.629,
+    "suspect": false
+  },
+  {
+    "file": "s3-01-seed-dark.png",
+    "w": 1680,
+    "h": 1000,
+    "distinct": 713,
+    "dominant": 0.671,
+    "suspect": false
+  },
+  {
+    "file": "s3-02-forks-greyed.png",
+    "w": 1680,
+    "h": 1000,
+    "distinct": 794,
+    "dominant": 0.33,
+    "suspect": false
+  },
+  {
+    "file": "s3-03-forks-not-greyed.png",
+    "w": 1680,
+    "h": 1000,
+    "distinct": 796,
+    "dominant": 0.33,
+    "suspect": false
+  },
+  {
+    "file": "s3-04-unreachable-affordance.png",
+    "w": 1680,
+    "h": 1000,
+    "distinct": 794,
+    "dominant": 0.33,
+    "suspect": false
+  },
+  {
+    "file": "s3-05-second-component-revealed.png",
+    "w": 1680,
+    "h": 1000,
+    "distinct": 788,
+    "dominant": 0.329,
+    "suspect": false
+  },
+  {
+    "file": "s3-06-template-trap.png",
+    "w": 1680,
+    "h": 1000,
+    "distinct": 870,
+    "dominant": 0.33,
+    "suspect": false
+  },
+  {
+    "file": "s3-07-template-trap-selected.png",
+    "w": 1680,
+    "h": 1000,
+    "distinct": 875,
+    "dominant": 0.303,
+    "suspect": false
+  },
+  {
+    "file": "s3-08-light-theme.png",
+    "w": 1680,
+    "h": 1000,
+    "distinct": 885,
+    "dominant": 0.36,
+    "suspect": false
+  }
+]
