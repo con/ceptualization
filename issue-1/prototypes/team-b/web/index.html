@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>worldmap — graphviz-first</title>
+</head>
+<body>
+<div id="app">
+  <aside class="side">
+    <h1>worldmap <span class="tag">team-b · graphviz-first</span></h1>
+    <p class="sub" id="scen-sub">loading…</p>
+    <h2>Scenario</h2>
+    <div class="scenlist" id="scenlist"></div>
+    <h2>Findings</h2>
+    <div id="findings"><p class="empty">nothing yet — explore</p></div>
+    <h2 id="unreach-h" style="display:none">Not reachable by expanding</h2>
+    <div id="unreach"></div>
+    <h2>Progress</h2>
+    <div id="stats"></div>
+    <h2>Saved views</h2>
+    <div class="row tight" style="margin-bottom:6px">
+      <select id="viewname" style="flex:1"></select>
+      <button id="btn-load" title="Load the selected saved view">load</button>
+    </div>
+    <div class="row tight">
+      <input id="newname" placeholder="name" style="flex:1;font:inherit;padding:5px 8px;border-radius:6px;
+        border:1px solid var(--line);background:var(--panel2);color:var(--text)">
+      <button id="btn-save">save</button>
+    </div>
+    <div class="row tight" style="margin-top:6px">
+      <button id="btn-dot">view DOT</button>
+      <button id="btn-export">export HTML</button>
+    </div>
+    <h2>Legend</h2>
+    <div class="legend" id="legend"></div>
+  </aside>
+  <main class="main">
+    <div class="hud top">
+      <button id="mode-map" class="on">cluster map</button>
+      <button id="mode-lineage">layered lineage</button>
+      <span style="width:1px;height:20px;background:var(--line)"></span>
+      <button id="btn-fit">fit</button>
+      <button id="btn-expand-all" title="Expand every relation of every visible node (one wave)">expand wave</button>
+      <label class="chk"><input type="checkbox" id="opt-preserve"> keep placed nodes</label>
+      <label class="chk"><input type="checkbox" id="opt-grey" checked> grey inactive</label>
+      <label class="chk"><input type="checkbox" id="opt-routes" checked> graphviz edge routing</label>
+      <button id="btn-theme">☀/☾</button>
+    </div>
+    <div id="cy"></div>
+    <div class="hud bottom" id="timings"></div>
+    <div id="overlay"></div>
+  </main>
+</div>
+<dialog id="dlg"><div class="dhead"><b id="dlg-title"></b><button id="dlg-close">close</button></div>
+<pre id="dlg-body"></pre><div class="exportnote" id="dlg-note"></div></dialog>
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>

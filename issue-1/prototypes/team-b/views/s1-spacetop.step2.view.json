@@ -1,0 +1,155 @@
+{
+  "expansions": [
+    {
+      "node": "d:discovery",
+      "relation": "same_annex_uuid"
+    },
+    {
+      "node": "d:lena",
+      "relation": "remote"
+    },
+    {
+      "node": "d:rolando-x",
+      "relation": "remote"
+    },
+    {
+      "node": "d:smaug",
+      "relation": "remote"
+    },
+    {
+      "node": "d:typhon",
+      "relation": "remote"
+    }
+  ],
+  "format": "worldmap-view/1",
+  "generator": "team-b graphviz-first",
+  "layout_engine": "graphviz/dot via @hpcc-js/wasm 2.35.0, output format json (xdot)",
+  "pinned": {},
+  "positions": {
+    "lineage": {},
+    "map": {
+      "d:dead": {
+        "x": 644,
+        "y": 381
+      },
+      "d:discovery": {
+        "x": 385,
+        "y": 852
+      },
+      "d:discovery-copy": {
+        "x": 644,
+        "y": 852
+      },
+      "d:gh-openneuro": {
+        "x": 385,
+        "y": 1186
+      },
+      "d:gh-spatial": {
+        "x": 1422,
+        "y": 1107
+      },
+      "d:gh-yarik": {
+        "x": 385,
+        "y": 1107
+      },
+      "d:hjlaptop": {
+        "x": 385,
+        "y": 516
+      },
+      "d:lena": {
+        "x": 126,
+        "y": 896
+      },
+      "d:on": {
+        "x": 1422,
+        "y": 926
+      },
+      "d:rolando": {
+        "x": 644,
+        "y": 581
+      },
+      "d:rolando-x": {
+        "x": 903,
+        "y": 581
+      },
+      "d:s3": {
+        "x": 385,
+        "y": 717
+      },
+      "d:smaug": {
+        "x": 385,
+        "y": 381
+      },
+      "d:typhon": {
+        "x": 1162,
+        "y": 926
+      },
+      "d:typhon-bare": {
+        "x": 903,
+        "y": 926
+      }
+    }
+  },
+  "routes": {
+    "e1": "0.588|-314.2",
+    "e10": "0.945|-181.8",
+    "e11": "0.499|211",
+    "e13": "0.121 0.498|-192.3 -167.3",
+    "e14": "0.595|-192.7",
+    "e15": "0.595|-192.7",
+    "e16": "0.024 0.503|-182.4 -163.6",
+    "e17": "0.477 0.834|-360.2 -211.8",
+    "e18": "0.595|-192.7",
+    "e19": "0.594|201.9",
+    "e2": "0.51|-678.8",
+    "e20": "0.564|-134.1",
+    "e21": "0.595|-183.5",
+    "e22": "0.421|-186.9",
+    "e23": "0.674 0.796|-221.2 -212.2",
+    "e24": "0.738|-102.1",
+    "e25": "0.595|-192.7",
+    "e4": "0.173 0.856|-185 -189.2",
+    "e5": "0.132 0.893|-167.7 -182.9",
+    "e6": "0.717|-190",
+    "e7": "0.352 0.396|-67.4 -71.2",
+    "e8": "0.276 0.353|-110.9 -114.4",
+    "e9": "0.383 0.58 0.864 0.913|-129.2 -171.2 -214.8 -208.1"
+  },
+  "saved_at": "2026-08-26T01:29:10Z",
+  "scenario": "s1-spacetop",
+  "view": {
+    "mode": "map",
+    "pan": {
+      "x": 48,
+      "y": 37
+    },
+    "theme": "dark",
+    "zoom": 0.7858
+  },
+  "visible": [
+    "d:dead",
+    "d:discovery",
+    "d:discovery-copy",
+    "d:gh-openneuro",
+    "d:gh-spatial",
+    "d:gh-yarik",
+    "d:hjlaptop",
+    "d:lena",
+    "d:on",
+    "d:rolando",
+    "d:rolando-x",
+    "d:s3",
+    "d:smaug",
+    "d:typhon",
+    "d:typhon-bare",
+    "h:aws",
+    "h:discovery",
+    "h:github",
+    "h:hjlaptop",
+    "h:lena",
+    "h:openneuro",
+    "h:rolando",
+    "h:smaug",
+    "h:typhon"
+  ]
+}

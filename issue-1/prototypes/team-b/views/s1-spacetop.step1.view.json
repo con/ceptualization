@@ -1,0 +1,145 @@
+{
+  "expansions": [
+    {
+      "node": "d:discovery",
+      "relation": "same_annex_uuid"
+    },
+    {
+      "node": "d:lena",
+      "relation": "remote"
+    },
+    {
+      "node": "d:smaug",
+      "relation": "remote"
+    },
+    {
+      "node": "d:typhon",
+      "relation": "remote"
+    }
+  ],
+  "format": "worldmap-view/1",
+  "generator": "team-b graphviz-first",
+  "layout_engine": "graphviz/dot via @hpcc-js/wasm 2.35.0, output format json (xdot)",
+  "pinned": {},
+  "positions": {
+    "lineage": {},
+    "map": {
+      "d:dead": {
+        "x": 644,
+        "y": 716
+      },
+      "d:discovery": {
+        "x": 385,
+        "y": 214
+      },
+      "d:discovery-copy": {
+        "x": 644,
+        "y": 214
+      },
+      "d:gh-openneuro": {
+        "x": 385,
+        "y": 428
+      },
+      "d:gh-spatial": {
+        "x": 1422,
+        "y": 428
+      },
+      "d:gh-yarik": {
+        "x": 385,
+        "y": 349
+      },
+      "d:lena": {
+        "x": 126,
+        "y": 519
+      },
+      "d:on": {
+        "x": 1422,
+        "y": 916
+      },
+      "d:rolando": {
+        "x": 644,
+        "y": 581
+      },
+      "d:rolando-x": {
+        "x": 903,
+        "y": 581
+      },
+      "d:s3": {
+        "x": 385,
+        "y": 79
+      },
+      "d:smaug": {
+        "x": 385,
+        "y": 716
+      },
+      "d:typhon": {
+        "x": 1162,
+        "y": 916
+      },
+      "d:typhon-bare": {
+        "x": 903,
+        "y": 916
+      }
+    }
+  },
+  "routes": {
+    "e1": "0.798|5",
+    "e10": "0.785 0.843|-71.9 -61.2",
+    "e11": "0.518 0.931|233.9 59.5",
+    "e12": "0.887|-5.9",
+    "e13": "0.915|1.6",
+    "e14": "0.595|5",
+    "e15": "0.595|5",
+    "e16": "0.551 0.714|-2.9 -1.6",
+    "e17": "0.272 0.723 0.795|1.8 6.9 6.7",
+    "e18": "0.595|5",
+    "e19": "0.594|4.2",
+    "e2": "0.207 0.839|246.9 207.6",
+    "e20": "0.906|0.2",
+    "e21": "0.595|14.2",
+    "e24": "0.256 0.928|-62.6 -11.9",
+    "e25": "0.595|5",
+    "e3": "0.833|4.4",
+    "e4": "0.332 0.908|256.2 74",
+    "e5": "0.217 0.87 0.909|234.2 17.9 11.4",
+    "e6": "0.699 0.784|-52.1 -43.7",
+    "e7": "0.65|4.6",
+    "e8": "0.605 0.654|-27.7 -26.4",
+    "e9": "0.918|4.9"
+  },
+  "saved_at": "2026-08-26T01:28:57Z",
+  "scenario": "s1-spacetop",
+  "view": {
+    "mode": "map",
+    "pan": {
+      "x": 41,
+      "y": 106
+    },
+    "theme": "dark",
+    "zoom": 0.7957
+  },
+  "visible": [
+    "d:dead",
+    "d:discovery",
+    "d:discovery-copy",
+    "d:gh-openneuro",
+    "d:gh-spatial",
+    "d:gh-yarik",
+    "d:lena",
+    "d:on",
+    "d:rolando",
+    "d:rolando-x",
+    "d:s3",
+    "d:smaug",
+    "d:typhon",
+    "d:typhon-bare",
+    "h:aws",
+    "h:discovery",
+    "h:github",
+    "h:lena",
+    "h:openneuro",
+    "h:rolando",
+    "h:smaug",
+    "h:typhon"
+  ]
+}
