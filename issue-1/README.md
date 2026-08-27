@@ -15,6 +15,10 @@ Five independent research tracks were run in parallel. Each document below is
 self-contained; this README is the synthesis and the editorial judgement over
 them.
 
+**Start with [DESIGN.md](./DESIGN.md)** — the running design document and
+feature ledger: what was decided, what is built, what is verified, what is
+next. The documents below are the research behind those decisions.
+
 | Document | Track |
 | --- | --- |
 | [tools-git-native-visualizers.md](./tools-git-native-visualizers.md) | Existing OSS tools that draw/navigate git repo, branch and remote graphs |
