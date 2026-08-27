@@ -7,6 +7,7 @@ import { aggregate, verify } from './collapse.js';
 import { applyLabelPolicy, compensateZoom, measureRendered } from './labels.js';
 import { worldPositions } from './viewpos.js';
 import { LEAF } from './geometry.js';
+import { History } from './history.js';
 
 const API = '';
 let SCENARIOS = ['s1-spacetop', 's2-babs-ria', 's3-forks'];
@@ -23,6 +24,7 @@ const S = {
   lastMetrics: null,
   timings: {},
   view: null,
+  history: null,
 };
 let cy = null;
 
@@ -50,6 +52,11 @@ function mergePayload(p) {
   if (p.total) S.total = p.total;
 }
 
+const labelOf = (id) => {
+  const n = S.byId[id];
+  const l = (n && n.label) || id;
+  return l.length > 30 ? '…' + l.slice(-29) : l;
+};
 const parentOf = (id) => {
   const n = S.byId[id];
   return n && n.parent && S.visible.has(n.parent) ? n.parent : null;
@@ -174,6 +181,8 @@ function grey() {
 
 async function loadScenario(name) {
   S.scenario = name;
+  if (!S.history) S.history = new History(S);
+  S.history.reset();
   S.byId = {}; S.edges = []; S.findings = []; S.visible = new Set();
   S.collapsed = new Set(); S.expansions = []; S.selected = null;
   S.layout = new TwoTierLayout();
@@ -190,9 +199,63 @@ async function loadScenario(name) {
   paintPanels(S.view);
 }
 
+
+// ---------------------------------------------------------------- history
+
+async function doUndo() {
+  if (S.busy || !S.history.canUndo()) return;
+  S.busy = true;
+  try {
+    const label = S.history.undo();
+    await render({ fit: false, reason: 'undo', relayout: false });
+    paintPanels(S.view);
+    toast(`undid: ${label}`);
+  } finally { S.busy = false; }
+}
+
+async function doRedo() {
+  if (S.busy || !S.history.canRedo()) return;
+  S.busy = true;
+  try {
+    const label = S.history.redo();
+    await render({ fit: false, reason: 'redo', relayout: false });
+    paintPanels(S.view);
+    toast(`redid: ${label}`);
+  } finally { S.busy = false; }
+}
+
+async function doJump(i) {
+  if (S.busy) return;
+  S.busy = true;
+  try {
+    const label = S.history.jumpTo(i);
+    await render({ fit: false, reason: 'history-jump', relayout: false });
+    paintPanels(S.view);
+    toast(`back to before: ${label}`);
+  } finally { S.busy = false; }
+}
+
+function paintHistory() {
+  const el = document.getElementById('history');
+  if (!el) return;
+  const es = S.history ? S.history.entries() : [];
+  document.getElementById('undo').disabled = !(S.history && S.history.canUndo());
+  document.getElementById('redo').disabled = !(S.history && S.history.canRedo());
+  if (!es.length) {
+    el.innerHTML = '<p class="muted">nothing to undo yet</p>';
+    return;
+  }
+  el.innerHTML = es.map((e) => `<button class="histrow" data-i="${e.i}">`
+    + `<span>${e.label}</span><b>${e.nodes}</b></button>`).join('');
+  el.querySelectorAll('.histrow').forEach((b) => {
+    b.onclick = () => doJump(+b.dataset.i);
+  });
+}
+
 async function doExpand(nodeId, relation, opts = {}) {
   if (S.busy) return null;
   S.busy = true; toast(`probing ${relation} of ${nodeId}…`, true);
+  S.history.begin(`expand ${relation} of ${labelOf(nodeId)}`);
   const t0 = performance.now();
   try {
     const p = await post('/api/expand', {
@@ -201,6 +264,7 @@ async function doExpand(nodeId, relation, opts = {}) {
     });
     const netMs = performance.now() - t0;
     const newIds = (p.nodes || []).map((n) => n.id);
+    if (!newIds.length) S.history.abandon();
     mergePayload(p);
     S.expansions.push({ node: nodeId, relation });
     const kids = new Set([...S.visible].filter((k) => {
@@ -220,6 +284,7 @@ async function doExpand(nodeId, relation, opts = {}) {
       + `leaves ${metrics ? metrics.leaves.max : '?'} px max`);
     return metrics;
   } catch (err) {
+    S.history.abandon();
     toast('expand failed: ' + err.message);
     return null;
   } finally {
@@ -249,11 +314,13 @@ async function revealAll() {
 }
 
 async function toggleCollapse(id) {
+  S.history.begin(`${S.collapsed.has(id) ? 'expand' : 'collapse'} ${labelOf(id)}`);
   if (S.collapsed.has(id)) S.collapsed.delete(id); else S.collapsed.add(id);
   await render({ reason: 'collapse ' + id });
 }
 
 async function collapseAll(on) {
+  S.history.begin(on ? 'collapse all' : 'expand all');
   S.collapsed = new Set();
   if (on) {
     for (const id of S.visible) {
@@ -278,6 +345,7 @@ function select(id) {
 function el(id) { return document.getElementById(id); }
 
 function paintPanels(view) {
+  paintHistory();
   el('findings').innerHTML = S.findings.length
     ? S.findings.map((f) => `<div class="finding ${f.severity}" data-n="${f.nodes.join(',')}">
         <span class="code">${f.severity}: ${f.code}</span>${f.message}</div>`).join('')
@@ -498,6 +566,7 @@ function shell() {
     <h2>Findings</h2><div id="findings"></div>
     <h2>Remote-name disagreement</h2><div id="disagree"></div>
     <h2>Containers</h2><div id="containers"></div>
+    <h2>History</h2><div id="history"></div>
     <h2>Measurements</h2><div id="stats"></div>
     <h2>Legend</h2>
     <div class="legend">
@@ -522,6 +591,8 @@ function shell() {
       <button id="collapse-all">collapse all</button>
       <button id="expand-all">expand all</button>
       <button id="reveal-all" title="Show every node already present in the crawled worldmap, without probing">reveal all</button>
+      <button id="undo" title="Undo the last exploration step (Ctrl+Z)">↶ undo</button>
+      <button id="redo" title="Redo (Ctrl+Shift+Z)">↷ redo</button>
       <div class="sep"></div>
       <label class="chk"><input type="checkbox" id="grey" checked> grey inactive</label>
       <div class="sep"></div>
@@ -535,6 +606,8 @@ function shell() {
   </main>`;
 
   cy = makeCy(document.getElementById('cy'), S.theme);
+  window.__cy = cy;   // exposed for the Playwright drivers
+  window.__S = S;
   cy.on('tap', 'node', (ev) => select(ev.target.id()));
   cy.on('dbltap', 'node', (ev) => {
     if (model().childrenOf(ev.target.id()).length || S.collapsed.has(ev.target.id())) {
@@ -556,11 +629,20 @@ function shell() {
   document.getElementById('grey').onchange = (e) => { S.greyInactive = e.target.checked; grey(); };
   document.getElementById('collapse-all').onclick = () => collapseAll(true);
   document.getElementById('expand-all').onclick = () => collapseAll(false);
+  document.getElementById('undo').onclick = doUndo;
+  document.getElementById('redo').onclick = doRedo;
+  window.addEventListener('keydown', (ev) => {
+    const z = ev.key === 'z' || ev.key === 'Z';
+    if (!(ev.ctrlKey || ev.metaKey) || !z) return;
+    ev.preventDefault();
+    if (ev.shiftKey) doRedo(); else doUndo();
+  });
   // A CRAWLED worldmap is already entirely on disk, so probing one relation at
   // a time is theatre. This reveals everything that was crawled.
   document.getElementById('reveal-all').onclick = async () => {
     if (S.busy) return;
     S.busy = true;
+    S.history.begin('reveal all');
     try {
       const p = await post('/api/materialize', { scenario: S.scenario, ids: '*' });
       mergePayload(p);
