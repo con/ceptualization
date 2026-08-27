@@ -66,6 +66,25 @@ $ worldmap-crawl.py dandi-bib -o /tmp/wm/dandi-bib
 prototype returns 27 nodes / 49 edges in one probe. That is the research claim
 reproduced on real data rather than on a fixture.
 
+## If the map looks empty, press **reveal all**
+
+The viewer opens on the seed nodes and grows by probing, which is right for a
+live walker but wrong for a crawl: the whole graph is already on disk, so
+probing one relation at a time is theatre. **`reveal all`** shows everything
+that was crawled in one step.
+
+Note that **`expand all` is not that button** — it only un-collapses container
+boxes and never probes. Two bugs found by testing this on a real collection of
+spacetop datasets, both now fixed:
+
+* the server's walkable-relation list was hardcoded, so `annex_knows` edges
+  (emitted by this crawler, and not part of the original fixture vocabulary)
+  were silently unreachable — 92 of 108 nodes could never be shown. The list is
+  now derived from the relations actually present in the worldmap.
+* clones discovered through `uuid.log` all landed on a single `unknown` host.
+  git-annex descriptions are conventionally `user@host:/path`, so the host is
+  recoverable; they now cluster by real machine.
+
 ## What it does *not* do
 
 * **No ssh.** Remote hosts are drawn as nodes but never contacted. The

@@ -260,9 +260,18 @@ def crawl(seeds, depth, use_ls_remote, name):
             if u == info.get("annex_uuid"):
                 continue
             canon = f"annex-uuid://{u}"
-            tid = placeholder(canon, "annex", None, "",
+            # git-annex descriptions are conventionally "user@host:/path", so
+            # the host is recoverable and the clone can be clustered properly
+            # instead of piling up under "unknown".
+            ahost, apath = None, ""
+            m = re.match(r'^(?:(?P<user>[^@\s]+)@)?(?P<host>[A-Za-z0-9._-]+):(?P<path>\S+)$',
+                         (desc or "").strip())
+            if m:
+                ahost, apath = m.group("host"), m.group("path")
+            tid = placeholder(canon, "annex", ahost, apath,
                               {"label": desc or u[:8], "annex_uuid": u,
                                "annex_mode": "keystore", "vcs": "git",
+                               "layout": "bare" if apath.endswith(".git") else "worktree",
                                "from_annex_branch": True})
             nodes[tid].setdefault("annex_uuid", u)
             by_annex_uuid.setdefault(u, []).append(tid)

@@ -521,6 +521,7 @@ function shell() {
       <div class="sep"></div>
       <button id="collapse-all">collapse all</button>
       <button id="expand-all">expand all</button>
+      <button id="reveal-all" title="Show every node already present in the crawled worldmap, without probing">reveal all</button>
       <div class="sep"></div>
       <label class="chk"><input type="checkbox" id="grey" checked> grey inactive</label>
       <div class="sep"></div>
@@ -555,6 +556,20 @@ function shell() {
   document.getElementById('grey').onchange = (e) => { S.greyInactive = e.target.checked; grey(); };
   document.getElementById('collapse-all').onclick = () => collapseAll(true);
   document.getElementById('expand-all').onclick = () => collapseAll(false);
+  // A CRAWLED worldmap is already entirely on disk, so probing one relation at
+  // a time is theatre. This reveals everything that was crawled.
+  document.getElementById('reveal-all').onclick = async () => {
+    if (S.busy) return;
+    S.busy = true;
+    try {
+      const p = await post('/api/materialize', { scenario: S.scenario, ids: '*' });
+      mergePayload(p);
+      await render({ fit: true, reason: 'reveal-all' });
+      paintPanels(S.view);
+    } catch (e) {
+      console.error('reveal all failed', e);
+    } finally { S.busy = false; }
+  };
   document.getElementById('save').onclick = () => saveView('default');
   document.getElementById('load').onclick = () => loadView('default');
   document.getElementById('export').onclick = () => window.open(`/export/${S.scenario}?name=default`, '_blank');

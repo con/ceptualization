@@ -94,9 +94,22 @@ PROBE_MAX_MS = 900
 # Relations you can walk. `contains` is in this list on purpose: it is the
 # relation "this host/store/superdataset holds that repository", and it is the
 # only way to reach 6 of s3's 68 nodes.
-WALKABLE = ["remote", "subdataset", "part", "worktree_of", "fork_of",
-            "shares_history_with", "candidate_same_as", "same_annex_uuid",
-            "contains"]
+# Baseline vocabulary. The effective list is derived per worldmap in
+# walkable_for(), so a crawler that emits a relation we have never seen
+# (e.g. `annex_knows` from worldmap-crawl.py) is still expandable instead of
+# being silently unreachable.
+WALKABLE_BASE = ["remote", "subdataset", "part", "worktree_of", "fork_of",
+                 "shares_history_with", "candidate_same_as", "same_annex_uuid",
+                 "contains"]
+WALKABLE = WALKABLE_BASE
+
+
+def walkable_for(wm):
+    """Every relation kind actually present, baseline first for stable order."""
+    present = {e.get("kind") for e in wm.get("edges", []) if e.get("kind")}
+    present.add("contains")
+    return [k for k in WALKABLE_BASE if k in present] + \
+           sorted(present - set(WALKABLE_BASE))
 
 _cache = {}
 
@@ -328,7 +341,7 @@ def seed_payload(scenario):
         "findings": findings_for(wm, visible),
         "total": {"nodes": len(wm["nodes"]), "edges": len(wm["edges"])},
         "reach": reach_payload(scenario, sorted(visible)),
-        "walkable": WALKABLE,
+        "walkable": walkable_for(wm),
     }
 
 
@@ -369,7 +382,10 @@ def expand(scenario, node_id, relation, known):
 
 def materialize(scenario, ids):
     wm = worldmap(scenario)
-    visible = with_ancestors(wm, [i for i in ids if i in wm["_nodes"]])
+    if ids == "*" or ids == ["*"]:
+        visible = set(wm["_nodes"])
+    else:
+        visible = with_ancestors(wm, [i for i in ids if i in wm["_nodes"]])
     return {
         "scenario": scenario,
         "title": wm.get("title"),
@@ -381,7 +397,7 @@ def materialize(scenario, ids):
         "findings": findings_for(wm, visible),
         "total": {"nodes": len(wm["nodes"]), "edges": len(wm["edges"])},
         "reach": reach_payload(scenario, sorted(visible)),
-        "walkable": WALKABLE,
+        "walkable": walkable_for(wm),
     }
 
 
