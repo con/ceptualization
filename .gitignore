@@ -26,3 +26,6 @@ env/
 # OS
 .DS_Store
 Thumbs.db
+
+# Ephemeral git worktrees created for isolated agent runs
+.claude/worktrees/
