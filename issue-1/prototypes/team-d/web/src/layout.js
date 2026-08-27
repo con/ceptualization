@@ -101,6 +101,11 @@ export class TwoTierLayout {
    */
   async run(g, opts = {}) {
     const mode = opts.mode || 'sticky';
+    // Nodes the USER placed by hand. Rule 9 of the design ledger says user
+    // placement outranks the layout engine; before this the set was recorded
+    // and never read, and a collapse next door translated a hand-placed box
+    // 513.31 px because `separate()` treated it as free space.
+    const pinned = opts.pinned instanceof Set ? opts.pinned : new Set(opts.pinned || []);
     const t0 = performance.now();
     const ids = g.ids;
     const before = this.allWorld(ids.filter((i) => this.centre.has(i) || this.local.has(i)), g.parentOf);
@@ -189,10 +194,36 @@ export class TwoTierLayout {
         const s = this.size.get(id);
         centres.set(id, { x: old.x + (s.w - old._w) / 2, y: old.y + (s.h - old._h) / 2 });
       }
-      let sep = anyOverlap(centres, sizes, 60)
-        ? separate(centres, sizes, grew, 60, 200)
+      // A hand-placed container is frozen exactly like the one that grew.
+      const frozen = new Set([...grew, ...topLevel.filter((i) => pinned.has(i))]);
+      // Separation exists to make room for GROWTH. An overlap that was already
+      // there -- because the user dragged two boxes on top of each other -- is
+      // not growth, and pushing it apart now translates a container the user
+      // never touched: measured at 513.31 px, on a collapse of a different
+      // box. So separate only if the resize made an overlap that did not
+      // exist before it.
+      const oldSizes = new Map(topLevel.map((i) => {
+        const c = this.centre.get(i);
+        return [i, c && c._w !== undefined ? { w: c._w, h: c._h } : this.size.get(i)];
+      }));
+      const wasOverlapping = overlapPairs(this.centre, oldSizes, topLevel, 60);
+      const nowOverlapping = overlapPairs(centres, sizes, topLevel, 60);
+      const newOverlap = [...nowOverlapping].some((k) => !wasOverlapping.has(k));
+      let sep = newOverlap
+        ? separate(centres, sizes, frozen, 60, 200)
         : { positions: centres, moved: new Map(), iterations: 0, converged: true };
-      if (!sep.converged) {
+      if (!newOverlap && nowOverlapping.size) {
+        this.timings.preExistingOverlapLeftAlone =
+          (this.timings.preExistingOverlapLeftAlone || 0) + 1;
+      }
+      if (!sep.converged && frozen.size > grew.size) {
+        // The user parked boxes on top of each other. Their arrangement is the
+        // instruction; re-running tier 1 would throw it away to satisfy a
+        // margin nobody asked for. Keep the overlap and say so.
+        this.timings.overlapKeptForUserPlacement =
+          (this.timings.overlapKeptForUserPlacement || 0) + 1;
+        sep = { positions: centres, moved: new Map(), iterations: 0, converged: true };
+      } else if (!sep.converged) {
         // could not make room by translation: fall back to a full tier-1 pass
         this.timings.growthFallbackToTier1 = (this.timings.growthFallbackToTier1 || 0) + 1;
         const items = topLevel.map((id) => ({
@@ -227,7 +258,12 @@ export class TwoTierLayout {
       if (same && kids.every((k) => this.local.has(k))) continue;
       const box = this.size.get(cid);
       const fixed = {};
-      for (const k of kids) if (prev.has(k) && this.local.has(k)) fixed[k] = this.local.get(k);
+      // Pin every sibling that was already placed, and every one the user
+      // dragged -- including one returning from the Hidden panel, which is
+      // not in `prev` and used to be given a fresh slot 236 px away.
+      for (const k of kids) {
+        if ((prev.has(k) || pinned.has(k)) && this.local.has(k)) fixed[k] = this.local.get(k);
+      }
       const kidSet = new Set(kids);
       const inner = g.edges.filter((e) => e.kind !== 'contains'
         && kidSet.has(e.source) && kidSet.has(e.target));
@@ -324,15 +360,21 @@ export class TwoTierLayout {
   }
 }
 
-function anyOverlap(centres, sizes, margin) {
-  const ids = [...centres.keys()];
+/** The set of `a|b` pairs that overlap, so "is this overlap new?" is decidable. */
+function overlapPairs(centres, sizes, ids, margin) {
+  const out = new Set();
   for (let i = 0; i < ids.length; i++) {
     for (let j = i + 1; j < ids.length; j++) {
-      if (overlaps(rectOf(centres.get(ids[i]), sizes.get(ids[i]), margin / 2),
-        rectOf(centres.get(ids[j]), sizes.get(ids[j]), margin / 2))) return true;
+      const a = ids[i], b = ids[j];
+      const ca = centres.get(a), cb = centres.get(b);
+      const sa = sizes.get(a), sb = sizes.get(b);
+      if (!ca || !cb || !sa || !sb) continue;
+      if (overlaps(rectOf(ca, sa, margin / 2), rectOf(cb, sb, margin / 2))) {
+        out.add(a < b ? `${a}|${b}` : `${b}|${a}`);
+      }
     }
   }
-  return false;
+  return out;
 }
 
 /** Every visible relation edge, mapped onto the top-level box each end lives

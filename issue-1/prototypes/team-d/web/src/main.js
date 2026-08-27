@@ -6,7 +6,7 @@ import { TwoTierLayout, startWorker, call } from './layout.js';
 import { aggregate, verify } from './collapse.js';
 import { applyLabelPolicy, compensateZoom, measureRendered } from './labels.js';
 import { worldPositions } from './viewpos.js';
-import { LEAF } from './geometry.js';
+import { LEAF, clampTo, innerBounds } from './geometry.js';
 import { History } from './history.js';
 import { GROUPS } from './badges.js';
 
@@ -170,7 +170,9 @@ async function render({ fit = false, reason = '', inside = null, relayout = true
       labelOf: (id) => (S.byId[id] || {}).label || id,
       edges: S.edges.filter((e) => view.shown.has(e.source) && view.shown.has(e.target)),
     };
-    const res = await S.layout.run(g, { mode: S.layoutMode, reason, inside, focus });
+    const res = await S.layout.run(g, {
+      mode: S.layoutMode, reason, inside, focus, pinned: S.moved,
+    });
     metrics = res.metrics;
     S.lastMetrics = metrics;
   }
@@ -272,9 +274,22 @@ async function loadScenario(name) {
  * container moves its children for free, and dragging a repository inside a
  * container cannot take it out of the box.
  *
- * Dragged nodes are remembered in S.moved and pinned, so later expansions and
- * layout runs leave them where the user put them. Positions live in the saved
- * view already, so a hand-arranged map survives save / reload.
+ * Dragged nodes are remembered in S.moved and pinned (`layout.run` receives
+ * the set), so later expansions and layout runs leave them where the user put
+ * them. Positions live in the saved view already, so a hand-arranged map
+ * survives save / reload.
+ *
+ * Two rules are enforced here rather than hoped for, because the UX pass
+ * measured both failing:
+ *
+ *  - a leaf is CLAMPED to its container's inner bounds. Without the clamp a
+ *    drag of 40 x 45 px was already enough to push a repository 43 px through
+ *    the bottom of its host box, and a big one put it 552 px outside; the box
+ *    is sized from the child COUNT, so it never grows to catch up.
+ *  - a drag is refused while a probe is in flight. `S.busy` means a
+ *    `History.begin()` is already open, and the drag's own entry was being
+ *    eaten by that probe's `abandon()` -- a 297 px move that could not be
+ *    undone and was silently reverted by the next undo.
  */
 function wireDragging() {
   let startPos = null;
@@ -288,20 +303,40 @@ function wireDragging() {
     const pos = node.position();
     if (startPos && startPos.id === id
         && Math.hypot(pos.x - startPos.x, pos.y - startPos.y) < 2) return;
-    S.history.begin(`move ${labelOf(id)}`);
+    if (S.busy) {
+      // put it back: a step is already open and this one cannot be recorded
+      if (startPos && startPos.id === id) node.position({ x: startPos.x, y: startPos.y });
+      toast('busy — finish the probe before moving nodes');
+      return;
+    }
     const parent = (i) => {
       const n = S.byId[i];
       return n && n.parent && S.visible.has(n.parent) && !S.hidden.has(n.parent) ? n.parent : null;
     };
+    const step = S.history.begin(`move ${labelOf(id)}`);
     if (S.layout.centre.has(id)) {
       const prev = S.layout.centre.get(id) || {};
       S.layout.centre.set(id, { ...prev, x: pos.x, y: pos.y });
     } else {
       const par = parent(id);
-      if (!par) { S.history.abandon(); return; }
+      if (!par) { S.history.abandon(step); return; }
       const t = S.layout.worldTopLeft(par, parent);
-      const s = S.layout.size.get(id) || { w: 210, h: 76 };
-      S.layout.local.set(id, { x: pos.x - s.w / 2 - t.x, y: pos.y - s.h / 2 - t.y });
+      const s = S.layout.size.get(id) || { ...LEAF };
+      const box = S.layout.size.get(par);
+      let want = { x: pos.x - s.w / 2 - t.x, y: pos.y - s.h / 2 - t.y };
+      // A child owns an offset from its parent's top-left; the box does not
+      // grow to follow it, so the offset has to stay inside the box.
+      if (box && box.w && box.h) want = clampTo(want, innerBounds(box, s));
+      const had = S.layout.local.get(id);
+      if (had && Math.hypot(want.x - had.x, want.y - had.y) < 0.5) {
+        // fully clamped away: say so instead of leaving a no-op on the undo
+        // stack and snapping the node back without explanation
+        S.history.abandon(step);
+        node.position(S.layout.worldOf(id, parent));
+        toast(`${labelOf(id)} is already against the edge of its box`);
+        return;
+      }
+      S.layout.local.set(id, want);
     }
     S.moved.add(id);
     await render({ fit: false, reason: 'drag', relayout: false });
@@ -417,7 +452,7 @@ function paintHistory() {
 async function doExpand(nodeId, relation, opts = {}) {
   if (S.busy) return null;
   S.busy = true; toast(`probing ${relation} of ${nodeId}…`, true);
-  S.history.begin(`expand ${relation} of ${labelOf(nodeId)}`);
+  const step = S.history.begin(`expand ${relation} of ${labelOf(nodeId)}`);
   const t0 = performance.now();
   try {
     const p = await post('/api/expand', {
@@ -426,7 +461,7 @@ async function doExpand(nodeId, relation, opts = {}) {
     });
     const netMs = performance.now() - t0;
     const newIds = (p.nodes || []).map((n) => n.id);
-    if (!newIds.length) S.history.abandon();
+    if (!newIds.length) S.history.abandon(step);
     // reaching a hidden node by another route brings it back
     newIds.forEach((i) => S.hidden.delete(i));
     mergePayload(p);
@@ -448,7 +483,7 @@ async function doExpand(nodeId, relation, opts = {}) {
       + `leaves ${metrics ? metrics.leaves.max : '?'} px max`);
     return metrics;
   } catch (err) {
-    S.history.abandon();
+    S.history.abandon(step);
     toast('expand failed: ' + err.message);
     return null;
   } finally {
@@ -509,7 +544,21 @@ function select(id, kind = 'node') {
 
 function el(id) { return document.getElementById(id); }
 
+/**
+ * The toolbar's toggles are a VIEW of S, so every repaint re-reads S rather
+ * than trusting the click that set them. Undo restores `S.bundle` from the
+ * snapshot, and before this the `bundle x-container` button stayed lit while
+ * the map had already gone back to individual edges.
+ */
+function syncToolbar() {
+  const bb = document.getElementById('bundle');
+  if (bb) bb.classList.toggle('on', !!S.bundle);
+  const g = document.getElementById('grey');
+  if (g) g.checked = !!S.greyInactive;
+}
+
 function paintPanels(view) {
+  syncToolbar();
   paintHistory();
   paintHidden();
   el('findings').innerHTML = S.findings.length
@@ -825,6 +874,13 @@ async function loadView(name = 'default') {
     S.layout.centre.set(id, { x: b.x, y: b.y, _w: b.w, _h: b.h });
     S.layout.size.set(id, { w: b.w, h: b.h, cols: 0, rows: 0, cell: LEAF, slots: 0, kids: 0 });
   }
+  // Nested container boxes are saved in `sizes`, and reading them back is not
+  // optional: without it a RIA store came back as a 210 x 76 leaf, its centre
+  // 735.68 px from where it was saved, with its 40 children drawn outside it.
+  for (const [id, b] of Object.entries(v.sizes || {})) {
+    if (S.layout.size.has(id)) continue;
+    S.layout.size.set(id, { w: b.w, h: b.h, cols: 0, rows: 0, cell: LEAF, slots: 0, kids: 0 });
+  }
   for (const [id, l] of Object.entries(v.local || {})) S.layout.local.set(id, { x: l.x, y: l.y });
   S.layout.lastTop = new Set(Object.keys(v.containers || {}));
   for (const id of S.visible) {
@@ -832,7 +888,11 @@ async function loadView(name = 'default') {
     if (kids.length) S.layout.lastKids.set(id, new Set(kids));
   }
   await render({ relayout: false, reason: 'restore' });
-  setTheme(v.view && v.view.theme ? v.view.theme : S.theme);
+  // setTheme rebuilds the graph and restores the zoom it found on the way in;
+  // the saved zoom has to be applied AFTER that, or the pre-load zoom wins and
+  // a reloaded view comes back at the wrong scale (measured: saved 0.4821,
+  // restored 1.6).
+  await setTheme(v.view && v.view.theme ? v.view.theme : S.theme);
   if (v.view) { cy.zoom(v.view.zoom); cy.pan(v.view.pan); compensateZoom(cy); }
   toast(`restored view '${name}' — ${v.visible.length} nodes, no layout engine ran`);
   return v;
@@ -846,7 +906,7 @@ function setTheme(t) {
   const z = cy.zoom(), p = cy.pan();
   cy.elements().remove();      // restyle an EMPTY graph, then rebuild
   cy.style(cyStyle(t));
-  render({ relayout: false, reason: 'theme' }).then(() => {
+  return render({ relayout: false, reason: 'theme' }).then(() => {
     cy.zoom(z); cy.pan(p); compensateZoom(cy);
   });
 }
@@ -956,12 +1016,11 @@ function shell() {
     };
   });
   const bb = document.getElementById('bundle');
-  const syncBundle = () => bb.classList.toggle('on', S.bundle);
-  syncBundle();
+  syncToolbar();
   bb.onclick = async () => {
     S.history.begin(S.bundle ? 'unbundle cross-container edges' : 'bundle cross-container edges');
     S.bundle = !S.bundle;
-    syncBundle();
+    syncToolbar();
     await render({ fit: false, reason: 'bundle', relayout: false });
     paintPanels(S.view);
   };

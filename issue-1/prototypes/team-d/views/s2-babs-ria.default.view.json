@@ -4,44 +4,32 @@
     "h:discovery": {
       "h": 334,
       "w": 330,
-      "x": 165,
-      "y": 167
+      "x": 135,
+      "y": 77
     },
     "h:lena": {
       "h": 256,
       "w": 506,
-      "x": -354,
-      "y": 167
+      "x": -384,
+      "y": 77
     },
     "h:ria": {
       "h": 946,
       "w": 1510,
-      "x": 1186,
-      "y": 563
+      "x": 1156,
+      "y": 77
     }
   },
-  "expansions": [
-    {
-      "node": "d:ria",
-      "relation": "part:out"
-    },
-    {
-      "node": "d:super",
-      "relation": "remote:out"
-    },
-    {
-      "node": "d:super",
-      "relation": "subdataset:out"
-    },
-    {
-      "node": "d:super",
-      "relation": "worktree_of:in"
-    }
-  ],
+  "expansions": [],
   "format": "worldmap-view/2-twotier",
   "generator": "team-d two-tier",
   "layout_engine": "tier1 graphviz/dot via @hpcc-js/wasm 2.35.0 (format json/xdot) over containers only; tier2 fcose 2.2.0 over leaves in container-local coordinates; both in a Web Worker",
   "local": {
+    "d:local-super": {
+      "in": "h:lena",
+      "x": 30,
+      "y": 48
+    },
     "d:ria": {
       "in": "h:ria",
       "x": 30,
@@ -264,21 +252,21 @@
     },
     "d:wt-fix": {
       "in": "h:lena",
-      "x": 30,
+      "x": 266,
       "y": 48
     },
     "d:wt-old": {
       "in": "h:lena",
-      "x": 266,
-      "y": 48
+      "x": 30,
+      "y": 150
     },
     "d:wt-qa": {
       "in": "h:lena",
-      "x": 30,
+      "x": 266,
       "y": 150
     }
   },
-  "saved_at": "2026-08-26T03:40:10Z",
+  "saved_at": "2026-08-27T21:22:45Z",
   "scenario": "s2-babs-ria",
   "sizes": {
     "d:ria": {
@@ -293,13 +281,14 @@
   "view": {
     "labels": "demand",
     "pan": {
-      "x": 348,
-      "y": 250
+      "x": 368,
+      "y": 487
     },
     "theme": "dark",
-    "zoom": 0.4821
+    "zoom": 0.4899
   },
   "visible": [
+    "d:local-super",
     "d:ria",
     "d:ria-sub-001",
     "d:ria-sub-002",

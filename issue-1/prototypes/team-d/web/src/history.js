@@ -33,10 +33,11 @@ export class History {
     this.onchange = () => {};
   }
 
-  /** Capture the state a step is about to change. Call BEFORE mutating. */
+  /** Capture the state a step is about to change. Call BEFORE mutating.
+   *  Returns the entry, which is the token `abandon()` wants back. */
   begin(label) {
     const S = this.S;
-    this.past.push({
+    const entry = {
       label,
       visible: new Set(S.visible),
       collapsed: new Set(S.collapsed),
@@ -45,15 +46,29 @@ export class History {
       bundle: S.bundle,
       expansions: S.expansions.slice(),
       layout: snapMaps(S.layout),
-    });
+    };
+    this.past.push(entry);
     if (this.past.length > LIMIT) this.past.shift();
     this.future.length = 0;          // a new step invalidates the redo branch
     this.onchange();
+    return entry;
   }
 
-  /** Drop the pending entry when a step turned out to change nothing. */
-  abandon() {
-    this.past.pop();
+  /**
+   * Drop the pending entry when a step turned out to change nothing.
+   *
+   * It must drop the caller's OWN entry, not simply the newest one. A probe
+   * runs across awaits, so another step (a drag) can open and close inside
+   * it; a blind `pop()` then ate the drag's entry and left a 297 px move that
+   * could not be undone, and that the next undo silently reverted.
+   */
+  abandon(entry) {
+    if (entry) {
+      const i = this.past.lastIndexOf(entry);
+      if (i >= 0) this.past.splice(i, 1);
+    } else {
+      this.past.pop();
+    }
     this.onchange();
   }
 

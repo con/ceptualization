@@ -18,9 +18,13 @@ this is.
 ```
 
 Numbers: [`COMPARISON.md`](COMPARISON.md). Criticism:
-[`UX-FINDINGS.md`](UX-FINDINGS.md). Raw measurements:
+[`UX-FINDINGS.md`](UX-FINDINGS.md), and
+[`UX-DRAG-BUNDLE.md`](UX-DRAG-BUNDLE.md) for drag × bundle × collapse × hide ×
+undo × save — the combinations, where seven defects were found. Raw
+measurements:
 `tools/last-metrics.json`, `tools/last-drive.json`,
-`tools/last-export-check.json`, `tools/last-screenshot-check.json`.
+`tools/last-export-check.json`, `tools/last-screenshot-check.json`,
+`tools/last-dragbundle.json`.
 
 ---
 
@@ -156,6 +160,9 @@ tools/
   drive.mjs        189   every PNG in screenshots/
   export-check.mjs  68   exports/ + the file:// verification
   check-screenshots.mjs  the blank detector
+  dragbundle.mjs  1149   the drag x bundle x collapse x hide x undo x save
+                         probes; drives a REAL mouse and fails loudly when a
+                         drag grabs nothing
 ```
 
 ---

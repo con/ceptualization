@@ -51,10 +51,17 @@ it is a data-model property, portable to any renderer — not a library choice.
 
 It keeps paying. Drag-to-reposition was two lines of write-back *because* of
 this model: a container owns a world centre, so moving it carries its children
-for free; a repository owns an offset from its parent's top-left, so dragging
-it cannot take it out of the box, and its placement is already in the saved
-view. A layout-owned geometry would have needed pinning, constraint solving
-and a separate persistence path for all three.
+for free; a repository owns an offset from its parent's top-left, so its
+placement is already in the saved view. A layout-owned geometry would have
+needed pinning, constraint solving and a separate persistence path for all
+three.
+
+The correction to that paragraph is instructive. It also claimed the offset
+model meant a drag "cannot take a repository out of the box" — it does not.
+The model makes the offset *cheap and durable*; it says nothing about its
+range, and without a clamp a drag put a repository 552 px outside its box. A
+good data model removes work; it does not remove the need to bound an input.
+The clamp is now there, and §4a states the bound as a test.
 
 ## 3. Feature ledger
 
@@ -66,11 +73,11 @@ and a separate persistence path for all three.
 | Expansion never moves already-placed nodes | ✅ | 0 px on 16/17 expansions; control arm at 10/17 up to 607 px |
 | `reveal all` — show an entire crawled map at once | ✅ | crawls are already on disk; probing them one relation at a time is theatre |
 | **Undo / redo** of exploration steps | ✅ | full history to 100 steps, jump-to-point, `Ctrl+Z` / `Ctrl+Shift+Z`; [spec](./exploration-history-and-undo.md) |
-| **Hide node / hide container** | ✅ | leaves the view, stays in the store, returns when another route reaches it; undoable |
+| **Hide node / hide container** | ✅ built, **one wrong intermediate state** | leaves the view, stays in the store, returns when another route reaches it; undoable. But `hide node` on a *container* leaves its children drawn and re-parents them into the root set: measured 769.41 px of movement and two repositories floating outside any box. Reversible, still wrong |
 | Root set + "N nodes not reachable from here" | ✅ | all three round-1 teams silently lost a component without it |
 | `contains` as a first-class walkable relation | ✅ | derived from `parent`; without it a quarter of s3 is unreachable |
 | Collapse containers, aggregating edges not just hiding nodes | ✅ | 86→7 and 66→3 edges; node-hiding alone made frames *slower* |
-| **Bundle cross-container edges** into one arrow per container pair | ✅ | 26 → **7** drawn edges on a real crawl; edges *inside* a container are left alone, since those are what the reader is actually looking at |
+| **Bundle cross-container edges** into one arrow per container pair | ✅ built, **scenario-dependent** | roll-up is sound and conserves every edge (§4a rule 18); reduction measured at **47.1 %** on s2 (45 cross-container edges → 4 arrows) but **1.5 %** on s3 (66 → 65), where 60 of 68 nodes share one container and only 3 edges cross a boundary at all. Edges *inside* a container are left alone by design — which is exactly s3's problem |
 | Perspectives (named view profiles over one graph) | 💭 | prototyped by Team C; not in the chosen line |
 | Live click-to-probe against real ssh | ❌ not built | crawler is offline; ssh design specified, unimplemented |
 
@@ -85,7 +92,7 @@ and a separate persistence path for all three.
 | Grey out forks with nothing new | ✅ | 52 of 60 in the s3 fixture |
 | **Node badges** (health / annex policy / storage / topology / form) | ✅ | glyph-first, priority-ordered, capped at 4 + `+N`, per-group toggles persisted; [spec](./node-badges-and-relation-details.md) |
 | Layout off the main thread | ✅ | both tiers in a Web Worker; longest frame 416→100–117 ms |
-| **Drag to reposition** a container, or a repository inside one | ✅ | container drag moves its children and **nothing else** (0.00 px); a leaf drag moves only itself and stays inside its box; both undoable and persisted |
+| **Drag to reposition** a container, or a repository inside one | ✅ built, **seven defects found and fixed after the first ✅** | container drag moves its children and nothing else (0.00 px), and undo/redo of a move is 0.00 px — both held. The rest of the first ✅ was premature: a leaf did **not** stay inside its box (552 px outside), `S.moved` was never read so rule 9 was unimplemented (a collapse next door moved a hand-placed box 513 px), a drag during a probe was un-undoable (297 px), and hide→show lost a placement (236 px). All fixed and re-measured at 0.00 px; requirements in §4a, evidence in [UX-DRAG-BUNDLE](./prototypes/team-d/UX-DRAG-BUNDLE.md) |
 | **Relation details panel** (click an edge, see the remote) | ✅ | a relation is selectable in its own right; shows remote name, URL/pushurl, resolution, `annex-ignore`, the forge assumption marked as such, recorded annex UUID, trust, ahead/behind with its staleness, and every name the peer is called by. Bundled arrows list their members and drill down. The two costly rows (`ls-remote` branch table, content diff) are present as disabled actions |
 | Node text legible at fit zoom | ❌ open | 6.8 px; only *edge* labels were fixed |
 | Semantic zoom / "balloons" from issue #5 | 💭 | Team C prototyped; not in the chosen line |
@@ -112,7 +119,7 @@ and a separate persistence path for all three.
 | Feature | Status | Notes |
 | --- | --- | --- |
 | Save / load / continue a view | ✅ | 0.462 px reload drift; 16 of 199 diff lines per expansion |
-| Hand-arranged positions survive save / reload | ✅ | 0.01 px drift on a dragged node across save + load |
+| Hand-arranged positions survive save / reload | ✅ **after a fix** | 0.01 px on a *top-level* node was the only case tested. Nested container sizes were saved and never read back: a RIA store reloaded as a 210×76 leaf, 735.68 px out, its 40 children drawn outside it — and re-saving wrote the loss to disk. Now 0.48 px worst over 51 nodes, and save→load→save is a fixpoint |
 | Self-contained single-file HTML export | ✅ | 469–511 kB, zero external refs, verified over `file://` |
 | **Version stamping** | ✅ | `git describe --always --dirty` in the footer; crawler stamps `tool_version`, `git_version`, `git_annex_version`, `crawled_at` |
 | Mermaid export for pasting into an issue | ❌ not built | how issue #1 began; still the cheapest sharing path |
@@ -140,12 +147,115 @@ accident.
    and cross-container bundling are the same operation with a different notion
    of "who represents me"; a second aggregation path would drift out of sync.
 9. **User placement outranks the layout engine.** A dragged node is pinned and
-   later layout runs work around it.
+   later layout runs work around it. This rule was stated here for a release
+   in which the pinned set was recorded and never read; stating a rule is the
+   moment to measure whether it holds.
+
+### 4a. What drag, bundle, collapse, hide, undo and save must guarantee
+
+The features above were each verified alone. Their *combinations* were not, and
+seven of them were broken — four at high severity, two contradicting sentences
+elsewhere in this file. These are the requirements a change to any one of them
+must not break, each written so that it is a measurement. Bracketed numbers are
+what the current build reports; the driver is
+[`prototypes/team-d/tools/dragbundle.mjs`](./prototypes/team-d/tools/dragbundle.mjs).
+
+**Placement**
+
+1. Dragging a container must move that container and its descendants by the
+   drag vector and **every other node by 0 px**. [364.21 px carried; 0.00 px
+   over the other 22]
+2. Dragging a repository must move **only** that repository (0 px for every
+   other node) and must leave it **inside its container's box** — its drawn
+   rectangle within the parent's, on all four sides. [0.00 px; inside]
+3. A container box is sized from its child *count*, so a drag that the clamp
+   reduces to nothing must be **refused explicitly**: no history entry, and the
+   user told why. A silent snap-back is a failure. [0.00 px moved, 0 history
+   entries, toast raised]
+4. The pinned set is not decoration: every layout run must receive it, and no
+   layout run may move a pinned node. [tier 2 reports `pinned: 39` of 40]
+
+**Nothing else moves**
+
+5. Expanding a node inside container A must move **0 px** of anything outside
+   A, including a container the user has dragged. [0.00 px over 18 nodes]
+6. Collapsing or expanding container A must move **0 px** of container B,
+   whether or not A and B overlap. Separation exists to make room for
+   *growth*: an overlap that existed before a resize must be left alone, or
+   the layout will undo the user's arrangement to satisfy a margin nobody
+   asked for. [0.00 px over 51 nodes; was 513.31 px]
+7. A collapse → expand round trip must return every node to within 0 px of
+   where it started, *after* an arbitrary number of drags. [0.00 px]
+
+**Undo**
+
+8. Undo of a move must restore **0.00 px**; redo must re-apply **0.00 px**.
+   [0.00 / 0.00, including interleaved with collapses]
+9. Every user action that changes the view must leave **exactly one** history
+   entry, and a step that abandons its entry must abandon **its own**. A step
+   runs across awaits, so a second step can open and close inside it; a
+   history that pops blindly loses the wrong one. [0 orphaned entries]
+10. No gesture may mutate the view while a probe is in flight. Either refuse it
+    and say so, or make it a first-class step — never let it land inside
+    someone else's undo entry. [refused, `S.busy` guard]
+11. Every toolbar toggle that undo can change must be **re-read from state on
+    every repaint**, not remembered from the last click. [bundle button matches
+    `S.bundle`]
+
+**Hide**
+
+12. Hiding a node must move **0 px** of everything still shown. [0.00 px over
+    50]
+13. Showing a node the user placed by hand must return it to **0 px** of where
+    they put it. [0.00 px; was 236.52 px] A node the *engine* placed may be
+    re-placed, and that is a stated choice rather than an accident.
+14. Hiding a container must not change the containment of anything: a node
+    whose parent is hidden must not become a root. **Currently violated** —
+    769.41 px of movement, children drawn outside any box.
+
+**Save / load**
+
+15. Save → load → save must be a **fixpoint**: the second file equals the first
+    apart from the timestamp. Anything the view file stores and the loader
+    ignores is silent data loss that compounds on every save. [344 = 344 lines,
+    1 differing line, the timestamp; it caught both a lost size table and a
+    lost zoom]
+16. Reload must reproduce every node position to within 1 px and every
+    container box to its exact saved size. [0.48 px worst over 51 nodes]
+17. One user action must change **O(1) lines** of the canonical view file, not
+    O(nodes). [1 line of 344 for a container move; 14–16 of ~199 for an
+    expansion, the spread being the two `saved_at` lines]
+
+**Aggregation**
+
+18. Bundling and collapse are the same roll-up, so in every combination of the
+    two, `Σ (member counts of drawn edges) + (edges folded inside a box)` must
+    equal the number of raw drawable edges. No edge may be counted twice or
+    disappear. [66 = 66 in all five states of s3; also holds on s1 and s2]
+19. Turning bundling off must restore the **exact** set of individual edge ids,
+    and toggling it either way must move **0 px** of geometry — it is an edge
+    operation, not a layout one. [exact set; 0.00 px]
+20. An aggregated edge must not present a summed `ahead`/`behind` as if it were
+    one repository's. [suppressed for `count > 1`]
+21. An arrow that stands for N edges must offer a way to see those N edges.
+    [the relation panel lists them; a `×2` bundle offers both members]
 
 ## 5. Known gaps and untested claims
 
 * **Nothing has been tested above 68 real nodes.** Every scale claim across
   all four prototypes is extrapolation from synthetic data.
+* **A ✅ that names only the happy path is not a ✅.** Drag and bundling were
+  both marked "built & verified" here after each was measured *alone*. A pass
+  over their combinations found seven defects, four of them high severity, two
+  contradicting sentences in this file. Every future ✅ on an interactive
+  feature must name the combination it was tested in.
+  ([UX-DRAG-BUNDLE](./prototypes/team-d/UX-DRAG-BUNDLE.md) is that pass.)
+* **Two interactions are still known-wrong**, recorded as such in §4a: hiding
+  a container orphans its children (rule 14), and a container dropped on top
+  of another stays overlapping — stable and reversible since the separation
+  fix, but with no feedback that it happened. A third is a limit rather than a
+  bug: a container box is sized from its child count, so in 4 of 9 s1
+  containers a repository has **0 px** of room to be dragged within.
 * Rendering was measured on **software WebGL** (SwiftShader), ±40 % run to
   run; treat frame times as ordering, not magnitude.
 * **git-annex is not installed in the development sandbox**, so the storage
@@ -158,12 +268,16 @@ accident.
 
 ## 6. Next, in order
 
-1. **Wire `git annex info` / `git annex find`** into the crawler and behind
+1. **Close the two known-wrong interactions in §4a** and the box-sizing limit:
+   hiding a container must not orphan its children (rule 14); a container box
+   should grow to its children's actual extent so a hand drag is not clamped
+   to nothing; and an overlapping drop should say that it overlapped.
+2. **Wire `git annex info` / `git annex find`** into the crawler and behind
    the two disabled buttons in the relation panel, so storage badges and
    content comparison carry real numbers instead of placeholders.
-2. **Persistence into the repo** — `.git/orinoco/` plus the `orinoco` branch,
+3. **Persistence into the repo** — `.git/orinoco/` plus the `orinoco` branch,
    which turns a crawl into something shareable.
-3. **The two-collections test** — the CON research-group graph and the git
+4. **The two-collections test** — the CON research-group graph and the git
    worldmap in one store, one UI, two perspectives. This is the cheapest
    proof of the pluggability claim, on data that already exists.
-4. Fork discovery and identity resolution (issues #6 and the identity work).
+5. Fork discovery and identity resolution (issues #6 and the identity work).
