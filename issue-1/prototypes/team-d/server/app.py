@@ -38,6 +38,7 @@ GET  /                              the Vite app (web/dist)
 import json
 import mimetypes
 import os
+import subprocess
 import random
 import sys
 import time
@@ -110,6 +111,21 @@ def walkable_for(wm):
     present.add("contains")
     return [k for k in WALKABLE_BASE if k in present] + \
            sorted(present - set(WALKABLE_BASE))
+
+def tool_version():
+    """`git describe --always --dirty` of the checkout this is running from,
+    so a screenshot or a saved view names the exact code that produced it."""
+    try:
+        out = subprocess.run(
+            ["git", "-C", ROOT, "describe", "--always", "--dirty", "--tags"],
+            capture_output=True, text=True, timeout=5)
+        v = out.stdout.strip()
+        return v or "unknown"
+    except Exception:
+        return "unknown"
+
+
+VERSION = tool_version()
 
 _cache = {}
 
@@ -342,6 +358,9 @@ def seed_payload(scenario):
         "total": {"nodes": len(wm["nodes"]), "edges": len(wm["edges"])},
         "reach": reach_payload(scenario, sorted(visible)),
         "walkable": walkable_for(wm),
+        "viewer_version": VERSION,
+        "map_generator": wm.get("generator") or wm.get("generated_from"),
+        "map_tool_version": wm.get("tool_version"),
     }
 
 
@@ -398,6 +417,9 @@ def materialize(scenario, ids):
         "total": {"nodes": len(wm["nodes"]), "edges": len(wm["edges"])},
         "reach": reach_payload(scenario, sorted(visible)),
         "walkable": walkable_for(wm),
+        "viewer_version": VERSION,
+        "map_generator": wm.get("generator") or wm.get("generated_from"),
+        "map_tool_version": wm.get("tool_version"),
     }
 
 
@@ -692,6 +714,7 @@ def main():
     print(f"team-d worldmap server on http://127.0.0.1:{port}", flush=True)
     print(f"  scenarios: {SCENARIO_DIR} -> {list(SCENARIOS)}", flush=True)
     print(f"  static:    {DIST}", flush=True)
+    print(f"  version:   {VERSION}", flush=True)
     srv.serve_forever()
 
 

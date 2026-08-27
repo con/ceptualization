@@ -40,6 +40,7 @@ export class History {
       label,
       visible: new Set(S.visible),
       collapsed: new Set(S.collapsed),
+      hidden: new Set(S.hidden),
       expansions: S.expansions.slice(),
       layout: snapMaps(S.layout),
     });
@@ -58,6 +59,7 @@ export class History {
     const S = this.S;
     S.visible = new Set(entry.visible);
     S.collapsed = new Set(entry.collapsed);
+    S.hidden = new Set(entry.hidden || []);
     // S.edges and S.byId are KNOWLEDGE and are never rolled back: edges are
     // filtered by `visible` at render time, so hiding a node hides its edges.
     // Truncating them would make redo impossible and would discard a crawled
@@ -74,6 +76,7 @@ export class History {
       label,
       visible: new Set(S.visible),
       collapsed: new Set(S.collapsed),
+      hidden: new Set(S.hidden),
       expansions: S.expansions.slice(),
       layout: snapMaps(S.layout),
     };

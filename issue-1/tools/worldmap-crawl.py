@@ -20,6 +20,27 @@ from urllib.parse import urlparse
 
 T0 = int(time.time())
 
+
+def tool_version():
+    """`git describe --always --dirty` of the checkout this script lives in,
+    so a produced map names the exact tooling that made it."""
+    here = os.path.dirname(os.path.abspath(__file__))
+    try:
+        p = subprocess.run(["git", "-C", here, "describe", "--always", "--dirty", "--tags"],
+                           capture_output=True, text=True, timeout=5)
+        return p.stdout.strip() or "unknown"
+    except Exception:
+        return "unknown"
+
+
+def annex_version():
+    try:
+        p = subprocess.run(["git", "annex", "version", "--raw"],
+                           capture_output=True, text=True, timeout=5)
+        return p.stdout.strip() or None
+    except Exception:
+        return None
+
 def git(repo, *args, timeout=20):
     try:
         p = subprocess.run(["git", "-C", str(repo), *args], capture_output=True,
@@ -166,6 +187,15 @@ def ahead_behind(repo, local_ref, remote_ref):
     except ValueError:
         return (None, None)
 
+# Hosts that cannot carry annexed content over plain git. This is an
+# ASSUMPTION, deliberately short and overridable, and it is recorded on the
+# node as `annex_incapable_assumed` so the UI can render it differently from an
+# observed `annex-ignore`. A git-lfs special remote to the same host CAN carry
+# content -- annex-capability is a property of the route, not the host -- so
+# this is never applied to a host node, only to a plain-git distribution.
+ANNEX_INCAPABLE_FORGES = {"github.com", "gitlab.com", "bitbucket.org"}
+
+
 # ---------------------------------------------------------------- crawl
 def crawl(seeds, depth, use_ls_remote, name):
     nodes, edges, findings = {}, [], []
@@ -198,6 +228,10 @@ def crawl(seeds, depth, use_ls_remote, name):
                           "annex_mode": "none", "packaging": [], "url": canonical,
                           "expanded": False, "observed_at": T0, "via": "localhost",
                           "probed": False}
+            if (kind in ("https", "http", "ssh", "git")
+                    and host in ANNEX_INCAPABLE_FORGES
+                    and not (extra or {}).get("special_remote_type")):
+                nodes[nid]["annex_incapable_assumed"] = True
             if extra: nodes[nid].update(extra)
         return nid
 
@@ -244,6 +278,13 @@ def crawl(seeds, depth, use_ls_remote, name):
                      resolution="resolved" if (a is not None or nodes[tid].get("probed"))
                                  else "url-only", url=rurl)
             # annex trust for this remote, if the annex branch knows it
+            ig = git(path, "config", "--get", f"remote.{rname}.annex-ignore")
+            if ig and ig.lower() in ("true", "yes", "1"):
+                edges[-1]["annex_ignore"] = True
+                nodes[tid]["annex_ignored_by"] = nodes[tid].get("annex_ignored_by", 0) + 1
+            pu = git(path, "config", "--get", f"remote.{rname}.pushurl")
+            if pu:
+                edges[-1]["pushurl"] = pu
             ru = git(path, "config", "--get", f"remote.{rname}.annex-uuid")
             if ru:
                 nodes[tid]["annex_uuid"] = ru
@@ -343,6 +384,11 @@ def crawl(seeds, depth, use_ls_remote, name):
                       "clones known only through the git-annex branch",
                       "worktrees, submodules, ahead/behind from local refs"],
         "generated_from": "worldmap-crawl.py",
+        "generator": "worldmap-crawl.py",
+        "tool_version": tool_version(),
+        "git_version": (git(".", "--version") or "").replace("git version ", "") or None,
+        "git_annex_version": annex_version(),
+        "crawled_at": T0,
         "nodes": list(nodes.values()), "edges": edges, "findings": findings,
         "stats": {"nodes": len(nodes), "edges": len(edges), "hosts": len(hosts),
                   "probed": probed, "findings": len(findings)},

@@ -8,6 +8,7 @@ import { applyLabelPolicy, compensateZoom, measureRendered } from './labels.js';
 import { worldPositions } from './viewpos.js';
 import { LEAF } from './geometry.js';
 import { History } from './history.js';
+import { GROUPS } from './badges.js';
 
 const API = '';
 let SCENARIOS = ['s1-spacetop', 's2-babs-ria', 's3-forks'];
@@ -25,6 +26,9 @@ const S = {
   timings: {},
   view: null,
   history: null,
+  hidden: new Set(),
+  badges: Object.fromEntries(Object.entries(GROUPS).map(([k, v]) => [k, v.on])),
+  version: null,
 };
 let cy = null;
 
@@ -65,6 +69,51 @@ const childrenVisible = (id) => {
   if (S.collapsed.has(id)) return [];
   return [...S.visible].filter((k) => S.byId[k] && S.byId[k].parent === id).sort();
 };
+
+/** Highest-severity finding touching each node. */
+function severityMap() {
+  const m = new Map();
+  const rank = { info: 1, warning: 2, error: 3 };
+  for (const f of S.findings) {
+    for (const id of f.nodes || []) {
+      const cur = m.get(id);
+      if (!cur || rank[f.severity] > rank[cur]) m.set(id, f.severity);
+    }
+  }
+  return m;
+}
+
+/** Relations already walked, per node, so badges count only what is left. */
+function walkedMap() {
+  const m = new Map();
+  for (const e of S.expansions) {
+    if (!m.has(e.node)) m.set(e.node, new Set());
+    m.get(e.node).add(`${e.relation}:out`);
+  }
+  return m;
+}
+
+/**
+ * Nodes that EVERY inbound remote edge annex-ignores. Per the spec this is a
+ * derived graph finding, not a stored fact: annex-ignore lives on the edge
+ * because clones disagree, and only the unanimous case means "no route to
+ * content here at all". Needs >= 2 edges, or it is just one clone's setting.
+ */
+function ignoredByAllSet() {
+  const tally = new Map();
+  for (const e of S.edges) {
+    if (e.kind !== 'remote') continue;
+    if (!S.visible.has(e.source) || !S.visible.has(e.target)) continue;
+    const t = tally.get(e.target) || { n: 0, ig: 0 };
+    t.n += 1;
+    if (e.annex_ignore) t.ig += 1;
+    tally.set(e.target, t);
+  }
+  const out = new Set();
+  for (const [id, t] of tally) if (t.n >= 2 && t.n === t.ig) out.add(id);
+  return out;
+}
+
 const model = () => ({
   byId: S.byId,
   edges: S.edges,
@@ -101,7 +150,11 @@ async function render({ fit = false, reason = '', inside = null, relayout = true
   const mySeq = ++renderSeq;
   const t0 = performance.now();
   const m = model();
-  const view = aggregate(m, S.visible, S.collapsed);
+  // Hidden nodes leave the VIEW, never the store: they can be revealed again
+  // from the Hidden panel, and a later expansion from another clone that
+  // reaches them un-hides them automatically.
+  const shownSet = new Set([...S.visible].filter((i) => !S.hidden.has(i)));
+  const view = aggregate(m, shownSet, S.collapsed);
 
   let metrics = null;
   if (relayout) {
@@ -135,6 +188,10 @@ async function render({ fit = false, reason = '', inside = null, relayout = true
     disagree: dis,
     frontier: frontierSet(),
     collapsed: S.collapsed,
+    badgeGroups: S.badges,
+    severityOf: severityMap(),
+    walkedOf: walkedMap(),
+    ignoredByAll: ignoredByAllSet(),
   });
 
   cy.startBatch();
@@ -185,11 +242,14 @@ async function loadScenario(name) {
   S.history.reset();
   S.byId = {}; S.edges = []; S.findings = []; S.visible = new Set();
   S.collapsed = new Set(); S.expansions = []; S.selected = null;
+  S.hidden = new Set();
   S.layout = new TwoTierLayout();
   const t0 = performance.now();
   const p = await api(`/api/seed/${name}`);
   S.title = p.title; S.subtitle = p.subtitle || '';
   S.walkable = p.walkable;
+  S.version = { viewer: p.viewer_version, map: p.map_tool_version,
+                generator: p.map_generator };
   mergePayload(p);
   S.timings.seedMs = +(performance.now() - t0).toFixed(1);
   await render({ fit: true, reason: 'seed' });
@@ -199,6 +259,58 @@ async function loadScenario(name) {
   paintPanels(S.view);
 }
 
+
+// ---------------------------------------------------------------- hide
+
+/** Hide a node, or a container and everything inside it. */
+async function hideNode(id, withDescendants) {
+  if (S.busy) return;
+  const n = S.byId[id];
+  S.history.begin(`hide ${withDescendants ? 'container ' : ''}${labelOf(id)}`);
+  S.busy = true;
+  try {
+    const drop = new Set([id]);
+    if (withDescendants) {
+      let grew = true;
+      while (grew) {
+        grew = false;
+        for (const k of S.visible) {
+          const par = S.byId[k] && S.byId[k].parent;
+          if (par && drop.has(par) && !drop.has(k)) { drop.add(k); grew = true; }
+        }
+      }
+    }
+    drop.forEach((k) => S.hidden.add(k));
+    if (drop.has(S.selected)) S.selected = null;
+    await render({ fit: false, reason: 'hide', relayout: true });
+    paintPanels(S.view);
+    toast(`hid ${drop.size} node${drop.size === 1 ? '' : 's'} · undo with Ctrl+Z`);
+  } finally { S.busy = false; }
+}
+
+async function unhide(ids) {
+  if (S.busy) return;
+  S.history.begin(ids.length === 1 ? `show ${labelOf(ids[0])}` : `show ${ids.length} hidden`);
+  S.busy = true;
+  try {
+    ids.forEach((k) => S.hidden.delete(k));
+    await render({ fit: false, reason: 'unhide', relayout: true });
+    paintPanels(S.view);
+  } finally { S.busy = false; }
+}
+
+function paintHidden() {
+  const el2 = document.getElementById('hidden');
+  if (!el2) return;
+  const ids = [...S.hidden].filter((i) => S.visible.has(i));
+  if (!ids.length) { el2.innerHTML = '<p class="muted">nothing hidden</p>'; return; }
+  el2.innerHTML = `<button class="histrow" data-all="1"><span>show all</span><b>${ids.length}</b></button>`
+    + ids.slice(0, 40).map((i) =>
+      `<button class="histrow" data-id="${i}"><span>${labelOf(i)}</span><b>show</b></button>`).join('');
+  el2.querySelectorAll('.histrow').forEach((b) => {
+    b.onclick = () => unhide(b.dataset.all ? ids : [b.dataset.id]);
+  });
+}
 
 // ---------------------------------------------------------------- history
 
@@ -265,6 +377,8 @@ async function doExpand(nodeId, relation, opts = {}) {
     const netMs = performance.now() - t0;
     const newIds = (p.nodes || []).map((n) => n.id);
     if (!newIds.length) S.history.abandon();
+    // reaching a hidden node by another route brings it back
+    newIds.forEach((i) => S.hidden.delete(i));
     mergePayload(p);
     S.expansions.push({ node: nodeId, relation });
     const kids = new Set([...S.visible].filter((k) => {
@@ -346,6 +460,7 @@ function el(id) { return document.getElementById(id); }
 
 function paintPanels(view) {
   paintHistory();
+  paintHidden();
   el('findings').innerHTML = S.findings.length
     ? S.findings.map((f) => `<div class="finding ${f.severity}" data-n="${f.nodes.join(',')}">
         <span class="code">${f.severity}: ${f.code}</span>${f.message}</div>`).join('')
@@ -406,7 +521,10 @@ function paintPanels(view) {
     + `tier1 graphviz over <b>${[...S.visible].filter((i) => !parentOf(i)).length}</b> boxes `
     + `(${S.layout.timings.gvMs || '?'} ms) · tier2 fcose per container · both in a Web Worker · `
     + `label policy <b>${S.labelMode}</b> · zoom <b>${cy.zoom().toFixed(3)}</b> · `
-    + `edge labels rendered at <b>${compensateZoom(cy).renderedPx} px</b>`;
+    + `edge labels rendered at <b>${compensateZoom(cy).renderedPx} px</b>`
+    + (S.version ? ` · viewer <b>${S.version.viewer}</b>` : '')
+    + (S.version && S.version.map ? ` · map by <b>${S.version.generator || 'unknown'}</b> `
+        + `<b>${S.version.map}</b>` : '');
 
   el('findings').onclick = el('disagree').onclick = (ev) => {
     const t = ev.target.closest('.finding');
@@ -455,13 +573,21 @@ function paintInspector() {
     <div class="kv">${kv.join('')}</div>
     <div class="rels">${rels.map(([k, v]) =>
       `<button data-rel="${k}" class="${done.has(k) ? 'done' : ''}">${k} ${v}</button>`).join('')}</div>
-    ${n.child_count ? `<div class="rels"><button data-collapse="${n.id}">${S.collapsed.has(n.id) ? 'expand' : 'collapse'} container</button></div>` : ''}`;
+    ${n.child_count ? `<div class="rels"><button data-collapse="${n.id}">${S.collapsed.has(n.id) ? 'expand' : 'collapse'} container</button></div>` : ''}
+    <div class="rels">
+      <button data-hide="${n.id}">hide node</button>
+      ${n.child_count ? `<button data-hideall="${n.id}">hide container (${n.descendant_count || n.child_count})</button>` : ''}
+    </div>`;
   box.querySelector('.close').onclick = () => { S.selected = null; box.remove(); applyLabelPolicy(cy, { mode: S.labelMode }); };
   box.querySelectorAll('button[data-rel]').forEach((b) => {
     b.onclick = () => doExpand(n.id, b.dataset.rel);
   });
   const cb = box.querySelector('button[data-collapse]');
   if (cb) cb.onclick = () => toggleCollapse(n.id);
+  const hb = box.querySelector('button[data-hide]');
+  if (hb) hb.onclick = () => hideNode(n.id, false);
+  const hab = box.querySelector('button[data-hideall]');
+  if (hab) hab.onclick = () => hideNode(n.id, true);
   document.querySelector('.main').appendChild(box);
 }
 
@@ -566,6 +692,7 @@ function shell() {
     <h2>Findings</h2><div id="findings"></div>
     <h2>Remote-name disagreement</h2><div id="disagree"></div>
     <h2>Containers</h2><div id="containers"></div>
+    <h2>Hidden</h2><div id="hidden"></div>
     <h2>History</h2><div id="history"></div>
     <h2>Measurements</h2><div id="stats"></div>
     <h2>Legend</h2>
@@ -591,6 +718,9 @@ function shell() {
       <button id="collapse-all">collapse all</button>
       <button id="expand-all">expand all</button>
       <button id="reveal-all" title="Show every node already present in the crawled worldmap, without probing">reveal all</button>
+      <span class="sep"></span><span class="lbl">badges</span>
+      <span id="badge-toggles"></span>
+      <span class="sep"></span>
       <button id="undo" title="Undo the last exploration step (Ctrl+Z)">↶ undo</button>
       <button id="redo" title="Redo (Ctrl+Shift+Z)">↷ redo</button>
       <div class="sep"></div>
@@ -629,6 +759,25 @@ function shell() {
   document.getElementById('grey').onchange = (e) => { S.greyInactive = e.target.checked; grey(); };
   document.getElementById('collapse-all').onclick = () => collapseAll(true);
   document.getElementById('expand-all').onclick = () => collapseAll(false);
+  const bt = document.getElementById('badge-toggles');
+  try {
+    const saved = JSON.parse(localStorage.getItem('wm.badges') || 'null');
+    if (saved) Object.assign(S.badges, saved);
+  } catch (e) { /* private mode, defaults are fine */ }
+  bt.innerHTML = Object.entries(GROUPS).map(([k, g]) =>
+    `<button class="tgl" data-bg="${k}">${g.label}</button>`).join('');
+  const syncBadgeBtns = () => bt.querySelectorAll('[data-bg]').forEach((b) => {
+    b.classList.toggle('on', !!S.badges[b.dataset.bg]);
+  });
+  syncBadgeBtns();
+  bt.querySelectorAll('[data-bg]').forEach((b) => {
+    b.onclick = async () => {
+      S.badges[b.dataset.bg] = !S.badges[b.dataset.bg];
+      syncBadgeBtns();
+      try { localStorage.setItem('wm.badges', JSON.stringify(S.badges)); } catch (e) { /* ignore */ }
+      await render({ fit: false, reason: 'badges', relayout: false });
+    };
+  });
   document.getElementById('undo').onclick = doUndo;
   document.getElementById('redo').onclick = doRedo;
   window.addEventListener('keydown', (ev) => {

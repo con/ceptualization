@@ -84,6 +84,15 @@ export function nodeClasses(n, ctx) {
   return c;
 }
 
+import { badgesFor, visibleBadges } from './badges.js';
+
+/** The badge strip, as a compact string drawn above the node label. */
+export function badgeStrip(n, ctx) {
+  if (!ctx.badgeGroups) return '';
+  const bs = visibleBadges(badgesFor(n, ctx), ctx.badgeGroups);
+  return bs.map((b) => b.glyph).join(' ');
+}
+
 export function chipsFor(n, ctx) {
   const chips = [];
   if (n.type === 'host') {
@@ -145,6 +154,11 @@ export function buildElements(view, model, sizes, extras = {}) {
       dup: !!(n.annex_uuid && (extras.dupUuids || new Set()).has(n.annex_uuid)),
       disagree: dis.has(id),
       frontier: (extras.frontier || new Set()).has(id),
+      badgeGroups: extras.badgeGroups,
+      severity: (extras.severityOf || new Map()).get(id),
+      walked: (extras.walkedOf || new Map()).get(id),
+      collapsedHidden: collapsed ? n.descendant_count : 0,
+      ignoredByAll: (extras.ignoredByAll || new Set()).has(id),
     };
     const size = sizes.get(id) || { w: 210, h: 76 };
     const chips = chipsFor(n, ctx);
@@ -158,6 +172,7 @@ export function buildElements(view, model, sizes, extras = {}) {
         label: n.label || id,
         short: wrapLabel(n.label || id, isContainer ? 40 : 24),
         chips: chips.join(' · '),
+        badges: badgeStrip(n, ctx),
         names: names ? `⇄ ${names.length} names` : '',
         nameCount: names ? names.length : 0,
         raw: n,
@@ -220,7 +235,11 @@ export function cyStyle(theme) {
     }},
     { selector: 'node.dist', style: {
       label: (n) => {
-        const bits = [n.data('short')];
+        // Badges lead, because they must survive being read at fit zoom where
+        // the label text itself is ~7 px.
+        const bits = [];
+        if (n.data('badges')) bits.push(n.data('badges'));
+        bits.push(n.data('short'));
         if (n.data('chips')) bits.push(n.data('chips'));
         if (n.data('names')) bits.push(n.data('names'));
         return bits.join('\n');
@@ -231,7 +250,8 @@ export function cyStyle(theme) {
       'background-color': p.clusterFill, 'background-opacity': 1,
       'border-color': p.clusterBorder, 'border-width': 1.5,
       shape: 'round-rectangle',
-      label: 'data(short)', color: p.clusterText, 'font-size': 15, 'font-weight': 'bold',
+      label: (n) => [n.data('short'), n.data('badges')].filter(Boolean).join('  '),
+      color: p.clusterText, 'font-size': 15, 'font-weight': 'bold',
       'font-family': 'ui-sans-serif, system-ui, sans-serif',
       'text-valign': 'top', 'text-halign': 'center', 'text-margin-y': 22,
       'text-max-width': 600, 'z-index': 1, 'z-index-compare': 'manual',

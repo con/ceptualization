@@ -1,7 +1,13 @@
 # Node badges and relation details
 
-Specification. **Not yet implemented** — this is the TODO, written down
-properly so it can be built against.
+Specification.
+
+**Status:** Part 1 (badges) is **implemented** in the Team D prototype, along
+with hide/show and version stamping. Part 2 (the relation details panel) is
+**still TODO** — clicking an edge does not yet swap the panel. The
+`git annex info` / `git annex find` collection described below is specified but
+not yet wired into the crawler, so storage badges read *unknown* wherever
+git-annex is absent.
 
 Two requests, one principle: *the graph should answer questions without being
 clicked.* Today a node rectangle carries a label and the panel carries
