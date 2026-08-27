@@ -494,8 +494,9 @@ async function collapseAll(on) {
   await render({ reason: on ? 'collapse-all' : 'expand-all' });
 }
 
-function select(id) {
+function select(id, kind = 'node') {
   S.selected = id;
+  S.selectedKind = kind;
   cy.elements().unselect();
   const n = cy.getElementById(id);
   if (n.nonempty()) n.select();
@@ -596,6 +597,7 @@ function paintInspector() {
   const old = document.querySelector('.inspector');
   if (old) old.remove();
   if (!S.selected) return;
+  if (S.selectedKind === 'edge') return paintEdgeInspector();
   const n = S.byId[S.selected];
   if (!n) return;
   const kv = [];
@@ -638,6 +640,125 @@ function paintInspector() {
   if (hb) hb.onclick = () => hideNode(n.id, false);
   const hab = box.querySelector('button[data-hideall]');
   if (hab) hab.onclick = () => hideNode(n.id, true);
+  document.querySelector('.main').appendChild(box);
+}
+
+
+/**
+ * Details for a RELATION, not for the repository at either end.
+ *
+ * Ordered by cost, which is the design rather than an implementation detail:
+ * everything already crawled is shown immediately, anything needing a round
+ * trip is offered as an explicit action, and anything expensive says so.
+ * See issue-1/node-badges-and-relation-details.md part 2.
+ */
+function paintEdgeInspector() {
+  const cyEdge = cy.getElementById(S.selected);
+  let d;
+  if (cyEdge && cyEdge.nonempty()) {
+    d = cyEdge.data();
+  } else {
+    // a member of a bundle: not drawn on its own, but still inspectable
+    const raw0 = S.edges.find((e) => e.id === S.selected);
+    if (!raw0) return;
+    d = { ...raw0, members: [raw0.id], count: 1 };
+  }
+  // aggregate() wraps EVERY edge, so a lone edge arrives with members:[oneId].
+  // Only treat it as a summary when it actually summarises more than one.
+  const memberIds = (d.members || []).filter(Boolean);
+  const members = memberIds.length > 1 ? memberIds : null;
+  const raw = members ? null
+    : S.edges.find((e) => e.id === (memberIds[0] || d.id)) || d.raw || null;
+  const srcN = S.byId[d.source] || {};
+  const tgtN = S.byId[d.target] || {};
+
+  const kv = [];
+  const put = (k, v, cls = '') => {
+    if (v === undefined || v === null || v === '') return;
+    kv.push(`<span>${k}</span><div class="${cls}">${v}</div>`);
+  };
+  const ago = (ts) => {
+    if (!ts) return null;
+    const s = Math.max(0, Math.floor(Date.now() / 1000) - ts);
+    if (s < 3600) return `${Math.floor(s / 60)} min ago`;
+    if (s < 86400) return `${Math.floor(s / 3600)} h ago`;
+    return `${Math.floor(s / 86400)} d ago`;
+  };
+
+  // every name this peer is known by, across all clones on the map
+  const names = new Map();
+  for (const e of S.edges) {
+    if (e.kind !== 'remote' || e.target !== d.target || !e.remote_name) continue;
+    if (!names.has(e.remote_name)) names.set(e.remote_name, []);
+    names.get(e.remote_name).push((S.byId[e.source] || {}).label || e.source);
+  }
+
+  let body = '';
+  if (d.kind === 'contains') {
+    put('relation', 'contains');
+    put('path', raw && raw.path);
+    body = '<p class="empty">Containment has no configuration — only a path.</p>';
+  } else if (members) {
+    // an aggregated / bundled arrow
+    put('relation', `${d.kind} × ${d.count}`);
+    put('bundled', S.bundle ? 'cross-container summary' : 'collapsed container summary');
+    body = `<div class="rels">${members.slice(0, 12).map((mid) => {
+      const me = S.edges.find((e) => e.id === mid) || {};
+      const from = (S.byId[me.source] || {}).label || me.source || '?';
+      return `<button data-edge="${mid}" title="${from}">${me.remote_name || me.kind || 'edge'}</button>`;
+    }).join('')}</div>`
+      + (members.length > 12 ? `<p class="empty">and ${members.length - 12} more</p>` : '');
+  } else if (raw) {
+    put('relation', raw.kind);
+    put('remote name', raw.remote_name ? `<b>${raw.remote_name}</b>` : '<i>referenced by URL only</i>');
+    put('url', raw.url);
+    put('push url', raw.pushurl);
+    put('resolution', raw.resolution);
+    if (raw.annex_ignore) put('annex-ignore', 'yes — this clone will not ask it for content', 'warn');
+    if (tgtN.annex_incapable_assumed) {
+      put('assumed', 'host cannot carry annexed content over plain git <i>(assumption, not observed)</i>', 'muted');
+    }
+    put('recorded annex uuid', raw.annex_uuid || tgtN.annex_uuid);
+    put('trust', tgtN.trust);
+    if (typeof raw.ahead === 'number' || typeof raw.behind === 'number') {
+      put('ahead / behind', `▲${raw.ahead ?? '?'} ▼${raw.behind ?? '?'} `
+        + `<i>as of the last fetch${ago(raw.observed_at) ? ', observed ' + ago(raw.observed_at) : ''}</i>`);
+    }
+    put('observed via', raw.via);
+    if (tgtN.special_remote_type) put('special remote', tgtN.special_remote_type);
+    body = `<div class="rels">
+        <button data-todo="1" title="Not implemented: one git ls-remote round trip">branch table (ls-remote)…</button>
+        <button data-todo="1" title="Not implemented: git annex find --in=X --not --in=Y">content each side lacks…</button>
+      </div>
+      <p class="empty">Both are specified but unimplemented — see
+        node-badges-and-relation-details.md part 2.</p>`;
+  }
+
+  const box = document.createElement('div');
+  box.className = 'hud inspector';
+  box.innerHTML = `<button class="close">×</button>
+    <h3>${srcN.label || d.source} → ${tgtN.label || d.target}</h3>
+    <div class="kind">relation${d.count > 1 ? ` · ${d.count} bundled` : ''}</div>
+    ${names.size > 1 ? `<div class="names"><b style="color:var(--disagree)">this peer is called ${names.size} different names</b><br>
+      ${[...names].map(([nm, from]) => `<span class="n">${nm}</span> — by ${from.join(', ')}`).join('<br>')}</div>` : ''}
+    <div class="kv">${kv.join('')}</div>
+    ${body}
+    <div class="rels">
+      <button data-goto="${d.source}">← ${srcN.label ? 'source' : 'src'}</button>
+      <button data-goto="${d.target}">target →</button>
+    </div>`;
+  box.querySelector('.close').onclick = () => {
+    S.selected = null; box.remove(); applyLabelPolicy(cy, { mode: S.labelMode });
+  };
+  box.querySelectorAll('button[data-goto]').forEach((b) => {
+    b.onclick = () => select(b.dataset.goto, 'node');
+  });
+  box.querySelectorAll('button[data-edge]').forEach((b) => {
+    b.onclick = () => select(b.dataset.edge, 'edge');
+  });
+  box.querySelectorAll('button[data-todo]').forEach((b) => {
+    b.onclick = () => toast('not implemented yet — specified in part 2 of the badges doc');
+  });
   document.querySelector('.main').appendChild(box);
 }
 
@@ -790,7 +911,11 @@ function shell() {
   window.__cy = cy;   // exposed for the Playwright drivers
   wireDragging();
   window.__S = S;
-  cy.on('tap', 'node', (ev) => select(ev.target.id()));
+  cy.on('tap', 'node', (ev) => select(ev.target.id(), 'node'));
+  // A relation is a first-class thing in this model (RemoteLink is a reified
+  // statement carrying its own data), so it must be inspectable in its own
+  // right rather than falling through to the repository.
+  cy.on('tap', 'edge', (ev) => { ev.stopPropagation(); select(ev.target.id(), 'edge'); });
   cy.on('dbltap', 'node', (ev) => {
     if (model().childrenOf(ev.target.id()).length || S.collapsed.has(ev.target.id())) {
       toggleCollapse(ev.target.id());

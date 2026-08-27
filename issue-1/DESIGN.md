@@ -86,7 +86,7 @@ and a separate persistence path for all three.
 | **Node badges** (health / annex policy / storage / topology / form) | ✅ | glyph-first, priority-ordered, capped at 4 + `+N`, per-group toggles persisted; [spec](./node-badges-and-relation-details.md) |
 | Layout off the main thread | ✅ | both tiers in a Web Worker; longest frame 416→100–117 ms |
 | **Drag to reposition** a container, or a repository inside one | ✅ | container drag moves its children and **nothing else** (0.00 px); a leaf drag moves only itself and stays inside its box; both undoable and persisted |
-| **Relation details panel** (click an edge, see the remote) | 📋 **TODO** | currently clicking an edge still shows the repository |
+| **Relation details panel** (click an edge, see the remote) | ✅ | a relation is selectable in its own right; shows remote name, URL/pushurl, resolution, `annex-ignore`, the forge assumption marked as such, recorded annex UUID, trust, ahead/behind with its staleness, and every name the peer is called by. Bundled arrows list their members and drill down. The two costly rows (`ls-remote` branch table, content diff) are present as disabled actions |
 | Node text legible at fit zoom | ❌ open | 6.8 px; only *edge* labels were fixed |
 | Semantic zoom / "balloons" from issue #5 | 💭 | Team C prototyped; not in the chosen line |
 
@@ -158,13 +158,12 @@ accident.
 
 ## 6. Next, in order
 
-1. **Relation details panel** — the one requested feature still unbuilt, and
-   the biggest gap between what is crawled and what is legible.
-2. **Wire `git annex info` / `git annex find`** into the crawler so storage
-   badges and content comparison carry real numbers.
-3. **Persistence into the repo** — `.git/orinoco/` plus the `orinoco` branch,
+1. **Wire `git annex info` / `git annex find`** into the crawler and behind
+   the two disabled buttons in the relation panel, so storage badges and
+   content comparison carry real numbers instead of placeholders.
+2. **Persistence into the repo** — `.git/orinoco/` plus the `orinoco` branch,
    which turns a crawl into something shareable.
-4. **The two-collections test** — the CON research-group graph and the git
+3. **The two-collections test** — the CON research-group graph and the git
    worldmap in one store, one UI, two perspectives. This is the cheapest
    proof of the pluggability claim, on data that already exists.
-5. Fork discovery and identity resolution (issues #6 and the identity work).
+4. Fork discovery and identity resolution (issues #6 and the identity work).
