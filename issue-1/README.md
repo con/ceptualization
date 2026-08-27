@@ -28,6 +28,7 @@ them.
 | [vocabulary-for-clones-and-remotes.md](./vocabulary-for-clones-and-remotes.md) | **Follow-up**: what vocabulary exists for clones/remotes/submodules (verified against schema.org 18.0, ForgeFed, SEON, SWHID/purl); extend-and-map recommendation; the W3C question |
 | [distribution-modeling-and-repo-identity.md](./distribution-modeling-and-repo-identity.md) | **Follow-up**: Distribution as the class with form as instance data; why no content-based repo id can exist (measured); identity as claims over objective relations |
 | [exploration-history-and-undo.md](./exploration-history-and-undo.md) | **Spec**: undo/redo over the exploration view — why history must never roll back the store, and why a step must snapshot geometry |
+| [node-badges-and-relation-details.md](./node-badges-and-relation-details.md) | **Spec (TODO)**: at-a-glance badges on repository rectangles, annex storage sizes derived from key names, `annex-ignore` aggregates, and a details panel for the remote itself rather than the repo |
 
 ## Provenance and caveats
 
