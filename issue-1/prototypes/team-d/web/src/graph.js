@@ -180,7 +180,7 @@ export function buildElements(view, model, sizes, extras = {}) {
       },
       classes: nodeClasses(n, ctx).join(' '),
       selectable: true,
-      grabbable: false,
+      grabbable: true,
     });
   }
   // One representative edge per DISTINCT remote name pointing at a node whose

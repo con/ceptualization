@@ -1,9 +1,11 @@
 # Design: the git/git-annex worldmap
 
 **The running design document.** Every feature requested in this project, what
-was decided, whether it is built, and how that was verified. Update this file
-whenever a feature is requested, specified, implemented or measured — it is the
-one place that should never be stale.
+was decided, whether it is built, and how that was verified.
+
+> **Working rule: every code change updates this file in the same commit.**
+> A feature is not done when it runs; it is done when this ledger says so and
+> names the measurement.
 
 Covers issues [#1](https://github.com/con/ceptualization/issues/1),
 [#4](https://github.com/con/ceptualization/issues/4),
@@ -47,6 +49,13 @@ layout engine, with leaf positions stored container-local against a corner
 that never moves. That converts 980 px and 1588 px of churn into **0 px**, and
 it is a data-model property, portable to any renderer — not a library choice.
 
+It keeps paying. Drag-to-reposition was two lines of write-back *because* of
+this model: a container owns a world centre, so moving it carries its children
+for free; a repository owns an offset from its parent's top-left, so dragging
+it cannot take it out of the box, and its placement is already in the saved
+view. A layout-owned geometry would have needed pinning, constraint solving
+and a separate persistence path for all three.
+
 ## 3. Feature ledger
 
 ### Exploration
@@ -61,6 +70,7 @@ it is a data-model property, portable to any renderer — not a library choice.
 | Root set + "N nodes not reachable from here" | ✅ | all three round-1 teams silently lost a component without it |
 | `contains` as a first-class walkable relation | ✅ | derived from `parent`; without it a quarter of s3 is unreachable |
 | Collapse containers, aggregating edges not just hiding nodes | ✅ | 86→7 and 66→3 edges; node-hiding alone made frames *slower* |
+| **Bundle cross-container edges** into one arrow per container pair | ✅ | 26 → **7** drawn edges on a real crawl; edges *inside* a container are left alone, since those are what the reader is actually looking at |
 | Perspectives (named view profiles over one graph) | 💭 | prototyped by Team C; not in the chosen line |
 | Live click-to-probe against real ssh | ❌ not built | crawler is offline; ssh design specified, unimplemented |
 
@@ -75,6 +85,7 @@ it is a data-model property, portable to any renderer — not a library choice.
 | Grey out forks with nothing new | ✅ | 52 of 60 in the s3 fixture |
 | **Node badges** (health / annex policy / storage / topology / form) | ✅ | glyph-first, priority-ordered, capped at 4 + `+N`, per-group toggles persisted; [spec](./node-badges-and-relation-details.md) |
 | Layout off the main thread | ✅ | both tiers in a Web Worker; longest frame 416→100–117 ms |
+| **Drag to reposition** a container, or a repository inside one | ✅ | container drag moves its children and **nothing else** (0.00 px); a leaf drag moves only itself and stays inside its box; both undoable and persisted |
 | **Relation details panel** (click an edge, see the remote) | 📋 **TODO** | currently clicking an edge still shows the repository |
 | Node text legible at fit zoom | ❌ open | 6.8 px; only *edge* labels were fixed |
 | Semantic zoom / "balloons" from issue #5 | 💭 | Team C prototyped; not in the chosen line |
@@ -101,6 +112,7 @@ it is a data-model property, portable to any renderer — not a library choice.
 | Feature | Status | Notes |
 | --- | --- | --- |
 | Save / load / continue a view | ✅ | 0.462 px reload drift; 16 of 199 diff lines per expansion |
+| Hand-arranged positions survive save / reload | ✅ | 0.01 px drift on a dragged node across save + load |
 | Self-contained single-file HTML export | ✅ | 469–511 kB, zero external refs, verified over `file://` |
 | **Version stamping** | ✅ | `git describe --always --dirty` in the footer; crawler stamps `tool_version`, `git_version`, `git_annex_version`, `crawled_at` |
 | Mermaid export for pasting into an issue | ❌ not built | how issue #1 began; still the cheapest sharing path |
@@ -124,6 +136,11 @@ accident.
 6. **Anything hardcoded that describes the data will be wrong.** Scenario
    lists, walkable relations and forge lists all had to become derived.
 7. **A seed is not a root set.** Always report what is unreachable from here.
+8. **New roll-ups reuse `effectiveId`, they do not add a mechanism.** Collapse
+   and cross-container bundling are the same operation with a different notion
+   of "who represents me"; a second aggregation path would drift out of sync.
+9. **User placement outranks the layout engine.** A dragged node is pinned and
+   later layout runs work around it.
 
 ## 5. Known gaps and untested claims
 

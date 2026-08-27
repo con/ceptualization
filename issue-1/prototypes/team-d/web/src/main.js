@@ -29,6 +29,8 @@ const S = {
   hidden: new Set(),
   badges: Object.fromEntries(Object.entries(GROUPS).map(([k, v]) => [k, v.on])),
   version: null,
+  bundle: false,
+  moved: new Set(),
 };
 let cy = null;
 
@@ -154,7 +156,7 @@ async function render({ fit = false, reason = '', inside = null, relayout = true
   // from the Hidden panel, and a later expansion from another clone that
   // reaches them un-hides them automatically.
   const shownSet = new Set([...S.visible].filter((i) => !S.hidden.has(i)));
-  const view = aggregate(m, shownSet, S.collapsed);
+  const view = aggregate(m, shownSet, S.collapsed, { bundleCrossContainer: S.bundle });
 
   let metrics = null;
   if (relayout) {
@@ -242,7 +244,7 @@ async function loadScenario(name) {
   S.history.reset();
   S.byId = {}; S.edges = []; S.findings = []; S.visible = new Set();
   S.collapsed = new Set(); S.expansions = []; S.selected = null;
-  S.hidden = new Set();
+  S.hidden = new Set(); S.moved = new Set();
   S.layout = new TwoTierLayout();
   const t0 = performance.now();
   const p = await api(`/api/seed/${name}`);
@@ -259,6 +261,54 @@ async function loadScenario(name) {
   paintPanels(S.view);
 }
 
+
+
+// ---------------------------------------------------------------- dragging
+
+/**
+ * Writing a drag back into the layout is a two-line operation *because* of the
+ * container-local coordinate model: a top-level container owns a world centre,
+ * and everything else owns an offset from its parent's top-left. So dragging a
+ * container moves its children for free, and dragging a repository inside a
+ * container cannot take it out of the box.
+ *
+ * Dragged nodes are remembered in S.moved and pinned, so later expansions and
+ * layout runs leave them where the user put them. Positions live in the saved
+ * view already, so a hand-arranged map survives save / reload.
+ */
+function wireDragging() {
+  let startPos = null;
+  cy.on('grab', 'node', (ev) => {
+    const p = ev.target.position();
+    startPos = { x: p.x, y: p.y, id: ev.target.id() };
+  });
+  cy.on('dragfree', 'node', async (ev) => {
+    const node = ev.target;
+    const id = node.id();
+    const pos = node.position();
+    if (startPos && startPos.id === id
+        && Math.hypot(pos.x - startPos.x, pos.y - startPos.y) < 2) return;
+    S.history.begin(`move ${labelOf(id)}`);
+    const parent = (i) => {
+      const n = S.byId[i];
+      return n && n.parent && S.visible.has(n.parent) && !S.hidden.has(n.parent) ? n.parent : null;
+    };
+    if (S.layout.centre.has(id)) {
+      const prev = S.layout.centre.get(id) || {};
+      S.layout.centre.set(id, { ...prev, x: pos.x, y: pos.y });
+    } else {
+      const par = parent(id);
+      if (!par) { S.history.abandon(); return; }
+      const t = S.layout.worldTopLeft(par, parent);
+      const s = S.layout.size.get(id) || { w: 210, h: 76 };
+      S.layout.local.set(id, { x: pos.x - s.w / 2 - t.x, y: pos.y - s.h / 2 - t.y });
+    }
+    S.moved.add(id);
+    await render({ fit: false, reason: 'drag', relayout: false });
+    paintPanels(S.view);
+    toast(`moved ${labelOf(id)} · undo with Ctrl+Z`);
+  });
+}
 
 // ---------------------------------------------------------------- hide
 
@@ -717,6 +767,7 @@ function shell() {
       <div class="sep"></div>
       <button id="collapse-all">collapse all</button>
       <button id="expand-all">expand all</button>
+      <button id="bundle" title="Summarise edges between different containers into one arrow per pair">bundle x-container</button>
       <button id="reveal-all" title="Show every node already present in the crawled worldmap, without probing">reveal all</button>
       <span class="sep"></span><span class="lbl">badges</span>
       <span id="badge-toggles"></span>
@@ -737,6 +788,7 @@ function shell() {
 
   cy = makeCy(document.getElementById('cy'), S.theme);
   window.__cy = cy;   // exposed for the Playwright drivers
+  wireDragging();
   window.__S = S;
   cy.on('tap', 'node', (ev) => select(ev.target.id()));
   cy.on('dbltap', 'node', (ev) => {
@@ -778,6 +830,16 @@ function shell() {
       await render({ fit: false, reason: 'badges', relayout: false });
     };
   });
+  const bb = document.getElementById('bundle');
+  const syncBundle = () => bb.classList.toggle('on', S.bundle);
+  syncBundle();
+  bb.onclick = async () => {
+    S.history.begin(S.bundle ? 'unbundle cross-container edges' : 'bundle cross-container edges');
+    S.bundle = !S.bundle;
+    syncBundle();
+    await render({ fit: false, reason: 'bundle', relayout: false });
+    paintPanels(S.view);
+  };
   document.getElementById('undo').onclick = doUndo;
   document.getElementById('redo').onclick = doRedo;
   window.addEventListener('keydown', (ev) => {

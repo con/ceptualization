@@ -1,0 +1,255 @@
+{
+  "collapsed": [],
+  "containers": {
+    "h:bilena": {
+      "h": 154,
+      "w": 270,
+      "x": 978,
+      "y": -970
+    },
+    "h:github.com": {
+      "h": 256,
+      "w": 506,
+      "x": 978,
+      "y": -700
+    },
+    "h:localhost": {
+      "h": 256,
+      "w": 506,
+      "x": 253,
+      "y": 128
+    },
+    "h:runnervm3jd5f": {
+      "h": 256,
+      "w": 270,
+      "x": 978,
+      "y": -379
+    },
+    "h:runnervm5mmn9": {
+      "h": 256,
+      "w": 506,
+      "x": 978,
+      "y": -58
+    },
+    "h:runnervm76f27": {
+      "h": 358,
+      "w": 506,
+      "x": 978,
+      "y": 314
+    },
+    "h:runnervmvrwv9": {
+      "h": 358,
+      "w": 742,
+      "x": 978,
+      "y": 737
+    },
+    "h:runnervmzvulz": {
+      "h": 256,
+      "w": 270,
+      "x": 978,
+      "y": 1109
+    }
+  },
+  "expansions": [],
+  "format": "worldmap-view/2-twotier",
+  "generator": "team-d two-tier",
+  "layout_engine": "tier1 graphviz/dot via @hpcc-js/wasm 2.35.0 (format json/xdot) over containers only; tier2 fcose 2.2.0 over leaves in container-local coordinates; both in a Web Worker",
+  "local": {
+    "d:098492c49f04": {
+      "in": "h:runnervm76f27",
+      "x": 30,
+      "y": 48
+    },
+    "d:25b733234e08": {
+      "in": "h:runnervmvrwv9",
+      "x": 30,
+      "y": 48
+    },
+    "d:2851136c9923": {
+      "in": "h:runnervmzvulz",
+      "x": 30,
+      "y": 48
+    },
+    "d:2f7bedad264a": {
+      "in": "h:runnervmvrwv9",
+      "x": 266,
+      "y": 48
+    },
+    "d:31d5848d4891": {
+      "in": "h:github.com",
+      "x": 30,
+      "y": 48
+    },
+    "d:3e5020a933a4": {
+      "in": "h:runnervmzvulz",
+      "x": 30,
+      "y": 150
+    },
+    "d:4ef1f45dfb54": {
+      "in": "h:runnervm5mmn9",
+      "x": 30,
+      "y": 48
+    },
+    "d:540737433f82": {
+      "in": "h:runnervm5mmn9",
+      "x": 266,
+      "y": 48
+    },
+    "d:5ecba9cda19c": {
+      "in": "h:runnervm3jd5f",
+      "x": 30,
+      "y": 48
+    },
+    "d:6a214f27581a": {
+      "in": "h:runnervmvrwv9",
+      "x": 502,
+      "y": 48
+    },
+    "d:6d200aa23afd": {
+      "in": "h:runnervm76f27",
+      "x": 266,
+      "y": 48
+    },
+    "d:81d0329a6898": {
+      "in": "h:runnervmvrwv9",
+      "x": 30,
+      "y": 150
+    },
+    "d:860b52ff76a2": {
+      "in": "h:runnervmvrwv9",
+      "x": 266,
+      "y": 150
+    },
+    "d:8809e3e7f768": {
+      "in": "h:runnervm76f27",
+      "x": 30,
+      "y": 150
+    },
+    "d:88b11e0a51af": {
+      "in": "h:runnervm76f27",
+      "x": 266,
+      "y": 150
+    },
+    "d:8d182fd230c9": {
+      "in": "h:github.com",
+      "x": 266,
+      "y": 48
+    },
+    "d:8d95ad88859e": {
+      "in": "h:runnervm76f27",
+      "x": 30,
+      "y": 252
+    },
+    "d:918035b63c24": {
+      "in": "h:bilena",
+      "x": 30,
+      "y": 48
+    },
+    "d:919d0b847ade": {
+      "in": "h:localhost",
+      "x": 120,
+      "y": 108
+    },
+    "d:a3ad1c764b37": {
+      "in": "h:runnervm5mmn9",
+      "x": 30,
+      "y": 150
+    },
+    "d:a92fb59b5776": {
+      "in": "h:runnervm3jd5f",
+      "x": 30,
+      "y": 150
+    },
+    "d:a9c891c6622a": {
+      "in": "h:runnervmvrwv9",
+      "x": 502,
+      "y": 150
+    },
+    "d:b4133ec0c9ec": {
+      "in": "h:runnervmvrwv9",
+      "x": 30,
+      "y": 252
+    },
+    "d:b653a0b5c172": {
+      "in": "h:github.com",
+      "x": 30,
+      "y": 150
+    },
+    "d:b928529b652b": {
+      "in": "h:localhost",
+      "x": 266,
+      "y": 48
+    },
+    "d:c7341a3bd4f3": {
+      "in": "h:runnervmvrwv9",
+      "x": 266,
+      "y": 252
+    },
+    "d:e3875532de15": {
+      "in": "h:runnervm5mmn9",
+      "x": 266,
+      "y": 150
+    },
+    "d:eb159db70a22": {
+      "in": "h:localhost",
+      "x": 30,
+      "y": 150
+    },
+    "d:f762ebbf3310": {
+      "in": "h:runnervm76f27",
+      "x": 266,
+      "y": 252
+    }
+  },
+  "saved_at": "2026-08-27T19:15:27Z",
+  "scenario": "badgetest",
+  "sizes": {},
+  "view": {
+    "labels": "demand",
+    "pan": {
+      "x": 403,
+      "y": 486
+    },
+    "theme": "dark",
+    "zoom": 0.4109
+  },
+  "visible": [
+    "d:098492c49f04",
+    "d:25b733234e08",
+    "d:2851136c9923",
+    "d:2f7bedad264a",
+    "d:31d5848d4891",
+    "d:3e5020a933a4",
+    "d:4ef1f45dfb54",
+    "d:540737433f82",
+    "d:5ecba9cda19c",
+    "d:6a214f27581a",
+    "d:6d200aa23afd",
+    "d:81d0329a6898",
+    "d:860b52ff76a2",
+    "d:8809e3e7f768",
+    "d:88b11e0a51af",
+    "d:8d182fd230c9",
+    "d:8d95ad88859e",
+    "d:918035b63c24",
+    "d:919d0b847ade",
+    "d:a3ad1c764b37",
+    "d:a92fb59b5776",
+    "d:a9c891c6622a",
+    "d:b4133ec0c9ec",
+    "d:b653a0b5c172",
+    "d:b928529b652b",
+    "d:c7341a3bd4f3",
+    "d:e3875532de15",
+    "d:eb159db70a22",
+    "d:f762ebbf3310",
+    "h:bilena",
+    "h:github.com",
+    "h:localhost",
+    "h:runnervm3jd5f",
+    "h:runnervm5mmn9",
+    "h:runnervm76f27",
+    "h:runnervmvrwv9",
+    "h:runnervmzvulz"
+  ]
+}

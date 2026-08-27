@@ -41,6 +41,8 @@ export class History {
       visible: new Set(S.visible),
       collapsed: new Set(S.collapsed),
       hidden: new Set(S.hidden),
+      moved: new Set(S.moved),
+      bundle: S.bundle,
       expansions: S.expansions.slice(),
       layout: snapMaps(S.layout),
     });
@@ -60,6 +62,8 @@ export class History {
     S.visible = new Set(entry.visible);
     S.collapsed = new Set(entry.collapsed);
     S.hidden = new Set(entry.hidden || []);
+    S.moved = new Set(entry.moved || []);
+    S.bundle = !!entry.bundle;
     // S.edges and S.byId are KNOWLEDGE and are never rolled back: edges are
     // filtered by `visible` at render time, so hiding a node hides its edges.
     // Truncating them would make redo impossible and would discard a crawled
@@ -77,6 +81,8 @@ export class History {
       visible: new Set(S.visible),
       collapsed: new Set(S.collapsed),
       hidden: new Set(S.hidden),
+      moved: new Set(S.moved),
+      bundle: S.bundle,
       expansions: S.expansions.slice(),
       layout: snapMaps(S.layout),
     };
