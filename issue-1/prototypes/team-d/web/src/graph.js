@@ -120,6 +120,10 @@ export function edgeLabel(e) {
   if (e.names && e.names.length > 1) bits.push(e.names.join(' | '));
   else if (e.names && e.names.length === 1) bits.push(e.names[0]);
   else if (e.kind === 'remote') bits.push('(url only)');
+  else if (e.kind === 'subdataset' && e.count === 1 && (e.sample || {}).path) {
+    // the PATH names a subdataset within its super -- not the URL it came from
+    bits.push(e.sample.path + ((e.sample.state === 'not-initialized') ? ' (not initialized)' : ''));
+  }
   else bits.push(e.kind.replace(/_/g, ' '));
   if (e.count > 1) bits.push('×' + e.count);
   const raw = e.sample || {};

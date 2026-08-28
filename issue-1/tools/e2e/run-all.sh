@@ -33,9 +33,13 @@ done
 fail=0; failed_suites=""
 note() { fail=1; failed_suites="$failed_suites $1"; }
 
-if [ "$REUSE" = 1 ] && [ -d "$FIXTURE" ]; then
+STAMP="$(sha1sum "$HERE/setup-fixture.sh" | cut -d' ' -f1)"
+if [ "$REUSE" = 1 ] && [ -d "$FIXTURE" ] \
+   && [ "$(cat "$FIXTURE/.fixture-stamp" 2>/dev/null)" = "$STAMP" ]; then
   echo "=== reusing fixture at $FIXTURE"
 else
+  [ "$REUSE" = 1 ] && [ -d "$FIXTURE" ] \
+    && echo "=== fixture is from an older setup-fixture.sh — rebuilding despite --reuse"
   echo "=== building the fixture in $FIXTURE"
   bash "$HERE/setup-fixture.sh" "$FIXTURE" $OFFLINE || exit 2
 fi

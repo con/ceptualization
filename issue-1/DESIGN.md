@@ -78,7 +78,9 @@ The clamp is now there, and §4a states the bound as a test.
 | `contains` as a first-class walkable relation | ✅ | derived from `parent`; without it a quarter of s3 is unreachable |
 | Collapse containers, aggregating edges not just hiding nodes | ✅ **after a fix** | 86→7 and 66→3 edges; node-hiding alone made frames *slower*. `collapse all` folded only containers with no **visible** parent, so a container drawn without its own parent on screen was skipped and its repositories stayed — reported twice as "collapse all still leaves individual repos". Now every container with visible children is folded; an inner fold is harmless when the outer one hides it. First asserted against a **stale build** (rule 37) — genuinely verified only after the harness learnt to rebuild. Asserted on four maps as *after collapse all, every drawn box is a container* (§5b rule 27) |
 | **Bundle cross-container edges** into one arrow per container pair | ✅ built, **scenario-dependent** | roll-up is sound and conserves every edge (§4a rule 18); reduction measured at **47.1 %** on s2 (45 cross-container edges → 4 arrows) but **1.5 %** on s3 (66 → 65), where 60 of 68 nodes share one container and only 3 edges cross a boundary at all. Edges *inside* a container are left alone by design — which is exactly s3's problem |
-| Perspectives (named view profiles over one graph) | 💭 | prototyped by Team C; not in the chosen line |
+| Perspectives (named view profiles over one graph) | 💭 → 📋 | prototyped by Team C; now given concrete form as `(lens, visible-set, layout, focus)` in [lenses-and-joined-graphs](./lenses-and-joined-graphs.md) |
+| **Lenses: declarative per-modality rendering** (edge classes structural/route/affinity, containment choice, type filters, primary action) | 📋 specified, not built | the deployment viewer and the psychoinformatics `/explore/` portfolio graph are two lenses over graphs of the same kind; the descriptor must be data the one viewer consumes. [spec](./lenses-and-joined-graphs.md) |
+| **Joined graphs: bridge records + portal badges** | 📋 specified, not built | cross-collection identity (dataset id, canonical URL, host, DOI, person) as explicit confident `same_as` records — never merges; navigation by portal pivot, not cross-lens arrows. [spec](./lenses-and-joined-graphs.md) |
 | Live click-to-probe against real ssh | ❌ not built | crawler is offline; ssh design specified, unimplemented |
 
 ### Rendering
@@ -103,9 +105,10 @@ The clamp is now there, and §4a states the bound as a test.
 | Feature | Status | Notes |
 | --- | --- | --- |
 | Crawl real repos into a worldmap | ✅ | [`tools/worldmap-crawl.py`](./tools/) — plain git only |
-| **End-to-end suite over real repositories** | ✅ hardened & drilled | [`tools/e2e/`](./tools/e2e/) — eight real repositories (github remote, submodule, two clones, two worktrees, an untied second copy of the subdataset) → crawl → server → a scripted Playwright walk. 26 invariants on the fixture, 21 replayed per scenario (89 total today); auto ports + server health-check, staleness-driven rebuild of the viewer, quiescence waits (walk ~10 s, was ~50 s), try/finally cleanup, offline mode, CI on every push. Proven able to fail by mutation drill. §5 |
+| **End-to-end suite over real repositories** | ✅ hardened & drilled | [`tools/e2e/`](./tools/e2e/) — eight real repositories (github remote, submodule, two clones, two worktrees, an untied second copy of the subdataset) → crawl → server → a scripted Playwright walk. 30 invariants on the fixture, 21 replayed per scenario (93 total today); the fixture is stamped with its script's hash so `--reuse` rebuilds when setup changes; auto ports + server health-check, staleness-driven rebuild of the viewer, quiescence waits (walk ~10 s, was ~50 s), try/finally cleanup, offline mode, CI on every push. Proven able to fail by mutation drill. §5 |
 | Clones discovered from the `git-annex` branch | ✅ mechanism, **misleading result** | 1.27 s fetch → 23 clones on `dandi-bib`, no ssh, no credentials. Re-read since: of the 25 UUIDs, **24 are ephemeral CI runners and exactly 1 holds any content**. The fetch is right and the picture is wrong — see §6 |
 | Remotes with per-clone names, worktrees, submodules, dataset id | ✅ | |
+| **Subdatasets modelled as checkouts, labelled by path** | ✅ | a subdataset node is the checkout at `<super>/<path>` — contained in *its own* super, so a worktree's initialized submodule sits inside the worktree box; the edge label is the path (never the URL). Declared-but-uninitialized subdatasets point at their git-resolved URL target (relative URLs resolve against the superproject's **origin**, git's own rule), carry `state: not-initialized`, get **no** containment, and are emitted once per repository, not per worktree. Fixed alongside: submodule names with spaces (`sub _1`) parse via `git config -z`; a submodule's absorbed git dir (`.git/modules/…`) is never a node. Five e2e invariants pin all of this |
 | Ahead/behind without network | ✅ | from local remote-tracking refs |
 | Host parsed from annex `user@host:/path` descriptions | ✅ | otherwise everything piles onto one "unknown" host |
 | `annex-ignore` + pushurl per remote | ✅ | edge property, since clones disagree |
@@ -294,6 +297,20 @@ what the current build reports; the driver is
     relation kind belongs in the crawler's own output, not in the eye of
     whoever opens the map.
 
+42. **A subdataset is the checkout, not its URL.** The node lives at
+    `<super>/<path>` and is contained in the checkout that holds it — each
+    worktree has its own. The `.gitmodules` URL is where the checkout's
+    origin will point, i.e. a route, not an identity. Only when nothing is
+    checked out does the URL target stand in, uncontained and marked
+    `not-initialized`; that declaration is repository-level, emitted once.
+43. **Nothing inside `.git` is a repository.** `git worktree list` run in a
+    submodule reports the absorbed git dir (`.git/modules/…`) as its main
+    worktree; taken literally this invents phantom repositories and marks
+    every submodule checkout a linked worktree (suppressing its remotes).
+44. **Parse git config with `-z` when values can contain spaces.** The
+    first-space split silently produced garbage nodes for
+    testrepo_gh's `sub _1`.
+
 25. **A remote is not one thing.** A remote no branch tracks is
     configuration; one some branch tracks is in use; the one the checked-out
     branch tracks is what you are working with now. Store `tracked_by` as a
@@ -439,7 +456,10 @@ one-arrow-per-worktree fix was for.
    which turns a crawl into something shareable.
 4. **The two-collections test** — the CON research-group graph and the git
    worldmap in one store, one UI, two perspectives. This is the cheapest
-   proof of the pluggability claim, on data that already exists.
+   proof of the pluggability claim, on data that already exists — and it now
+   has a concrete UI meaning: step 3 of the staged plan in
+   [lenses-and-joined-graphs](./lenses-and-joined-graphs.md), preceded by
+   extracting the lens descriptor and toolbar type filters (steps 1–2).
 5. Fork discovery and identity resolution (issues #6 and the identity work).
 6. **Close the testing gaps in §5c**, cheapest first: walk save / load /
    export (`loadView` has been wrong twice already), then add a git-annex

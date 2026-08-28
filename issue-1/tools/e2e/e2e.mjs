@@ -291,6 +291,15 @@ try {
         worktrees: vals.filter((n) => n.layout === 'linked-worktree').length,
         worktreeEdges: S.edges.filter((e) => e.kind === 'worktree_of').length,
         submodEdges: S.edges.filter((e) => e.kind === 'subdataset').length,
+        // an initialized subdataset is a checkout INSIDE its own super/worktree
+        subContained: S.edges.filter((e) => e.kind === 'subdataset' && !e.state)
+          .every((e) => (S.byId[e.target] || {}).parent === e.source),
+        subInWorktree: S.edges.some((e) => e.kind === 'subdataset' && !e.state
+          && (S.byId[e.source] || {}).layout === 'linked-worktree'),
+        subPathsNotUrls: S.edges.filter((e) => e.kind === 'subdataset')
+          .every((e) => e.path && !e.path.includes('://')),  // a nested path may contain '/'
+        // a submodule's absorbed git dir must never surface as a repository
+        gitdirNodes: [...S.visible].filter((i) => /\/\.git(\/|$)/.test((S.byId[i] || {}).url || '')).length,
         github: lbl(/github\.com/),
         tracked: S.edges.filter((e) => e.tracking === 'current').length,
         untracked: S.edges.filter((e) => e.tracking === 'none').length,
@@ -300,6 +309,11 @@ try {
     ok('worktrees are one arrow each, not N²', shape.worktreeEdges === shape.worktrees,
        `${shape.worktrees} worktrees, ${shape.worktreeEdges} worktree_of edges`);
     ok('the submodule is an edge', shape.submodEdges >= 1, `${shape.submodEdges} subdataset edges`);
+    ok('an initialized subdataset sits inside its own super', shape.subContained);
+    ok("a worktree's subdataset checkout is inside the worktree box", shape.subInWorktree);
+    ok('subdataset edges are labelled by path, not URL', shape.subPathsNotUrls);
+    ok('nothing inside .git is drawn as a repository', shape.gitdirNodes === 0,
+       `${shape.gitdirNodes} phantom(s)`);
     ok('the github remote is on the map', shape.github >= 1, `${shape.github} github node(s)`);
     ok('remotes split into tracked and untracked', shape.tracked > 0 && shape.untracked > 0,
        `${shape.tracked} current-tracked, ${shape.untracked} untracked`);

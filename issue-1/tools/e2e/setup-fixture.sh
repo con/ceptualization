@@ -81,6 +81,10 @@ say "clone-b: extra remotes 'upstream' and 'attic', tracked by no branch"
 git -C super worktree add -q ../wt-x -b feature/x
 git -C super worktree add -q ../wt-y -b feature/y
 say "wt-x, wt-y: linked worktrees on feature/x and feature/y"
+# initialise the submodule in wt-x only: a worktree's subdataset is its OWN
+# checkout inside its own box, and wt-y keeps the declared-but-absent case
+git -C wt-x -c protocol.file.allow=always submodule -q update --init sub
+say "wt-x: submodule initialised — its own checkout, inside the worktree"
 
 # --- the same subdataset again, deliberately untied -------------------------
 gitq clone -q sub-origin independent-sub
@@ -92,6 +96,12 @@ echo "local work" >> clone-a/README 2>/dev/null || echo "local work" > clone-a/R
 git -C clone-a add -A && git -C clone-a commit -qm "clone-a: local work"
 echo "more work" >> clone-a/README && git -C clone-a commit -qam "clone-a: more"
 say "clone-a: 2 commits ahead of super"
+
+# Stamp the fixture with a hash of this script, so --reuse in run-all.sh can
+# tell a current fixture from one built by an older script -- a stale fixture
+# fails invariants in ways indistinguishable from real regressions (same trap
+# as a stale web/dist).
+sha1sum "${BASH_SOURCE[0]}" | cut -d' ' -f1 > "$DIR/.fixture-stamp"
 
 cat <<SUM
 

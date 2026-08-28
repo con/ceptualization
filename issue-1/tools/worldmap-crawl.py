@@ -14,7 +14,7 @@ Offline by default. --ls-remote enables one network round trip per remote.
   ./worldmap-crawl.py ~/datasets/* --depth 2 -o /tmp/wm/datasets --ls-remote
 """
 from __future__ import annotations
-import argparse, hashlib, json, os, re, subprocess, sys, time
+import argparse, hashlib, json, os, posixpath, re, subprocess, sys, time
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -105,6 +105,24 @@ def canon_url(url, base=None):
     cand = u if os.path.isabs(u) else os.path.normpath(os.path.join(base or ".", u))
     rp = os.path.realpath(cand)
     return ("local", "localhost", rp, f"file://{rp}")
+
+def submodule_target(smurl, info):
+    """Where a submodule URL points, by git's own rule: a RELATIVE url
+    resolves against the superproject's default remote url (origin, else any
+    remote), and only against the superproject's path when it has no remote
+    at all. Resolving against the local path -- the obvious shortcut -- sends
+    a clone's declared subdatasets to paths that never existed."""
+    if not smurl or "://" in smurl or SCP_RE.match(smurl) or os.path.isabs(smurl):
+        return canon_url(smurl, base=info["root"])
+    base = (info["remotes"].get("origin")
+            or next(iter(info["remotes"].values()), None) or info["root"])
+    if "://" in base or SCP_RE.match(base):
+        bk, bh, bp, _ = canon_url(base)
+        joined = posixpath.normpath(posixpath.join(bp or "/", smurl))
+        if not joined.startswith("/"):
+            joined = "/" + joined
+        return canon_url(f"{bk}://{bh}{joined}")
+    return canon_url(smurl, base=base)
 
 def node_id(canonical):
     return "d:" + hashlib.sha1((canonical or "?").encode()).hexdigest()[:12]
@@ -201,10 +219,27 @@ def inspect(repo):
         elif line.startswith("bare"):
             cur["bare"] = True
     if cur: info["worktrees"].append(cur)
-    sm = git(repo, "config", "-f", ".gitmodules", "--get-regexp", r'^submodule\..*\.url') or ""
-    for line in sm.splitlines():
-        k, _, v = line.partition(" ")
-        info["submodules"].append({"name": k.split(".")[1], "url": v})
+    # Read url AND path per submodule. The path is what identifies the
+    # subdataset within the super (and where its checkout lives); the name is
+    # just the config key and may differ (datalad's "sub _1"). Slicing off the
+    # fixed prefix/suffix keeps names containing dots intact.
+    sm_cfg = {}
+    for suffix in ("url", "path"):
+        # -z: NUL-separated entries with key and value split by a newline --
+        # the only form that survives submodule names containing spaces
+        # (datalad's testrepo_gh has "sub _1"; the old first-space partition
+        # produced garbage nodes for it)
+        txt = git(repo, "config", "-z", "-f", ".gitmodules",
+                  "--get-regexp", rf'^submodule\..*\.{suffix}$') or ""
+        for entry in txt.split("\0"):
+            if not entry:
+                continue
+            k, _, v = entry.partition("\n")
+            name = k[len("submodule."):-(len(suffix) + 1)]
+            sm_cfg.setdefault(name, {})[suffix] = v
+    for name, cfg in sm_cfg.items():
+        info["submodules"].append({"name": name, "url": cfg.get("url", ""),
+                                   "path": cfg.get("path") or name})
     info["annex"] = annex_logs(repo)
     info["annex_sizes"] = annex_sizes(repo)
     return info
@@ -317,6 +352,13 @@ def crawl(seeds, depth, use_ls_remote, name):
         # the main worktree; a linked worktree is joined to it by worktree_of.
         _wts = info["worktrees"]
         _main_wt = os.path.realpath(_wts[0]["path"]) if _wts else info["root"]
+        # A submodule's git dir is absorbed into the super's .git/modules/, and
+        # `git worktree list` reports THAT path as the main worktree. A repo
+        # whose "main worktree" is its own git dir is its own main worktree --
+        # without this, every submodule checkout looked like a linked worktree
+        # of a phantom repository living inside .git.
+        if _main_wt == os.path.realpath(info["gitdir"]):
+            _main_wt = info["root"]
         is_linked = _main_wt != info["root"]
         n["is_linked_worktree"] = is_linked
         if is_linked:
@@ -422,18 +464,39 @@ def crawl(seeds, depth, use_ls_remote, name):
                    else placeholder(f"file://{main_wt}", "local", "localhost", main_wt))
         for w in wts:
             wp = os.path.realpath(w["path"])
-            if wp == main_wt:
+            if wp == main_wt or wp == os.path.realpath(info["gitdir"]):
                 continue
             wid = placeholder(f"file://{wp}", "local", "localhost", wp,
                               {"layout": "linked-worktree", "branch": w.get("branch")})
             add_edge(wid, main_id, "worktree_of", remote_name=None)
             if d < depth:
                 queue.append((wp, d + 1))
+        # A subdataset is the CHECKOUT at <super>/<path>, not its .gitmodules
+        # URL. The old code made the URL target the subdataset node, which (a)
+        # labelled it by URL, (b) claimed the upstream lives INSIDE the super,
+        # and (c) with several worktrees each declaring the same URL, let the
+        # last writer win the parent -- so a worktree's subdataset arrow
+        # pointed at the original checkout instead of into its own box.
         for sm in info["submodules"]:
-            k, h, pp, canon = canon_url(sm["url"], base=info["root"])
-            sid = placeholder(canon, k, h, pp)
-            nodes[sid]["parent"] = nid          # containment: submodule inside super
-            add_edge(nid, sid, "subdataset", remote_name=None, path=sm["name"])
+            smpath = sm.get("path") or sm["name"]
+            checkout = os.path.realpath(os.path.join(info["root"], smpath))
+            if os.path.exists(os.path.join(checkout, ".git")):
+                # initialized: a real repository on disk, contained in THIS
+                # checkout (each worktree has its own), crawled like one
+                cid = placeholder(f"file://{checkout}", "local", "localhost", checkout)
+                nodes[cid]["parent"] = nid
+                add_edge(nid, cid, "subdataset", remote_name=None, path=smpath)
+                if d < depth:
+                    queue.append((checkout, d + 1))
+            elif not is_linked:
+                # declared but never checked out: the URL target is all there
+                # is. No containment -- an upstream is not inside the super.
+                # Linked worktrees share .gitmodules, so the declaration is a
+                # repository-level fact emitted once from the main worktree.
+                k2, h2, pp2, canon = submodule_target(sm["url"], info)
+                sid = placeholder(canon, k2, h2, pp2)
+                add_edge(nid, sid, "subdataset", remote_name=None, path=smpath,
+                         state="not-initialized")
 
     # --- findings
     for u, ids in by_annex_uuid.items():
