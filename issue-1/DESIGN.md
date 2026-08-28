@@ -94,6 +94,7 @@ The clamp is now there, and §4a states the bound as a test.
 | Layout off the main thread | ✅ | both tiers in a Web Worker; longest frame 416→100–117 ms |
 | **Drag to reposition** a container, or a repository inside one | ✅ built, **seven defects found and fixed after the first ✅** | container drag moves its children and nothing else (0.00 px), and undo/redo of a move is 0.00 px — both held. The rest of the first ✅ was premature: a leaf did **not** stay inside its box (552 px outside), `S.moved` was never read so rule 9 was unimplemented (a collapse next door moved a hand-placed box 513 px), a drag during a probe was un-undoable (297 px), and hide→show lost a placement (236 px). All fixed and re-measured at 0.00 px; requirements in §4a, evidence in [UX-DRAG-BUNDLE](./prototypes/team-d/UX-DRAG-BUNDLE.md) |
 | **Relation details panel** (click an edge, see the remote) | ✅ | a relation is selectable in its own right; shows remote name, URL/pushurl, resolution, `annex-ignore`, the forge assumption marked as such, recorded annex UUID, trust, ahead/behind with its staleness, and every name the peer is called by. Bundled arrows list their members and drill down. The two costly rows (`ls-remote` branch table, content diff) are present as disabled actions |
+| **Flow perspective** (edge weight + world-time scrubber) | 💭 | the first feature that genuinely needs *perspectives*: the same graph answering a different question. Must **not** reuse the undo history — exploration time and world time are two timelines. [spec](./data-movement-and-annex-policy.md) |
 | Node text legible at fit zoom | ❌ open | 6.8 px; only *edge* labels were fixed |
 | Semantic zoom / "balloons" from issue #5 | 💭 | Team C prototyped; not in the chosen line |
 
@@ -103,7 +104,7 @@ The clamp is now there, and §4a states the bound as a test.
 | --- | --- | --- |
 | Crawl real repos into a worldmap | ✅ | [`tools/worldmap-crawl.py`](./tools/) — plain git only |
 | **End-to-end suite over real repositories** | ✅ | [`tools/e2e/`](./tools/e2e/) — eight real repositories (github remote, submodule, two clones, two worktrees, an untied second copy of the subdataset) → crawl → server → a scripted Playwright walk. 25 invariants on the fixture, 20 replayed against s1/s2/s3. §5 |
-| Clones discovered from the `git-annex` branch | ✅ | 1.27 s fetch → 23 clones on `dandi-bib`, no ssh, no credentials |
+| Clones discovered from the `git-annex` branch | ✅ mechanism, **misleading result** | 1.27 s fetch → 23 clones on `dandi-bib`, no ssh, no credentials. Re-read since: of the 25 UUIDs, **24 are ephemeral CI runners and exactly 1 holds any content**. The fetch is right and the picture is wrong — see §6 |
 | Remotes with per-clone names, worktrees, submodules, dataset id | ✅ | |
 | Ahead/behind without network | ✅ | from local remote-tracking refs |
 | Host parsed from annex `user@host:/path` descriptions | ✅ | otherwise everything piles onto one "unknown" host |
@@ -116,6 +117,10 @@ The clamp is now there, and §4a states the bound as a test.
 | **Annex sizes via `git annex info`** | 🟡 built, **unverified against real output** | `--json --bytes --fast --show='annex sizes of repositories'`; parser unit-tested against real-shaped output and against git-annex being absent, but **git-annex is not installed here** so no end-to-end run exists |
 | **Content diff via `git annex find --in=X --not --in=Y`** | 🟡 built, **unverified** | live behind the relation panel's second button, reported as two figures with a "believed from location tracking" note; same git-annex caveat |
 | Branch correspondence table via `git ls-remote` | ✅ | live behind the relation panel's first button; each result names the command that produced it |
+| **Annex policy: groups, wanted, numcopies** | 📋 specified, not built | `group.log`, `preferred_content.log`, `group_preferred_content.log`, `required_content.log`, `numcopies.log` — plain `git cat-file`, the same mechanism as `trust.log`, so **no git-annex binary needed**. Committed to the branch, therefore *every clone agrees* — unlike `annex-ignore`. `source`→`transfer`→`backup`/`archive` is a declared flow shape, free of any history replay. [spec](./data-movement-and-annex-policy.md) |
+| **Automated routes** (`git annex sync`, cron, CI, hooks, `autoenable`) | 📋 specified, not built | no field says "automated"; it is inferred, so the record carries **evidence and strength**, never a boolean — as with `annex_incapable_assumed`. Strongest free signal is the `git-annex` branch *author*. [spec](./data-movement-and-annex-policy.md) |
+| **Data movement (flow) from the location log** | 📋 specified, not built | verified format `<unixtime>s <1\|0> <uuid>`; size is in the key name (`MD5E-s359--…`), so flow is **byte-weighted for free**. But direction is never recorded and an entry is a *claim*, not an observation. O(keys), so opt-in. [spec](./data-movement-and-annex-policy.md) |
+| **Actor: is this clone a person or a bot?** | 📋 specified, not built | free and global — `uuid.log` descriptions plus `git log git-annex`. On `dandi-bib` this alone separates **1 real repository from 24 ephemeral CI runners**; see §6. Cheapest item in the whole ledger |
 | Fork discovery (GitHub/GitLab/Forgejo) | ❌ not built | issue #6 |
 | Identity resolution (`same_as`, containment scoring) | ❌ not built | specified in detail |
 | Persistence into `.git/orinoco/` + `orinoco` branch | ❌ not built | specified and tested at the git level |
@@ -251,6 +256,29 @@ what the current build reports; the driver is
 21. An arrow that stands for N edges must offer a way to see those N edges.
     [the relation panel lists them; a `×2` bundle offers both members]
 
+### Requirements for policy, automation and flow (added with the data-movement spec)
+
+31. **Policy, automation and flow are three different claims.** What *should*
+    be somewhere (the git-annex branch), what moves it *without a person*
+    (config, hooks, cron, CI) and what *did* move (the location log) have
+    different confidences and different scopes. One arrow carrying all three
+    would be a lie; they get separate fields and separate styling.
+32. **A location-log entry is a claim, not an observation.** It records what
+    whoever ran the command believed. A reformatted machine keeps claiming its
+    content until `git annex fsck` says otherwise.
+33. **Direction of transfer is never recorded** — the log says B has it, not
+    where it came from. Any arrow of movement is inference and must be labelled
+    as such, in the schema (`"direction": "inferred"`) as well as the UI.
+34. **Never reimplement preferred-content expressions.** They are a real
+    language; store them verbatim and ask git-annex (`--want-get` /
+    `--want-drop`) when an answer is actually needed.
+35. **Automation is inferred, so carry the evidence, not a boolean.** An
+    explicit `annex-tracking-branch` and an unset `annex-sync` are not the same
+    claim, and must not render the same. Same discipline as
+    `annex_incapable_assumed`.
+36. **Do not merge world time into exploration time.** The undo history is what
+    I clicked; a flow scrubber is when data moved. Two controls.
+
 ### Crawl-shape requirements (added after a real worktree-heavy repository)
 
 22. **An edge must be identical whoever observed it.** `git worktree list`
@@ -339,6 +367,17 @@ one-arrow-per-worktree fix was for.
 
 * **Nothing has been tested above 68 real nodes.** Every scale claim across
   all four prototypes is extrapolation from synthetic data.
+* **The map counts automation as population.** Re-reading `dandi-bib`'s
+  `git-annex` branch with plain git: 25 UUIDs in `uuid.log`, **24** described
+  as `runner@runnervm…:~/work/dandi-bib/dandi-bib`, **1** holding any key at
+  all, and the branch's last commit authored by `github-actions[bot]`. The
+  crawler is behaving correctly — those UUIDs are real — but the map gives 24
+  ephemeral GitHub Actions VMs the same rectangle, weight and expandability as
+  the repository on your laptop, and states nothing about the one fact that
+  matters: content lives in a single place and a bot puts it there. This is
+  not a missing feature on top of a correct map; it is the map being wrong on
+  real data. [data movement and annex policy](./data-movement-and-annex-policy.md)
+  is the fix, and its first step is nearly free.
 * **A ✅ that names only the happy path is not a ✅.** Drag and bundling were
   both marked "built & verified" here after each was measured *alone*. A pass
   over their combinations found seven defects, four of them high severity, two
@@ -364,19 +403,27 @@ one-arrow-per-worktree fix was for.
 
 ## 7. Next, in order
 
-1. **Verify the git-annex path on a machine that has git-annex** — the three
+1. **`actor` — is this clone a person or a bot?** Promoted to the top because
+   it is nearly free (`uuid.log` descriptions plus `git log git-annex`, no
+   git-annex binary, no network beyond the fetch already made) and because it
+   fixes a map we are demonstrably drawing wrong today (§6). Then the rest of
+   [data movement and annex policy](./data-movement-and-annex-policy.md) in
+   its own cheapest-first order: policy from the branch, in-repo automation
+   evidence, then opt-in flow replay.
+2. **Verify the git-annex path on a machine that has git-annex** — the three
    🟡 rows. Everything else in the ledger has an end-to-end measurement; these
-   have unit tests and a shape assumption.
-2. **Persistence into the repo** — `.git/orinoco/` plus the `orinoco` branch,
+   have unit tests and a shape assumption. Blocked here: the sandbox has no
+   git-annex.
+3. **Persistence into the repo** — `.git/orinoco/` plus the `orinoco` branch,
    which turns a crawl into something shareable.
-3. **The two-collections test** — the CON research-group graph and the git
+4. **The two-collections test** — the CON research-group graph and the git
    worldmap in one store, one UI, two perspectives. This is the cheapest
    proof of the pluggability claim, on data that already exists.
-4. Fork discovery and identity resolution (issues #6 and the identity work).
-5. **Close the testing gaps in §5c**, cheapest first: walk save / load /
+5. Fork discovery and identity resolution (issues #6 and the identity work).
+6. **Close the testing gaps in §5c**, cheapest first: walk save / load /
    export (`loadView` has been wrong twice already), then add a git-annex
    arm to the fixture on a machine that has git-annex — which is the same
-   errand as item 1.
-6. **Run the suite on every change.** It is `./tools/e2e/run-all.sh` and it
+   errand as item 2.
+7. **Run the suite on every change.** It is `./tools/e2e/run-all.sh` and it
    takes about three minutes; nothing in this file gets a ✅ that the suite
    has not been extended to hold.
