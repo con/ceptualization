@@ -1,0 +1,47 @@
+# End-to-end suite for the git/git-annex worldmap prototype.
+# See issue-1/tools/e2e/README.md — this runs `run-all.sh`: fixture build,
+# crawl, viewer walk, then conformance replays against every scenario.
+name: worldmap e2e
+on:
+  push:
+    paths:
+      - 'issue-1/tools/**'
+      - 'issue-1/prototypes/team-d/**'
+      - 'issue-1/scenarios/**'
+      - '.github/workflows/worldmap-e2e.yml'
+  pull_request:
+    paths:
+      - 'issue-1/tools/**'
+      - 'issue-1/prototypes/team-d/**'
+      - 'issue-1/scenarios/**'
+      - '.github/workflows/worldmap-e2e.yml'
+  workflow_dispatch:
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: install viewer deps (the suite itself runs the vite build)
+        run: npm install --no-fund --no-audit
+        working-directory: issue-1/prototypes/team-d/web
+      - name: install e2e deps
+        run: npm install --no-fund --no-audit
+        working-directory: issue-1/tools/e2e
+      - name: install chromium
+        run: npx playwright install --with-deps chromium
+        working-directory: issue-1/tools/e2e
+      - name: run the whole suite
+        run: ./run-all.sh --fixture "$RUNNER_TEMP/fixture"
+        working-directory: issue-1/tools/e2e
+      - name: upload failure artifacts (screenshots, crawls)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: worldmap-e2e-artifacts
+          path: /tmp/worldmap-e2e-*
+          if-no-files-found: ignore

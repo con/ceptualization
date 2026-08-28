@@ -25,8 +25,14 @@ UPSTREAM="https://github.com/datalad/testrepo_gh"
 
 say() { printf '  %s\n' "$*"; }
 gitq() { git -c advice.detachedHead=false -c init.defaultBranch=main "$@"; }
-mk() { gitq init -q "$1"; git -C "$1" config user.email e2e@example.org;
-       git -C "$1" config user.name "worldmap e2e"; }
+mk() { gitq init -q "$1"; }
+
+# Identity via environment, not per-repo config: clones (super, clone-a, ...)
+# also commit, and per-repo config set only in mk() left them relying on
+# whatever global identity the machine happens to have -- which a clean CI
+# runner does not.
+export GIT_AUTHOR_NAME="worldmap e2e"    GIT_AUTHOR_EMAIL=e2e@example.org
+export GIT_COMMITTER_NAME="worldmap e2e" GIT_COMMITTER_EMAIL=e2e@example.org
 
 rm -rf "$DIR"; mkdir -p "$DIR"; cd "$DIR"
 

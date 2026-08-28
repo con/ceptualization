@@ -76,7 +76,7 @@ The clamp is now there, and §4a states the bound as a test.
 | **Hide node / hide container** | ✅ built, **one wrong intermediate state** | leaves the view, stays in the store, returns when another route reaches it; undoable. But `hide node` on a *container* leaves its children drawn and re-parents them into the root set: measured 769.41 px of movement and two repositories floating outside any box. Reversible, still wrong |
 | Root set + "N nodes not reachable from here" | ✅ | all three round-1 teams silently lost a component without it |
 | `contains` as a first-class walkable relation | ✅ | derived from `parent`; without it a quarter of s3 is unreachable |
-| Collapse containers, aggregating edges not just hiding nodes | ✅ **after a fix** | 86→7 and 66→3 edges; node-hiding alone made frames *slower*. `collapse all` folded only containers with no **visible** parent, so a container drawn without its own parent on screen was skipped and its repositories stayed — reported twice as "collapse all still leaves individual repos". Now every container with visible children is folded; an inner fold is harmless when the outer one hides it. Asserted on four maps as *after collapse all, every drawn box is a container* (§5b rule 27) |
+| Collapse containers, aggregating edges not just hiding nodes | ✅ **after a fix** | 86→7 and 66→3 edges; node-hiding alone made frames *slower*. `collapse all` folded only containers with no **visible** parent, so a container drawn without its own parent on screen was skipped and its repositories stayed — reported twice as "collapse all still leaves individual repos". Now every container with visible children is folded; an inner fold is harmless when the outer one hides it. First asserted against a **stale build** (rule 37) — genuinely verified only after the harness learnt to rebuild. Asserted on four maps as *after collapse all, every drawn box is a container* (§5b rule 27) |
 | **Bundle cross-container edges** into one arrow per container pair | ✅ built, **scenario-dependent** | roll-up is sound and conserves every edge (§4a rule 18); reduction measured at **47.1 %** on s2 (45 cross-container edges → 4 arrows) but **1.5 %** on s3 (66 → 65), where 60 of 68 nodes share one container and only 3 edges cross a boundary at all. Edges *inside* a container are left alone by design — which is exactly s3's problem |
 | Perspectives (named view profiles over one graph) | 💭 | prototyped by Team C; not in the chosen line |
 | Live click-to-probe against real ssh | ❌ not built | crawler is offline; ssh design specified, unimplemented |
@@ -103,7 +103,7 @@ The clamp is now there, and §4a states the bound as a test.
 | Feature | Status | Notes |
 | --- | --- | --- |
 | Crawl real repos into a worldmap | ✅ | [`tools/worldmap-crawl.py`](./tools/) — plain git only |
-| **End-to-end suite over real repositories** | ✅ | [`tools/e2e/`](./tools/e2e/) — eight real repositories (github remote, submodule, two clones, two worktrees, an untied second copy of the subdataset) → crawl → server → a scripted Playwright walk. 25 invariants on the fixture, 20 replayed against s1/s2/s3. §5 |
+| **End-to-end suite over real repositories** | ✅ hardened & drilled | [`tools/e2e/`](./tools/e2e/) — eight real repositories (github remote, submodule, two clones, two worktrees, an untied second copy of the subdataset) → crawl → server → a scripted Playwright walk. 26 invariants on the fixture, 21 replayed per scenario (89 total today); auto ports + server health-check, staleness-driven rebuild of the viewer, quiescence waits (walk ~10 s, was ~50 s), try/finally cleanup, offline mode, CI on every push. Proven able to fail by mutation drill. §5 |
 | Clones discovered from the `git-annex` branch | ✅ mechanism, **misleading result** | 1.27 s fetch → 23 clones on `dandi-bib`, no ssh, no credentials. Re-read since: of the 25 UUIDs, **24 are ephemeral CI runners and exactly 1 holds any content**. The fetch is right and the picture is wrong — see §6 |
 | Remotes with per-clone names, worktrees, submodules, dataset id | ✅ | |
 | Ahead/behind without network | ✅ | from local remote-tracking refs |
@@ -320,7 +320,8 @@ there is the operator's copy.
 | `setup-fixture.sh` | eight **real** repositories on disk: a clone of `datalad/testrepo_gh` with a live github remote, a submodule, two clones, two linked worktrees, and the same subdataset a second time with `origin` removed |
 | `worldmap-crawl.py` | the crawl-shape requirements (22–25) hold on real repositories, not on generated JSON |
 | `app.py` + `e2e.mjs` | Playwright walks the viewer and asserts the §4a guarantees |
-| `--worldmap … --scenario …` | the viewer half replayed against s1/s2/s3 (24, 51, 68 nodes) — a regression that only shows on a wider map fails here |
+| `--worldmap … --scenario …` | the viewer half replayed against every `scenarios/*/worldmap.json` (24, 51, 68 nodes today; a new scenario gains coverage by existing) — a regression that only shows on a wider map fails here |
+| `.github/workflows/worldmap-e2e.yml` | the whole suite on every push touching the prototype, failure artifacts uploaded |
 
 The fixture is built for the awkward cases, not the easy ones.
 `independent-sub` is the same dataset as `super/sub` with **no local remote
@@ -348,6 +349,26 @@ one-arrow-per-worktree fix was for.
     s3) that a single fixture proves little.
 30. **Zero console errors is an assertion,** held across the whole walk, not
     a thing someone notices afterwards.
+37. **Test the build that is served, and rebuild it when the source is
+    newer.** The server serves `web/dist`, a Vite build — not `web/src`. A
+    mutation drill ran green against sabotaged source because the build
+    predated it, and the collapse-all fix itself was first "verified" by a
+    build from before the fix. The suite now rebuilds on staleness; the
+    fix's green runs date from after that.
+38. **A harness is only trusted once it has been seen red.** The mutation
+    drill (sabotage → named FAILs, exit 1 → restore → green) is in the
+    suite's README and is re-run whenever the harness itself changes. Its
+    first execution is what found rule 37.
+39. **Never trust a server you did not health-check, and never share fixed
+    ports.** A zombie on a fixed port does not fail loudly — it serves stale
+    data (the silent-fallback trap). Ports are probed free by default; the
+    served scenario list and the loaded page must both name the requested
+    scenario, as check 0.
+40. **Wait for quiescence, not for a guessed number of milliseconds** — two
+    identical consecutive samples of positions and edge count, with a floor
+    and a ceiling. The walk got 5× faster *and* less flaky at once.
+41. **Artifacts are removed on success and kept on failure** (or `--keep`),
+    so a red run can be examined and a thousand green runs leave no litter.
 
 ### 5c. What it does not cover yet
 

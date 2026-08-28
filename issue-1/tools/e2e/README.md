@@ -19,28 +19,82 @@ worldmap-crawl.py  crawl -> worldmap.json
    e2e.mjs         Playwright walks the viewer and asserts invariants
 ```
 
-Run everything:
+Run everything (~1 minute of walking plus the fixture build):
 
 ```
 ./run-all.sh                       # builds the fixture, then all suites
 ./run-all.sh --offline             # no network: synthesise instead of cloning
+./run-all.sh --reuse               # keep an existing fixture, skip the rebuild
 ```
 
 Or the pieces:
 
 ```
 ./setup-fixture.sh /tmp/e2efix
-node e2e.mjs --fixture /tmp/e2efix --port 8899
-node e2e.mjs --worldmap ../../scenarios --scenario s2-babs-ria --port 8901
+node e2e.mjs --fixture /tmp/e2efix
+node e2e.mjs --worldmap ../../scenarios --scenario s2-babs-ria
 ```
 
-`--keep` leaves the crawl output and the final screenshot behind.
+Flags: `--port N` forces a port (default `auto`: a free one is probed, so
+suites can run concurrently and never collide with a dev server or a zombie);
+`--keep` retains crawl output and screenshots on success (failures always
+retain them); `--no-build` skips the staleness check below.
 `CHROME_PATH` overrides the browser binary.
 
-Requirements: `python3`, `git`, and a resolvable `playwright` (`npm i -D
-playwright`, or symlink a `node_modules` here — it is gitignored). Do **not**
-run `playwright install` in the sandbox; Chromium is already at
-`/opt/pw-browsers/`.
+Requirements: `python3`, `git`, node with `playwright` resolvable here
+(`npm install` — see package.json), and the viewer's own deps
+(`npm install` in `prototypes/team-d/web`) so the suite can rebuild it. In
+the Claude sandbox do **not** run `playwright install`; Chromium is already
+at `/opt/pw-browsers/` and is found automatically. CI runs all of this on
+every push touching the prototype — `.github/workflows/worldmap-e2e.yml`.
+
+## Reliability posture
+
+Each of these guards against a failure mode that actually happened:
+
+* **The server is polled, never slept on**, its output is captured, and the
+  served scenario list must name the requested scenario — *and* the loaded
+  page must agree (`the page loaded the requested scenario` is check 0).
+  A fixed port once collided with a zombie server, which does not fail
+  loudly: it serves **stale data**, and three runs silently tested the wrong
+  map. Free ports by default plus the double scenario guard make that a
+  named failure forever.
+* **The viewer is rebuilt when `web/src` is newer than `web/dist`.** The
+  server serves the Vite *build*; a suite walking a stale build passes
+  against code nobody is shipping. This let a sabotaged `collapseAll` run
+  green, and let one committed fix be "verified" by a build that predated
+  it.
+* **Waits are quiescence, not guesses** — after a floor, poll until two
+  consecutive samples of every node position and the edge count are
+  identical, with a 10 s ceiling. Replaced ~25 s of fixed sleeps per run;
+  the walk is ~10 s and does not get flakier on a loaded machine.
+* **The walk runs under try/finally.** An unexpected throw is a named FAIL
+  with the summary, the browser and server are always closed, temp dirs are
+  removed on success and kept on failure.
+* **Repositories are discovered, not listed.** A fixture that grows is
+  crawled in full rather than silently subsetted; `run-all.sh` likewise
+  discovers every `scenarios/*/worldmap.json`, so a new scenario gains
+  coverage by existing.
+* **The fixture sets git identity via environment variables**, because
+  clones commit too and a clean CI runner has no global identity.
+
+One caveat: concurrent runs are safe *except* for the shared `web/dist` —
+two stale-build rebuilds can race. `run-all.sh` is serial; for parallel
+invocations, build once, then pass `--no-build`.
+
+## Proving the harness can fail
+
+A suite that has never been seen red proves nothing. The drill, re-run
+whenever the harness itself changes:
+
+1. Sabotage the app — e.g. make `collapseAll` a no-op in
+   `web/src/main.js`.
+2. Run one conformance scenario. Expect: the named checks go FAIL, exit
+   code 1, a `failed:` summary, artifacts kept.
+3. Restore, run again. Expect: the rebuild triggers, everything green.
+
+The first execution of this drill found the stale-build gap above: the
+sabotage ran green because the build predated it.
 
 ## The fixture
 
@@ -79,8 +133,8 @@ each rather than N², the submodule survives as an edge, the github remote is on
 the map, remotes split into tracked and untracked, and both copies of the
 subdataset appear with distinct dataset ids.
 
-*Viewer behaviour* (every run) — the map opens on the seeds and their
-containers and nothing else; `reveal all` is a superset of that; no node is
+*Viewer behaviour* (every run) — the page loaded the scenario that was
+asked for; the map opens on the seeds and their containers and nothing else; `reveal all` is a superset of that; no node is
 ever drawn whose parent is collapsed, hidden, or absent; `collapse all` leaves
 **only containers** drawn and `uncollapse all` restores both the count and every
 position to sub-pixel; hide removes exactly one node, orphans nothing, and
