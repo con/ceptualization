@@ -564,12 +564,22 @@ async function toggleCollapse(id) {
   await render({ reason: 'collapse ' + id });
 }
 
+/**
+ * "collapse all" has to leave NOTHING but folded boxes on screen (rule 10 --
+ * a control does what its label says).  It used to fold only containers with
+ * no visible parent, on the theory that folding the outermost one hides the
+ * rest anyway.  That theory breaks the moment a container is on screen
+ * without its own parent being visible: `parentOf` returns null only for a
+ * VISIBLE parent, so such a container was skipped and its repositories
+ * stayed drawn.  Folding every container with visible children is both
+ * simpler and total -- an inner fold is harmless when the outer one hides it.
+ */
 async function collapseAll(on) {
   S.history.begin(on ? 'collapse all' : 'expand all');
   S.collapsed = new Set();
   if (on) {
     for (const id of S.visible) {
-      if (childrenVisible(id).length && !parentOf(id)) S.collapsed.add(id);
+      if (childrenVisible(id).length) S.collapsed.add(id);
     }
   }
   await render({ reason: on ? 'collapse-all' : 'expand-all' });

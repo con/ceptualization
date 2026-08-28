@@ -29,3 +29,7 @@ Thumbs.db
 
 # Ephemeral git worktrees created for isolated agent runs
 .claude/worktrees/
+
+# local playwright resolution for the e2e suite
+node_modules/
+node_modules

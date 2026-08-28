@@ -76,7 +76,7 @@ The clamp is now there, and §4a states the bound as a test.
 | **Hide node / hide container** | ✅ built, **one wrong intermediate state** | leaves the view, stays in the store, returns when another route reaches it; undoable. But `hide node` on a *container* leaves its children drawn and re-parents them into the root set: measured 769.41 px of movement and two repositories floating outside any box. Reversible, still wrong |
 | Root set + "N nodes not reachable from here" | ✅ | all three round-1 teams silently lost a component without it |
 | `contains` as a first-class walkable relation | ✅ | derived from `parent`; without it a quarter of s3 is unreachable |
-| Collapse containers, aggregating edges not just hiding nodes | ✅ | 86→7 and 66→3 edges; node-hiding alone made frames *slower* |
+| Collapse containers, aggregating edges not just hiding nodes | ✅ **after a fix** | 86→7 and 66→3 edges; node-hiding alone made frames *slower*. `collapse all` folded only containers with no **visible** parent, so a container drawn without its own parent on screen was skipped and its repositories stayed — reported twice as "collapse all still leaves individual repos". Now every container with visible children is folded; an inner fold is harmless when the outer one hides it. Asserted on four maps as *after collapse all, every drawn box is a container* (§5b rule 27) |
 | **Bundle cross-container edges** into one arrow per container pair | ✅ built, **scenario-dependent** | roll-up is sound and conserves every edge (§4a rule 18); reduction measured at **47.1 %** on s2 (45 cross-container edges → 4 arrows) but **1.5 %** on s3 (66 → 65), where 60 of 68 nodes share one container and only 3 edges cross a boundary at all. Edges *inside* a container are left alone by design — which is exactly s3's problem |
 | Perspectives (named view profiles over one graph) | 💭 | prototyped by Team C; not in the chosen line |
 | Live click-to-probe against real ssh | ❌ not built | crawler is offline; ssh design specified, unimplemented |
@@ -102,6 +102,7 @@ The clamp is now there, and §4a states the bound as a test.
 | Feature | Status | Notes |
 | --- | --- | --- |
 | Crawl real repos into a worldmap | ✅ | [`tools/worldmap-crawl.py`](./tools/) — plain git only |
+| **End-to-end suite over real repositories** | ✅ | [`tools/e2e/`](./tools/e2e/) — eight real repositories (github remote, submodule, two clones, two worktrees, an untied second copy of the subdataset) → crawl → server → a scripted Playwright walk. 25 invariants on the fixture, 20 replayed against s1/s2/s3. §5 |
 | Clones discovered from the `git-annex` branch | ✅ | 1.27 s fetch → 23 clones on `dandi-bib`, no ssh, no credentials |
 | Remotes with per-clone names, worktrees, submodules, dataset id | ✅ | |
 | Ahead/behind without network | ✅ | from local remote-tracking refs |
@@ -252,12 +253,6 @@ what the current build reports; the driver is
 
 ### Crawl-shape requirements (added after a real worktree-heavy repository)
 
-25. **A remote is not one thing.** A remote no branch tracks is
-    configuration; one some branch tracks is in use; the one the checked-out
-    branch tracks is what you are working with now. Store `tracked_by` as a
-    list, never a boolean: each worktree has its own HEAD, so *current* is a
-    question about a node, not about the edge.
-
 22. **An edge must be identical whoever observed it.** `git worktree list`
     returns the same list from every worktree, so edges derived from it must
     be anchored on a canonical endpoint (the main worktree) and deduped by
@@ -271,7 +266,76 @@ what the current build reports; the driver is
     relation kind belongs in the crawler's own output, not in the eye of
     whoever opens the map.
 
-## 5. Known gaps and untested claims
+25. **A remote is not one thing.** A remote no branch tracks is
+    configuration; one some branch tracks is in use; the one the checked-out
+    branch tracks is what you are working with now. Store `tracked_by` as a
+    list, never a boolean: each worktree has its own HEAD, so *current* is a
+    question about a node, not about the edge.
+
+## 5. Testing
+
+Every interaction defect in this prototype so far was found by a human
+clicking, and every one of them was a small bug behind a control whose label
+promised something else: *"expand all seems to do nothing"*, *"hiding a
+container leaves the individual nodes on screen"*, *"collapse all still leaves
+individual repos"*, *"pointless flood of green arrows"*. None would have
+survived a test that asserted what the label says. That is what this section
+is for.
+
+### 5a. What the suite is
+
+[`tools/e2e/`](./tools/e2e/) — `./run-all.sh` runs all of it, `README.md`
+there is the operator's copy.
+
+| stage | what it proves |
+|---|---|
+| `setup-fixture.sh` | eight **real** repositories on disk: a clone of `datalad/testrepo_gh` with a live github remote, a submodule, two clones, two linked worktrees, and the same subdataset a second time with `origin` removed |
+| `worldmap-crawl.py` | the crawl-shape requirements (22–25) hold on real repositories, not on generated JSON |
+| `app.py` + `e2e.mjs` | Playwright walks the viewer and asserts the §4a guarantees |
+| `--worldmap … --scenario …` | the viewer half replayed against s1/s2/s3 (24, 51, 68 nodes) — a regression that only shows on a wider map fails here |
+
+The fixture is built for the awkward cases, not the easy ones.
+`independent-sub` is the same dataset as `super/sub` with **no local remote
+joining them** — only shared history and the dataset id relate them, which is
+the identity problem stated in
+[distribution-modeling-and-repo-identity](./distribution-modeling-and-repo-identity.md).
+`clone-b` carries two remotes no branch tracks, which is what the
+`current`/`tracked`/`all` scopes exist for. The worktrees are what the
+one-arrow-per-worktree fix was for.
+
+### 5b. Rules the suite itself follows
+
+26. **Assert relations, not golden numbers.** `reveal all ⊇ opening view`,
+    not `19 nodes`. A fixture that grows must not turn the suite red.
+27. **Assert what the label promises, not what the code does.** The stray
+    check (no node drawn whose parent is collapsed or hidden) passed on every
+    map while "collapse all leaves individual repos" was still true, because
+    the two are different claims. The test that matters is *after collapse
+    all, every drawn box is a container*.
+28. **Every fix to a reported interaction defect ships with the assertion
+    that would have caught it.** The four complaints above are now four
+    named checks.
+29. **A viewer invariant is tested on more than one map.** Conformance mode
+    exists because the shapes differ enough (24 → 9 boxes on s1, 68 → 2 on
+    s3) that a single fixture proves little.
+30. **Zero console errors is an assertion,** held across the whole walk, not
+    a thing someone notices afterwards.
+
+### 5c. What it does not cover yet
+
+* **git-annex** — the fixture is plain git, because the sandbox has no
+  git-annex. The storage badges, `git annex info` sizing and the `git annex
+  find` content diff are the three 🟡 rows and are still unverified
+  end-to-end (§6).
+* **ssh and forge APIs** — nothing remote is exercised beyond one clone of a
+  public repository and `--ls-remote`.
+* **Scale** — the largest map under test is 68 nodes.
+* **Save/load and export** are not walked; `loadView` has already been wrong
+  twice (lost container sizes, wrong zoom), so this is the next gap to close.
+* **Layout quality** is not asserted at all, only layout *stability* (undo
+  and uncollapse restore positions to sub-pixel).
+
+## 6. Known gaps and untested claims
 
 * **Nothing has been tested above 68 real nodes.** Every scale claim across
   all four prototypes is extrapolation from synthetic data.
@@ -298,7 +362,7 @@ what the current build reports; the driver is
 * The prototypes are a bake-off, not a product: no ssh, no forge APIs, no
   identity resolution, no writes.
 
-## 6. Next, in order
+## 7. Next, in order
 
 1. **Verify the git-annex path on a machine that has git-annex** — the three
    🟡 rows. Everything else in the ledger has an end-to-end measurement; these
@@ -309,3 +373,10 @@ what the current build reports; the driver is
    worldmap in one store, one UI, two perspectives. This is the cheapest
    proof of the pluggability claim, on data that already exists.
 4. Fork discovery and identity resolution (issues #6 and the identity work).
+5. **Close the testing gaps in §5c**, cheapest first: walk save / load /
+   export (`loadView` has been wrong twice already), then add a git-annex
+   arm to the fixture on a machine that has git-annex — which is the same
+   errand as item 1.
+6. **Run the suite on every change.** It is `./tools/e2e/run-all.sh` and it
+   takes about three minutes; nothing in this file gets a ✅ that the suite
+   has not been extended to hold.
