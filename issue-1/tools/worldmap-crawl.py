@@ -33,6 +33,37 @@ def tool_version():
         return "unknown"
 
 
+def annex_sizes(repo):
+    """Per-repository annexed byte totals, straight from git-annex.
+
+    `git annex info` reports "the annex sizes of each repository" and, since
+    10.20240831, uses maintained repository-size tracking rather than
+    recomputing. `--show=` skips the work we do not need. We do NOT sum
+    `-s<bytes>` out of key names ourselves: that reimplements, from a staler
+    source, something git-annex already does properly.
+
+    Returns {uuid_or_description: bytes}. Empty when git-annex is absent.
+    """
+    out = git(repo, "annex", "info", "--json", "--bytes", "--fast",
+              "--show=annex sizes of repositories", timeout=60)
+    if not out:
+        return {}
+    sizes = {}
+    for line in out.splitlines():
+        try:
+            rec = json.loads(line)
+        except ValueError:
+            continue
+        block = rec.get("annex sizes of repositories") or rec.get("repository sizes") or {}
+        if isinstance(block, dict):
+            for k, v in block.items():
+                try:
+                    sizes[k] = int(str(v).split()[0])
+                except (ValueError, IndexError):
+                    pass
+    return sizes
+
+
 def annex_version():
     try:
         p = subprocess.run(["git", "annex", "version", "--raw"],
@@ -175,6 +206,7 @@ def inspect(repo):
         k, _, v = line.partition(" ")
         info["submodules"].append({"name": k.split(".")[1], "url": v})
     info["annex"] = annex_logs(repo)
+    info["annex_sizes"] = annex_sizes(repo)
     return info
 
 def ahead_behind(repo, local_ref, remote_ref):
@@ -209,7 +241,16 @@ def crawl(seeds, depth, use_ls_remote, name):
             nodes[hid] = hosts[hid]
         return hid
 
+    seen_edges = set()
+
     def add_edge(src, dst, kind, **kw):
+        # `git worktree list` reports EVERY worktree whichever one you run it
+        # in, so crawling N worktrees naively emits N*N worktree_of edges --
+        # the green hairball. Identity of an edge is (src, dst, kind, name).
+        key = (src, dst, kind, kw.get("remote_name"))
+        if key in seen_edges:
+            return None
+        seen_edges.add(key)
         n_edge[0] += 1
         e = {"id": f"e{n_edge[0]}", "source": src, "target": dst, "kind": kind,
              "observed_at": T0, "via": "localhost"}
@@ -259,11 +300,30 @@ def crawl(seeds, depth, use_ls_remote, name):
             n["annex_uuid"] = info["annex_uuid"]
             n["annex_mode"] = "keystore"
             by_annex_uuid.setdefault(info["annex_uuid"], []).append(nid)
+        sizes = info.get("annex_sizes") or {}
+        if sizes:
+            n["annex_sizes_source"] = "git annex info"
+            own = sizes.get(info.get("annex_uuid"))
+            if own is not None:
+                n["annex_bytes"] = own
         if d == 0:
             n["is_seed"] = True
 
+        # Linked worktrees share .git/config with the main worktree, so every
+        # one of them reports the SAME remotes. Emitting them per worktree
+        # multiplies the map by the worktree count (20 worktrees x 59 remotes =
+        # 1180 identical arrows) and says something untrue: the remotes belong
+        # to the repository, not to each checkout of it. Emit them once, from
+        # the main worktree; a linked worktree is joined to it by worktree_of.
+        _wts = info["worktrees"]
+        _main_wt = os.path.realpath(_wts[0]["path"]) if _wts else info["root"]
+        is_linked = _main_wt != info["root"]
+        n["is_linked_worktree"] = is_linked
+        if is_linked:
+            n["remotes_via"] = "main worktree"
+
         # --- remotes, the core edges, carrying the per-clone remote NAME
-        for rname, rurl in info["remotes"].items():
+        for rname, rurl in ({} if is_linked else info["remotes"]).items():
             k, h, pp, canon = canon_url(rurl, base=info["root"])
             tid = placeholder(canon, k, h, pp)
             a, b = (None, None)
@@ -316,6 +376,12 @@ def crawl(seeds, depth, use_ls_remote, name):
                                "from_annex_branch": True})
             nodes[tid].setdefault("annex_uuid", u)
             by_annex_uuid.setdefault(u, []).append(tid)
+            sz = (info.get("annex_sizes") or {}).get(u)
+            if sz is None:
+                sz = (info.get("annex_sizes") or {}).get(desc)
+            if sz is not None:
+                nodes[tid]["annex_bytes"] = sz
+                nodes[tid]["annex_sizes_source"] = "git annex info"
             cfg = info["annex"]["remote"].get(u)
             if cfg:
                 nodes[tid].update({
@@ -334,13 +400,22 @@ def crawl(seeds, depth, use_ls_remote, name):
                          resolution="from-annex-branch")
 
         # --- worktrees and submodules
-        for w in info["worktrees"]:
+        # The first entry of `git worktree list` is the MAIN worktree; the rest
+        # are linked to it. Every worktree reports the same list, so anchor the
+        # edges on the main one and they are identical whoever observed them --
+        # which, with the dedupe above, yields exactly N-1 edges for N
+        # worktrees instead of N*N.
+        wts = _wts
+        main_wt = _main_wt
+        main_id = (nid if main_wt == info["root"]
+                   else placeholder(f"file://{main_wt}", "local", "localhost", main_wt))
+        for w in wts:
             wp = os.path.realpath(w["path"])
-            if wp == info["root"]:
+            if wp == main_wt:
                 continue
             wid = placeholder(f"file://{wp}", "local", "localhost", wp,
                               {"layout": "linked-worktree", "branch": w.get("branch")})
-            add_edge(wid, nid, "worktree_of", remote_name=None)
+            add_edge(wid, main_id, "worktree_of", remote_name=None)
             if d < depth:
                 queue.append((wp, d + 1))
         for sm in info["submodules"]:

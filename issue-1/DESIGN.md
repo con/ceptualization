@@ -107,9 +107,12 @@ The clamp is now there, and §4a states the bound as a test.
 | Ahead/behind without network | ✅ | from local remote-tracking refs |
 | Host parsed from annex `user@host:/path` descriptions | ✅ | otherwise everything piles onto one "unknown" host |
 | `annex-ignore` + pushurl per remote | ✅ | edge property, since clones disagree |
+| **Worktrees produce one arrow each, not N²** | ✅ | `git worktree list` reports every worktree whichever one you run it in, so N worktrees naively emitted N² `worktree_of` edges. Anchored on the **main** worktree and globally deduped: 5 worktrees → **4** arrows, not 25 |
+| **Remotes emitted once per repository, not per worktree** | ✅ | linked worktrees share `.git/config`, so 20 worktrees × 59 remotes drew 1180 identical arrows and implied something untrue. 5 worktrees × 2 remotes → **2** edges, not 10 |
 | Annex-incapable forge defaults | ✅ | marked **assumption**, never on a host node, never on a special remote |
-| **Annex sizes via `git annex info`** | 📋 TODO | `--json --bytes --show=`; fast since 10.20240831. Do **not** hand-sum `-s<bytes>` |
-| **Content diff via `git annex find --in=X --not --in=Y`** | 📋 TODO | two figures, never one signed number |
+| **Annex sizes via `git annex info`** | 🟡 built, **unverified against real output** | `--json --bytes --fast --show='annex sizes of repositories'`; parser unit-tested against real-shaped output and against git-annex being absent, but **git-annex is not installed here** so no end-to-end run exists |
+| **Content diff via `git annex find --in=X --not --in=Y`** | 🟡 built, **unverified** | live behind the relation panel's second button, reported as two figures with a "believed from location tracking" note; same git-annex caveat |
+| Branch correspondence table via `git ls-remote` | ✅ | live behind the relation panel's first button; each result names the command that produced it |
 | Fork discovery (GitHub/GitLab/Forgejo) | ❌ not built | issue #6 |
 | Identity resolution (`same_as`, containment scoring) | ❌ not built | specified in detail |
 | Persistence into `.git/orinoco/` + `orinoco` branch | ❌ not built | specified and tested at the git level |
@@ -240,6 +243,21 @@ what the current build reports; the driver is
 21. An arrow that stands for N edges must offer a way to see those N edges.
     [the relation panel lists them; a `×2` bundle offers both members]
 
+### Crawl-shape requirements (added after a real worktree-heavy repository)
+
+22. **An edge must be identical whoever observed it.** `git worktree list`
+    returns the same list from every worktree, so edges derived from it must
+    be anchored on a canonical endpoint (the main worktree) and deduped by
+    `(source, target, kind, name)`. Naive emission is O(N²) and looked, on a
+    20-worktree checkout, like a rendering fault rather than a crawl fault.
+23. **A fact that belongs to the repository must not be repeated per
+    checkout.** Linked worktrees share `.git/config`; emitting their remotes
+    per worktree multiplies the map and asserts something untrue.
+24. **A crawl-shape bug is invisible in the viewer.** Both of the above were
+    reported as "pointless flood of green arrows". Edge-count sanity per
+    relation kind belongs in the crawler's own output, not in the eye of
+    whoever opens the map.
+
 ## 5. Known gaps and untested claims
 
 * **Nothing has been tested above 68 real nodes.** Every scale claim across
@@ -253,14 +271,15 @@ what the current build reports; the driver is
 * **Two interactions are still known-wrong**, recorded as such in §4a: hiding
   a container orphans its children (rule 14), and a container dropped on top
   of another stays overlapping — stable and reversible since the separation
-  fix, but with no feedback that it happened. A third is a limit rather than a
-  bug: a container box is sized from its child count, so in 4 of 9 s1
-  containers a repository has **0 px** of room to be dragged within.
+  fix, but with no feedback that it happened.
 * Rendering was measured on **software WebGL** (SwiftShader), ±40 % run to
   run; treat frame times as ordering, not magnitude.
-* **git-annex is not installed in the development sandbox**, so the storage
-  badge group and every `git annex` invocation in the spec are unverified
-  against real output.
+* **git-annex is not installed in the development sandbox.** The storage
+  badge group, `git annex info` sizing and the `git annex find` content diff
+  are implemented and unit-tested against real-shaped output and against
+  git-annex being absent, but **no end-to-end run against a real annex
+  exists**. These are the only 🟡 rows in the ledger and they are the first
+  thing to check on a machine that has git-annex.
 * Ahead/behind reflects the **last fetch**, not live state; `--ls-remote`
   checks reachability only.
 * The prototypes are a bake-off, not a product: no ssh, no forge APIs, no
@@ -268,16 +287,12 @@ what the current build reports; the driver is
 
 ## 6. Next, in order
 
-1. **Close the two known-wrong interactions in §4a** and the box-sizing limit:
-   hiding a container must not orphan its children (rule 14); a container box
-   should grow to its children's actual extent so a hand drag is not clamped
-   to nothing; and an overlapping drop should say that it overlapped.
-2. **Wire `git annex info` / `git annex find`** into the crawler and behind
-   the two disabled buttons in the relation panel, so storage badges and
-   content comparison carry real numbers instead of placeholders.
-3. **Persistence into the repo** — `.git/orinoco/` plus the `orinoco` branch,
+1. **Verify the git-annex path on a machine that has git-annex** — the three
+   🟡 rows. Everything else in the ledger has an end-to-end measurement; these
+   have unit tests and a shape assumption.
+2. **Persistence into the repo** — `.git/orinoco/` plus the `orinoco` branch,
    which turns a crawl into something shareable.
-4. **The two-collections test** — the CON research-group graph and the git
+3. **The two-collections test** — the CON research-group graph and the git
    worldmap in one store, one UI, two perspectives. This is the cheapest
    proof of the pluggability claim, on data that already exists.
-5. Fork discovery and identity resolution (issues #6 and the identity work).
+4. Fork discovery and identity resolution (issues #6 and the identity work).

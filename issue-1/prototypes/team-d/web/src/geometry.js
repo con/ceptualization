@@ -6,6 +6,14 @@ export const LEAF = { w: 210, h: 76 };
 export const GAP = 26;                        // between siblings inside a box
 export const PAD = { top: 48, side: 30, bottom: 30 };
 
+// Free space inside every container beyond what the slot grid needs.
+//
+// Without this a box is sized to fit its grid EXACTLY, so whenever the child
+// count lands on a slot tier the clamp leaves a repository 0 px of room and
+// dragging it does nothing at all -- measured in 4 of 9 s1 containers. Slack
+// is what makes "reposition any repository" true rather than usually true.
+export const SLACK = { w: 3 * GAP, h: 2 * GAP };
+
 // A container is never sized to its exact occupancy: it is sized to the next
 // slot tier above it. Growth inside a tier costs nothing at all -- no resize,
 // no neighbour push, no leaf movement. This is the cheap half of "absorb
@@ -52,8 +60,8 @@ export function measureBoxes(ids, childrenOf, leafSize = () => LEAF) {
     const slots = tierFor(kids.length);
     const { cols, rows } = gridShape(slots, cell);
     const rec = {
-      w: 2 * PAD.side + cols * cell.w + (cols - 1) * GAP,
-      h: PAD.top + PAD.bottom + rows * cell.h + (rows - 1) * GAP,
+      w: 2 * PAD.side + cols * cell.w + (cols - 1) * GAP + SLACK.w,
+      h: PAD.top + PAD.bottom + rows * cell.h + (rows - 1) * GAP + SLACK.h,
       cols, rows, cell, slots, kids: kids.length,
     };
     out.set(id, rec);

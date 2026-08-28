@@ -8,7 +8,7 @@ import { applyLabelPolicy, compensateZoom, measureRendered } from './labels.js';
 import { worldPositions } from './viewpos.js';
 import { LEAF, clampTo, innerBounds } from './geometry.js';
 import { History } from './history.js';
-import { GROUPS } from './badges.js';
+import { GROUPS, humanBytes } from './badges.js';
 
 const API = '';
 let SCENARIOS = ['s1-spacetop', 's2-babs-ria', 's3-forks'];
@@ -30,6 +30,7 @@ const S = {
   badges: Object.fromEntries(Object.entries(GROUPS).map(([k, v]) => [k, v.on])),
   version: null,
   bundle: false,
+  overlapping: new Set(),
   moved: new Set(),
 };
 let cy = null;
@@ -196,6 +197,7 @@ async function render({ fit = false, reason = '', inside = null, relayout = true
     severityOf: severityMap(),
     walkedOf: walkedMap(),
     ignoredByAll: ignoredByAllSet(),
+    overlapping: S.overlapping,
   });
 
   cy.startBatch();
@@ -339,9 +341,31 @@ function wireDragging() {
       S.layout.local.set(id, want);
     }
     S.moved.add(id);
+    // Rule 9 says user placement wins, so an overlapping drop is allowed --
+    // but silently allowing it looks like a rendering bug. Say it happened.
+    let overlapWith = null;
+    if (S.layout.centre.has(id)) {
+      const rect = (i) => {
+        const c = S.layout.centre.get(i); const s = S.layout.size.get(i);
+        if (!c || !s) return null;
+        return { x1: c.x - s.w / 2, x2: c.x + s.w / 2, y1: c.y - s.h / 2, y2: c.y + s.h / 2 };
+      };
+      const a = rect(id);
+      for (const other of S.layout.centre.keys()) {
+        if (other === id || !S.visible.has(other) || S.hidden.has(other)) continue;
+        const b2 = rect(other);
+        if (!a || !b2) continue;
+        if (a.x1 < b2.x2 && a.x2 > b2.x1 && a.y1 < b2.y2 && a.y2 > b2.y1) {
+          overlapWith = other; break;
+        }
+      }
+    }
+    S.overlapping = overlapWith ? new Set([id, overlapWith]) : new Set();
     await render({ fit: false, reason: 'drag', relayout: false });
     paintPanels(S.view);
-    toast(`moved ${labelOf(id)} · undo with Ctrl+Z`);
+    toast(overlapWith
+      ? `moved ${labelOf(id)} — now overlapping ${labelOf(overlapWith)} · undo with Ctrl+Z`
+      : `moved ${labelOf(id)} · undo with Ctrl+Z`);
   });
 }
 
@@ -351,6 +375,10 @@ function wireDragging() {
 async function hideNode(id, withDescendants) {
   if (S.busy) return;
   const n = S.byId[id];
+  // Hiding a box but leaving its contents drawn orphans them: their positions
+  // are offsets from a parent that is no longer there. A container always
+  // takes its descendants with it.
+  if (!withDescendants && childrenVisible(id).length) withDescendants = true;
   S.history.begin(`hide ${withDescendants ? 'container ' : ''}${labelOf(id)}`);
   S.busy = true;
   try {
@@ -701,6 +729,29 @@ function paintInspector() {
  * trip is offered as an explicit action, and anything expensive says so.
  * See issue-1/node-badges-and-relation-details.md part 2.
  */
+
+/** Render a /api/relation result, always naming the command it came from. */
+function renderRelationProbe(r) {
+  if (!r) return '<p class="empty">no result</p>';
+  const cmd = r.cmd ? `<div class="cmd"><code>${r.cmd}</code></div>` : '';
+  if (r.error) return `${cmd}<p class="empty">${r.error}</p>`;
+  if (r.rows) {
+    if (!r.rows.length) return `${cmd}<p class="empty">no branches on either side</p>`;
+    return cmd + `<table class="brtable"><tr><th>branch</th><th>here</th><th>there</th><th></th></tr>`
+      + r.rows.map((x) => `<tr class="st-${x.state.replace(/ /g, '-')}">`
+        + `<td>${x.branch}</td><td><code>${x.local || '—'}</code></td>`
+        + `<td><code>${x.remote || '—'}</code></td><td>${x.state}</td></tr>`).join('')
+      + '</table>';
+  }
+  if (r.sides) {
+    const fmt = (s) => `${s.keys} keys · ${humanBytes(s.bytes) || '0B'}`;
+    return cmd + '<div class="kv">'
+      + Object.entries(r.sides).map(([k, v]) => `<span>${k}</span><div>${fmt(v)}</div>`).join('')
+      + `</div><p class="empty">${r.note || ''}</p>`;
+  }
+  return `${cmd}<p class="empty">nothing to show</p>`;
+}
+
 function paintEdgeInspector() {
   const cyEdge = cy.getElementById(S.selected);
   let d;
@@ -776,11 +827,10 @@ function paintEdgeInspector() {
     put('observed via', raw.via);
     if (tgtN.special_remote_type) put('special remote', tgtN.special_remote_type);
     body = `<div class="rels">
-        <button data-todo="1" title="Not implemented: one git ls-remote round trip">branch table (ls-remote)…</button>
-        <button data-todo="1" title="Not implemented: git annex find --in=X --not --in=Y">content each side lacks…</button>
+        <button data-probe="branches" title="One git ls-remote round trip">branch table…</button>
+        <button data-probe="content" title="git annex find --in=X --not --in=Y — expensive">content each side lacks…</button>
       </div>
-      <p class="empty">Both are specified but unimplemented — see
-        node-badges-and-relation-details.md part 2.</p>`;
+      <div id="relresult"></div>`;
   }
 
   const box = document.createElement('div');
@@ -805,8 +855,21 @@ function paintEdgeInspector() {
   box.querySelectorAll('button[data-edge]').forEach((b) => {
     b.onclick = () => select(b.dataset.edge, 'edge');
   });
-  box.querySelectorAll('button[data-todo]').forEach((b) => {
-    b.onclick = () => toast('not implemented yet — specified in part 2 of the badges doc');
+  box.querySelectorAll('button[data-probe]').forEach((b) => {
+    b.onclick = async () => {
+      const out = box.querySelector('#relresult');
+      const edgeId = (raw && raw.id) || d.id;
+      out.innerHTML = '<p class="empty">running…</p>';
+      b.disabled = true;
+      try {
+        const r = await post('/api/relation', {
+          scenario: S.scenario, edge_id: edgeId, what: b.dataset.probe,
+        });
+        out.innerHTML = renderRelationProbe(r);
+      } catch (e) {
+        out.innerHTML = `<p class="empty">failed: ${e.message}</p>`;
+      } finally { b.disabled = false; }
+    };
   });
   document.querySelector('.main').appendChild(box);
 }

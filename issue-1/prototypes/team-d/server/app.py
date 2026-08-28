@@ -423,6 +423,101 @@ def materialize(scenario, ids):
     }
 
 
+def _local_path(node):
+    """Filesystem path of a distribution, if it is one we can run git in."""
+    url = (node or {}).get("url") or ""
+    return url[len("file://"):] if url.startswith("file://") else None
+
+
+def relation_probe(scenario, edge_id, what):
+    """The costly rows of the relation panel, run on demand.
+
+    Kept behind an explicit action because these are the expensive ones, and
+    every result is returned with the command that produced it so the panel can
+    say where a number came from rather than asserting it.
+    """
+    wm = worldmap(scenario)
+    edge = next((e for e in wm["edges"] if e.get("id") == edge_id), None)
+    if edge is None:
+        return {"error": f"unknown relation {edge_id}"}
+    src = wm["_nodes"].get(edge.get("source")) or {}
+    tgt = wm["_nodes"].get(edge.get("target")) or {}
+    path = _local_path(src)
+    if not path or not os.path.isdir(path):
+        return {"error": "the source of this relation is not a local checkout, "
+                         "so nothing can be run against it from here"}
+    name = edge.get("remote_name")
+    target_url = edge.get("url") or tgt.get("url")
+
+    def run(args, timeout=60):
+        try:
+            r = subprocess.run(args, cwd=path, capture_output=True, text=True,
+                               timeout=timeout)
+            return r.returncode, r.stdout, r.stderr
+        except (subprocess.TimeoutExpired, OSError) as exc:
+            return 1, "", str(exc)
+
+    if what == "branches":
+        ref = name or target_url
+        if not ref:
+            return {"error": "no remote name or URL to query"}
+        cmd = ["git", "ls-remote", "--heads", ref]
+        rc, out, err = run(cmd)
+        if rc != 0:
+            return {"cmd": " ".join(cmd), "error": err.strip() or "ls-remote failed"}
+        remote = {}
+        for line in out.splitlines():
+            parts = line.split()
+            if len(parts) == 2 and parts[1].startswith("refs/heads/"):
+                remote[parts[1][len("refs/heads/"):]] = parts[0]
+        rc2, out2, _ = run(["git", "for-each-ref", "--format=%(refname:short) %(objectname)",
+                            "refs/heads"])
+        local = {}
+        for line in (out2 or "").splitlines():
+            parts = line.split()
+            if len(parts) == 2:
+                local[parts[0]] = parts[1]
+        rows = []
+        for b in sorted(set(local) | set(remote)):
+            l, r = local.get(b), remote.get(b)
+            state = ("same" if l and r and l == r
+                     else "only here" if l and not r
+                     else "only there" if r and not l else "differs")
+            rows.append({"branch": b, "local": (l or "")[:8], "remote": (r or "")[:8],
+                         "state": state})
+        return {"cmd": " ".join(cmd), "rows": rows}
+
+    if what == "content":
+        if not name:
+            return {"error": "content comparison needs a configured remote name"}
+        res = {}
+        for label, args in (
+            ("they have, we do not",
+             ["git", "annex", "find", "--in=" + name, "--not", "--in=here",
+              "--format=${bytesize}\n"]),
+            ("we have, they do not",
+             ["git", "annex", "find", "--in=here", "--not", "--in=" + name,
+              "--format=${bytesize}\n"]),
+        ):
+            rc, out, err = run(args, timeout=120)
+            if rc != 0:
+                return {"cmd": " ".join(args),
+                        "error": (err.strip().splitlines() or ["git annex find failed"])[0]}
+            n = 0
+            total = 0
+            for line in out.split():
+                try:
+                    total += int(line); n += 1
+                except ValueError:
+                    pass
+            res[label] = {"keys": n, "bytes": total}
+        return {"cmd": "git annex find --in=X --not --in=Y --format='${bytesize}'",
+                "sides": res,
+                "note": "believed from location tracking, not verified"}
+
+    return {"error": f"unknown probe {what}"}
+
+
 # ---------------------------------------------------------------- view files
 
 def canonical_view(obj):
@@ -607,6 +702,10 @@ class Handler(BaseHTTPRequestHandler):
 
         if u.path == "/api/reach":
             return self._json(reach_payload(scenario, req.get("visible") or []))
+
+        if u.path == "/api/relation":
+            return self._json(relation_probe(scenario, req.get("edge_id"),
+                                             req.get("what", "branches")))
 
         if u.path == "/api/expand":
             delay = random.uniform(PROBE_MIN_MS, PROBE_MAX_MS) / 1000.0

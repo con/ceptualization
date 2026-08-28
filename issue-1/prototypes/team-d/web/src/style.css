@@ -137,3 +137,11 @@ button:disabled { opacity: .45; cursor: default; }
 .sep { display: inline-block; width: 1px; height: 14px; background: var(--line); margin: 0 6px; vertical-align: middle; }
 #hidden { display: flex; flex-direction: column; gap: 2px; max-height: 160px; overflow-y: auto; }
 #hidden .muted { color: var(--fg3); font-size: 11.5px; margin: 2px 0; }
+
+/* relation probe results */
+.brtable { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 6px; }
+.brtable th { text-align: left; color: var(--fg3); font-weight: 500; padding: 2px 6px 2px 0; }
+.brtable td { padding: 2px 6px 2px 0; color: var(--fg2); }
+.brtable tr.st-same td { opacity: .55; }
+.brtable tr.st-only-there td, .brtable tr.st-differs td { color: var(--warn); }
+.cmd { margin: 6px 0 2px; font-size: 10.5px; color: var(--fg3); word-break: break-all; }

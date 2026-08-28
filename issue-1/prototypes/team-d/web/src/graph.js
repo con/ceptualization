@@ -63,6 +63,7 @@ export function duplicateUuids(nodes) {
 
 export function nodeClasses(n, ctx) {
   const c = [];
+  if (ctx && ctx.overlapping) c.push('overlapping');
   if (n.type === 'host') c.push('host', 'hk-' + (n.host_kind || 'host'));
   else {
     c.push('dist');
@@ -159,6 +160,7 @@ export function buildElements(view, model, sizes, extras = {}) {
       walked: (extras.walkedOf || new Map()).get(id),
       collapsedHidden: collapsed ? n.descendant_count : 0,
       ignoredByAll: (extras.ignoredByAll || new Set()).has(id),
+      overlapping: (extras.overlapping || new Set()).has(id),
     };
     const size = sizes.get(id) || { w: 210, h: 76 };
     const chips = chipsFor(n, ctx);
@@ -351,6 +353,9 @@ export function cyStyle(theme) {
     }},
     { selector: 'edge.k-part, edge.k-subdataset', style: { 'line-style': 'dashed', opacity: 0.65 } },
     { selector: 'edge:selected', style: { width: 4, 'line-color': p.seed, 'target-arrow-color': p.seed } },
+    { selector: 'node.overlapping', style: {
+      'border-color': p.warn, 'border-width': 3, 'border-style': 'dashed',
+    } },
     { selector: 'edge.dimmed', style: { opacity: 0.07, label: '' } },
     { selector: 'edge.hl', style: {
       'line-color': p.err, 'target-arrow-color': p.err, width: 4.5, 'z-index': 40,
