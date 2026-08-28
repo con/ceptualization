@@ -73,8 +73,21 @@ export function badgesFor(n, ctx = {}) {
   for (const [k, v] of Object.entries(rc)) {
     const [rel, dir] = k.split(':');
     if (rel === 'contains') continue;
+    if (rel.includes('@')) continue;        // scoped counts are subsets of their kind
     if (ctx.walked && ctx.walked.has(k)) continue;
     if (dir === 'out') out_n += v; else in_n += v;
+  }
+  // The remotes actually in use, called out separately: on a busy checkout
+  // most remotes are configuration nobody touches, and lumping them into one
+  // arrow count makes the useful ones unfindable.
+  const cur = rc['remote@current:out'] || 0;
+  const trk = rc['remote@tracked:out'] || 0;
+  if (cur) {
+    out.push({ group: 'topology', glyph: `⇄${cur}`, tone: 'good',
+      title: `${cur} remote(s) tracked by the checked-out branch` });
+  } else if (trk) {
+    out.push({ group: 'topology', glyph: `⇄${trk}`, tone: 'info',
+      title: `${trk} tracked remote(s), none on the current branch` });
   }
   if (out_n) out.push({ group: 'topology', glyph: `↗${out_n}`, tone: 'info', title: `${out_n} outgoing relation(s) not yet walked` });
   if (in_n) out.push({ group: 'topology', glyph: `↙${in_n}`, tone: 'info', title: `${in_n} incoming relation(s) not yet walked` });

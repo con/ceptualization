@@ -109,6 +109,8 @@ def walkable_for(wm):
     """Every relation kind actually present, baseline first for stable order."""
     present = {e.get("kind") for e in wm.get("edges", []) if e.get("kind")}
     present.add("contains")
+    if any(e.get("kind") == "remote" for e in wm.get("edges", [])):
+        present |= {"remote@current", "remote@tracked", "remote@untracked"}
     return [k for k in WALKABLE_BASE if k in present] + \
            sorted(present - set(WALKABLE_BASE))
 
@@ -186,11 +188,25 @@ def rel_counts(wm, node_id):
     superdataset is "the RIA store I push to" (one node), `remote:in` is "the 40
     per-subject repos that push to me". Team A's metrics use the same split, so
     ours are comparable to theirs."""
+    node = wm["_nodes"].get(node_id) or {}
+    head = node.get("branch")
     c = {}
     for e in wm["_incident"].get(node_id, []):
         d = "out" if e["source"] == node_id else "in"
-        k = e["kind"] + ":" + d
-        c[k] = c.get(k, 0) + 1
+        c[e["kind"] + ":" + d] = c.get(e["kind"] + ":" + d, 0) + 1
+        # A remote is not one thing. Most of a busy checkout's remotes are
+        # configuration nobody is using; the interesting ones are those some
+        # branch tracks, and especially the one the CURRENT branch tracks.
+        # `current` depends on the node's own HEAD, which is why these are
+        # computed per node rather than stored on the edge.
+        if e["kind"] == "remote" and d == "out":
+            tb = e.get("tracked_by") or []
+            if tb:
+                c["remote@tracked:out"] = c.get("remote@tracked:out", 0) + 1
+                if head and head in tb:
+                    c["remote@current:out"] = c.get("remote@current:out", 0) + 1
+            else:
+                c["remote@untracked:out"] = c.get("remote@untracked:out", 0) + 1
     return c
 
 
@@ -371,9 +387,19 @@ def expand(scenario, node_id, relation, known):
     known = set(known)
     new_ids = set()
     kind, _, want_dir = (relation or "*").partition(":")
+    kind, _, scope = kind.partition("@")     # remote@current, remote@tracked, ...
+    head = (wm["_nodes"].get(node_id) or {}).get("branch")
     for e in wm["_incident"].get(node_id, []):
         if kind not in ("*", "") and e["kind"] != kind:
             continue
+        if scope:
+            tb = e.get("tracked_by") or []
+            if scope == "current" and not (head and head in tb):
+                continue
+            if scope == "tracked" and not tb:
+                continue
+            if scope == "untracked" and tb:
+                continue
         d = "out" if e["source"] == node_id else "in"
         if want_dir and d != want_dir:
             continue

@@ -688,6 +688,19 @@ function paintPanels(view) {
   };
 }
 
+const REL_LABEL = {
+  'remote@current:out': 'remote · current branch',
+  'remote@tracked:out': 'remote · tracked',
+  'remote@untracked:out': 'remote · untracked',
+};
+const REL_TITLE = {
+  'remote@current:out': 'Remotes the checked-out branch tracks — what you are working with',
+  'remote@tracked:out': 'Remotes some branch tracks',
+  'remote@untracked:out': 'Configured but tracked by no branch — often not worth expanding',
+};
+const relLabel = (k) => REL_LABEL[k] || k;
+const relTitle = (k) => REL_TITLE[k] || k;
+
 function paintInspector() {
   const old = document.querySelector('.inspector');
   if (old) old.remove();
@@ -719,7 +732,7 @@ function paintInspector() {
       ${dis.map((x) => `<span class="n">${x.name}</span> — by ${x.from.join(', ')}`).join('<br>')}</div>` : ''}
     <div class="kv">${kv.join('')}</div>
     <div class="rels">${rels.map(([k, v]) =>
-      `<button data-rel="${k}" class="${done.has(k) ? 'done' : ''}">${k} ${v}</button>`).join('')}</div>
+      `<button data-rel="${k}" class="${done.has(k) ? 'done' : ''}" title="${relTitle(k)}">${relLabel(k)} ${v}</button>`).join('')}</div>
     ${n.child_count ? `<div class="rels"><button data-collapse="${n.id}">${S.collapsed.has(n.id) ? 'expand' : 'collapse'} container</button></div>` : ''}
     <div class="rels">
       ${S.hidden.has(n.id)
@@ -1038,8 +1051,8 @@ function shell() {
       <button id="lbl-all">all</button>
       <button id="lbl-none">none</button>
       <div class="sep"></div>
-      <button id="collapse-all">collapse all</button>
-      <button id="expand-all">expand all</button>
+      <button id="collapse-all" title="Fold every container into a single box">collapse all</button>
+      <button id="expand-all" title="Unfold collapsed containers. This does NOT probe — use “reveal all” to show everything crawled, or expand a relation from a node.">uncollapse all</button>
       <span class="lbl">remotes</span>
       <button class="tgl" id="rs-current" data-rs="current" title="Only remotes the checked-out branch tracks">current</button>
       <button class="tgl" id="rs-tracked" data-rs="tracked" title="Remotes some branch tracks">tracked</button>

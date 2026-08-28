@@ -107,6 +107,7 @@ The clamp is now there, and §4a states the bound as a test.
 | Ahead/behind without network | ✅ | from local remote-tracking refs |
 | Host parsed from annex `user@host:/path` descriptions | ✅ | otherwise everything piles onto one "unknown" host |
 | `annex-ignore` + pushurl per remote | ✅ | edge property, since clones disagree |
+| **Remote counts and expansion split by tracking** | ✅ | `rel_counts` now carries `remote@current:out` / `remote@tracked:out` / `remote@untracked:out` beside the total, `expand` accepts them as relations, and the details panel offers them as separate, labelled entries — so an untracked remote need never be expanded. A `⇄N` badge names the remotes the checked-out branch tracks. Verified per node in one map: a checkout on `claude/…` shows `remote@current:out 1`, a worktree on `master` with two untracked remotes shows `remote@untracked:out 2` |
 | **Remotes classified by tracking** | ✅ | each remote edge carries `tracked_by` (the branches that track it) and `tracking` = current / branch / none. Verified against `git config` ground truth. Viewer filters `current` / `tracked` / `all` — on a mixed map 8 edges → 6, dropping exactly the untracked pair — and styles current thicker, untracked dotted |
 | **Worktrees produce one arrow each, not N²** | ✅ | `git worktree list` reports every worktree whichever one you run it in, so N worktrees naively emitted N² `worktree_of` edges. Anchored on the **main** worktree and globally deduped: 5 worktrees → **4** arrows, not 25 |
 | **Remotes emitted once per repository, not per worktree** | ✅ | linked worktrees share `.git/config`, so 20 worktrees × 59 remotes drew 1180 identical arrows and implied something untrue. 5 worktrees × 2 remotes → **2** edges, not 10 |
@@ -147,6 +148,11 @@ accident.
 6. **Anything hardcoded that describes the data will be wrong.** Scenario
    lists, walkable relations and forge lists all had to become derived.
 7. **A seed is not a root set.** Always report what is unreachable from here.
+10. **A control must do what its label says.** "expand all" only unfolded
+    collapsed boxes and never probed; it was read as broken twice. Renamed
+    *uncollapse all*, with "reveal all" as the one that shows everything
+    crawled. A control that silently does less than its name is a bug report
+    generator.
 8. **New roll-ups reuse `effectiveId`, they do not add a mechanism.** Collapse
    and cross-container bundling are the same operation with a different notion
    of "who represents me"; a second aggregation path would drift out of sync.
