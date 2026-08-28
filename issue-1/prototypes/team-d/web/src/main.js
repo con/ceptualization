@@ -31,6 +31,7 @@ const S = {
   version: null,
   bundle: false,
   overlapping: new Set(),
+  remoteScope: 'all',   // all | tracked | current
   moved: new Set(),
 };
 let cy = null;
@@ -198,6 +199,7 @@ async function render({ fit = false, reason = '', inside = null, relayout = true
     walkedOf: walkedMap(),
     ignoredByAll: ignoredByAllSet(),
     overlapping: S.overlapping,
+    remoteScope: S.remoteScope,
   });
 
   cy.startBatch();
@@ -394,21 +396,37 @@ async function hideNode(id, withDescendants) {
       }
     }
     drop.forEach((k) => S.hidden.add(k));
-    if (drop.has(S.selected)) S.selected = null;
+    // Deliberately keep the selection: the details panel stays open and its
+    // button becomes "show", so hiding is reversible from where you did it.
     await render({ fit: false, reason: 'hide', relayout: true });
     paintPanels(S.view);
+    paintInspector();          // its button becomes "show"
+
     toast(`hid ${drop.size} node${drop.size === 1 ? '' : 's'} · undo with Ctrl+Z`);
   } finally { S.busy = false; }
 }
 
-async function unhide(ids) {
+async function unhide(ids, withDescendants = false) {
   if (S.busy) return;
+  if (withDescendants) {
+    const all = new Set(ids);
+    let grew = true;
+    while (grew) {
+      grew = false;
+      for (const k of S.hidden) {
+        const par = S.byId[k] && S.byId[k].parent;
+        if (par && all.has(par) && !all.has(k)) { all.add(k); grew = true; }
+      }
+    }
+    ids = [...all];
+  }
   S.history.begin(ids.length === 1 ? `show ${labelOf(ids[0])}` : `show ${ids.length} hidden`);
   S.busy = true;
   try {
     ids.forEach((k) => S.hidden.delete(k));
     await render({ fit: false, reason: 'unhide', relayout: true });
     paintPanels(S.view);
+    paintInspector();
   } finally { S.busy = false; }
 }
 
@@ -421,7 +439,7 @@ function paintHidden() {
     + ids.slice(0, 40).map((i) =>
       `<button class="histrow" data-id="${i}"><span>${labelOf(i)}</span><b>show</b></button>`).join('');
   el2.querySelectorAll('.histrow').forEach((b) => {
-    b.onclick = () => unhide(b.dataset.all ? ids : [b.dataset.id]);
+    b.onclick = () => unhide(b.dataset.all ? ids : [b.dataset.id], !b.dataset.all);
   });
 }
 
@@ -696,7 +714,7 @@ function paintInspector() {
   const dis = (S.disagree || new Map()).get(n.id);
   box.innerHTML = `<button class="close">×</button>
     <h3>${n.label || n.id}</h3>
-    <div class="kind">${n.type}${n.is_seed ? ' · seed' : ''}${n.child_count ? ` · contains ${n.child_count}` : ''}</div>
+    <div class="kind">${n.type}${n.is_seed ? ' · seed' : ''}${n.child_count ? ` · contains ${n.child_count}` : ''}${S.hidden.has(n.id) ? ' · <b style="color:var(--warn)">hidden</b>' : ''}</div>
     ${dis ? `<div class="names"><b style="color:var(--disagree)">called by ${dis.length} different names</b><br>
       ${dis.map((x) => `<span class="n">${x.name}</span> — by ${x.from.join(', ')}`).join('<br>')}</div>` : ''}
     <div class="kv">${kv.join('')}</div>
@@ -704,8 +722,10 @@ function paintInspector() {
       `<button data-rel="${k}" class="${done.has(k) ? 'done' : ''}">${k} ${v}</button>`).join('')}</div>
     ${n.child_count ? `<div class="rels"><button data-collapse="${n.id}">${S.collapsed.has(n.id) ? 'expand' : 'collapse'} container</button></div>` : ''}
     <div class="rels">
-      <button data-hide="${n.id}">hide node</button>
-      ${n.child_count ? `<button data-hideall="${n.id}">hide container (${n.descendant_count || n.child_count})</button>` : ''}
+      ${S.hidden.has(n.id)
+        ? `<button data-show="${n.id}">show ${n.child_count ? 'container' : 'node'}</button>`
+        : `<button data-hide="${n.id}">hide node</button>`
+          + (n.child_count ? `<button data-hideall="${n.id}">hide container (${n.descendant_count || n.child_count})</button>` : '')}
     </div>`;
   box.querySelector('.close').onclick = () => { S.selected = null; box.remove(); applyLabelPolicy(cy, { mode: S.labelMode }); };
   box.querySelectorAll('button[data-rel]').forEach((b) => {
@@ -717,6 +737,8 @@ function paintInspector() {
   if (hb) hb.onclick = () => hideNode(n.id, false);
   const hab = box.querySelector('button[data-hideall]');
   if (hab) hab.onclick = () => hideNode(n.id, true);
+  const sb = box.querySelector('button[data-show]');
+  if (sb) sb.onclick = () => unhide([n.id], true);
   document.querySelector('.main').appendChild(box);
 }
 
@@ -814,6 +836,13 @@ function paintEdgeInspector() {
     put('url', raw.url);
     put('push url', raw.pushurl);
     put('resolution', raw.resolution);
+    if (raw.tracking) {
+      put('tracking', raw.tracking === 'current'
+        ? '<b>the checked-out branch tracks this</b>'
+        : raw.tracking === 'branch' ? 'tracked, but not by the current branch'
+        : '<i>configured, tracked by no branch</i>');
+    }
+    if (raw.tracked_by && raw.tracked_by.length) put('tracked by', raw.tracked_by.join(', '));
     if (raw.annex_ignore) put('annex-ignore', 'yes — this clone will not ask it for content', 'warn');
     if (tgtN.annex_incapable_assumed) {
       put('assumed', 'host cannot carry annexed content over plain git <i>(assumption, not observed)</i>', 'muted');
@@ -1011,6 +1040,11 @@ function shell() {
       <div class="sep"></div>
       <button id="collapse-all">collapse all</button>
       <button id="expand-all">expand all</button>
+      <span class="lbl">remotes</span>
+      <button class="tgl" id="rs-current" data-rs="current" title="Only remotes the checked-out branch tracks">current</button>
+      <button class="tgl" id="rs-tracked" data-rs="tracked" title="Remotes some branch tracks">tracked</button>
+      <button class="tgl on" id="rs-all" data-rs="all">all</button>
+      <span class="sep"></span>
       <button id="bundle" title="Summarise edges between different containers into one arrow per pair">bundle x-container</button>
       <button id="reveal-all" title="Show every node already present in the crawled worldmap, without probing">reveal all</button>
       <span class="sep"></span><span class="lbl">badges</span>
@@ -1087,6 +1121,15 @@ function shell() {
     await render({ fit: false, reason: 'bundle', relayout: false });
     paintPanels(S.view);
   };
+  document.querySelectorAll('[data-rs]').forEach((b) => {
+    b.onclick = async () => {
+      S.remoteScope = b.dataset.rs;
+      document.querySelectorAll('[data-rs]').forEach((x) =>
+        x.classList.toggle('on', x.dataset.rs === S.remoteScope));
+      await render({ fit: false, reason: 'remote-scope', relayout: false });
+      paintPanels(S.view);
+    };
+  });
   document.getElementById('undo').onclick = doUndo;
   document.getElementById('redo').onclick = doRedo;
   window.addEventListener('keydown', (ev) => {

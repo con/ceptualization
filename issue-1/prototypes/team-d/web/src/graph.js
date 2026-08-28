@@ -205,6 +205,15 @@ export function buildElements(view, model, sizes, extras = {}) {
     const raw = e.sample || {};
     if (e.count > 1) cls.push('aggregated');
     if (raw.resolution === 'url-only') cls.push('url-only');
+    // "Which remotes am I actually working with?" A remote nobody tracks is
+    // configuration; the one the checked-out branch tracks is the live one.
+    if (e.kind === 'remote' && raw.tracking) cls.push('trk-' + raw.tracking);
+    const scope = extras.remoteScope || 'all';
+    if (e.kind === 'remote' && scope !== 'all') {
+      const ok = scope === 'current' ? raw.tracking === 'current'
+        : raw.tracking === 'current' || raw.tracking === 'branch';
+      if (!ok) cls.push('out-of-scope');
+    }
     if (raw.verdict) cls.push('verdict-' + raw.verdict);
     if (model.byId[e.source] && model.byId[e.source].inactive) cls.push('inactive');
     if (e.names && e.names.length > 1) cls.push('disagree');
@@ -356,6 +365,9 @@ export function cyStyle(theme) {
     { selector: 'node.overlapping', style: {
       'border-color': p.warn, 'border-width': 3, 'border-style': 'dashed',
     } },
+    { selector: 'edge.trk-current', style: { width: 3.4, opacity: 1 } },
+    { selector: 'edge.trk-none', style: { 'line-style': 'dotted', opacity: 0.55 } },
+    { selector: 'edge.out-of-scope', style: { opacity: 0.06, label: '' } },
     { selector: 'edge.dimmed', style: { opacity: 0.07, label: '' } },
     { selector: 'edge.hl', style: {
       'line-color': p.err, 'target-arrow-color': p.err, width: 4.5, 'z-index': 40,

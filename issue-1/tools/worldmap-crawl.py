@@ -334,9 +334,20 @@ def crawl(seeds, depth, use_ls_remote, name):
                 ls = git(path, "ls-remote", "--heads", rurl, timeout=25)
                 if ls is None:
                     nodes[tid]["unreachable"] = True
+            # Which branches actually TRACK this remote, and is one of them the
+            # branch checked out here? A remote nobody tracks is configuration;
+            # a remote the current branch tracks is what you are working with.
+            # Kept as a list rather than a flag because each worktree has its
+            # own HEAD, so "current" is a question about a node, not the edge.
+            tracked_by = sorted(bn for bn, cfg in info["tracking"].items()
+                                if cfg.get("remote") == rname)
+            head = info.get("head")
+            tracking = ("current" if head and head in tracked_by
+                        else "branch" if tracked_by else "none")
             add_edge(nid, tid, "remote", remote_name=rname, ahead=a, behind=b,
                      resolution="resolved" if (a is not None or nodes[tid].get("probed"))
-                                 else "url-only", url=rurl)
+                                 else "url-only", url=rurl,
+                     tracked_by=tracked_by, tracking=tracking)
             # annex trust for this remote, if the annex branch knows it
             ig = git(path, "config", "--get", f"remote.{rname}.annex-ignore")
             if ig and ig.lower() in ("true", "yes", "1"):

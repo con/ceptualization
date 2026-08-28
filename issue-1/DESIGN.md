@@ -107,6 +107,7 @@ The clamp is now there, and §4a states the bound as a test.
 | Ahead/behind without network | ✅ | from local remote-tracking refs |
 | Host parsed from annex `user@host:/path` descriptions | ✅ | otherwise everything piles onto one "unknown" host |
 | `annex-ignore` + pushurl per remote | ✅ | edge property, since clones disagree |
+| **Remotes classified by tracking** | ✅ | each remote edge carries `tracked_by` (the branches that track it) and `tracking` = current / branch / none. Verified against `git config` ground truth. Viewer filters `current` / `tracked` / `all` — on a mixed map 8 edges → 6, dropping exactly the untracked pair — and styles current thicker, untracked dotted |
 | **Worktrees produce one arrow each, not N²** | ✅ | `git worktree list` reports every worktree whichever one you run it in, so N worktrees naively emitted N² `worktree_of` edges. Anchored on the **main** worktree and globally deduped: 5 worktrees → **4** arrows, not 25 |
 | **Remotes emitted once per repository, not per worktree** | ✅ | linked worktrees share `.git/config`, so 20 worktrees × 59 remotes drew 1180 identical arrows and implied something untrue. 5 worktrees × 2 remotes → **2** edges, not 10 |
 | Annex-incapable forge defaults | ✅ | marked **assumption**, never on a host node, never on a special remote |
@@ -244,6 +245,12 @@ what the current build reports; the driver is
     [the relation panel lists them; a `×2` bundle offers both members]
 
 ### Crawl-shape requirements (added after a real worktree-heavy repository)
+
+25. **A remote is not one thing.** A remote no branch tracks is
+    configuration; one some branch tracks is in use; the one the checked-out
+    branch tracks is what you are working with now. Store `tracked_by` as a
+    list, never a boolean: each worktree has its own HEAD, so *current* is a
+    question about a node, not about the edge.
 
 22. **An edge must be identical whoever observed it.** `git worktree list`
     returns the same list from every worktree, so edges derived from it must
