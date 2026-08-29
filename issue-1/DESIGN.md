@@ -454,12 +454,17 @@ one-arrow-per-worktree fix was for.
    git-annex.
 3. **Persistence into the repo** — `.git/orinoco/` plus the `orinoco` branch,
    which turns a crawl into something shareable.
-4. **The two-collections test** — the CON research-group graph and the git
-   worldmap in one store, one UI, two perspectives. This is the cheapest
-   proof of the pluggability claim, on data that already exists — and it now
-   has a concrete UI meaning: step 3 of the staged plan in
-   [lenses-and-joined-graphs](./lenses-and-joined-graphs.md), preceded by
-   extracting the lens descriptor and toolbar type filters (steps 1–2).
+4. **The lens track**, now a phased implementation plan in
+   [lenses-and-joined-graphs](./lenses-and-joined-graphs.md), reordered
+   **schema-first**: (1) formalize the deployment model as a LinkML module in
+   the concepts.datalad.org framework — a lens classifies relations *by
+   name*, so the schema is what gives it stable URIs to reference; (2) the
+   lens itself as a LinkML class plus `deployment.lens.yaml` /
+   `portfolio.lens.yaml` and a linter; (3) the viewer consumes the lens with
+   the unchanged e2e suite as the zero-visible-change gate; (4) the CON
+   research-group graph as a second collection under the portfolio lens (the
+   two-collections test, absorbed here); (5) bridge records + portal pivots;
+   (6) panes, co-highlighting, perspectives-as-things.
 5. Fork discovery and identity resolution (issues #6 and the identity work).
 6. **Close the testing gaps in §5c**, cheapest first: walk save / load /
    export (`loadView` has been wrong twice already), then add a git-annex

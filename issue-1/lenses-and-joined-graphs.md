@@ -146,23 +146,114 @@ whether activation navigates a website, opens an inspector, or pivots panes.
   existing viewer; if the portfolio lens needs a fork of the code, the
   abstraction has failed.
 
-## Staged plan, cheapest first
+## Implementation plan
 
-1. **Extract the lens descriptor** from the viewer's hardcoded constants
-   (edge classes, badge groups, containment kind, layout). No behaviour
-   change; the deployment lens becomes data.
-2. **Type filters in the toolbar** — small, useful immediately in the
-   worldmap, and exercises the descriptor.
-3. **Second lens, real data:** load an export of the CON research-group
-   graph (orinoco/dump-things already serve this shape) as a second
-   collection with a `portfolio` lens — force layout, navigate action.
-   This *is* the two-collections test already in the TODO, now with a
-   concrete UI meaning.
-4. **Bridge records + portal badges** on the strongest keys only (dataset
-   id, canonical URL, host name). Pivot = switch pane, push breadcrumb.
-5. **Affinity co-highlighting** in the worldmap (selection lights up
-   same_as/shared-history peers), replacing nothing, reusing the group
-   explorer's best interaction.
-6. Later: linked side-by-side panes; person-key bridges once `actor` lands;
-   perspective sharing (a perspective is small JSON — trivially a "thing"
-   in the store, shareable like a saved view).
+Revised from "cheapest first" to **schema first**, for a load-bearing reason:
+a lens classifies *relations by name* (this property is geometry, that one an
+arrow, that one a highlight). Until the deployment model is formalized, those
+names are ad-hoc strings in one crawler's JSON — nothing a second lens, a
+validator, or another tool can reference. The schema is what turns the lens
+from viewer configuration into a portable document.
+
+The phases are strictly ordered 1 → 2 → 3; 4 and 5 build on 3; the
+data-movement and `actor` work proceeds in parallel and feeds phases 4–6.
+Every phase lands with its e2e extension and DESIGN.md ledger rows — a phase
+without a test that would catch its regression is not landed.
+
+### Phase 1 — formalize the deployment model in the concepts.datalad.org framework
+
+Finish what
+[distribution-modeling-and-repo-identity](./distribution-modeling-and-repo-identity.md)
+and [vocabulary-for-clones-and-remotes](./vocabulary-for-clones-and-remotes.md)
+drafted, as a LinkML module (working name `things-deployment`):
+
+* `Distribution is_a Thing` with the orthogonal slots (`vcs`, `layout`,
+  `annex_mode`, `packaging`, …) — the crawler's field names already mirror
+  this draft, which is no accident and makes the mapping near-mechanical.
+* Every worldmap edge kind becomes a **`Property`**, and an observed edge a
+  **`Statement`** qualified via `characterized_by`: remote name, tracking
+  state, `annex-ignore`, subdataset `path`, `not-initialized`, observation
+  time, evidence/assumption markers. The qualified-statement machinery is
+  exactly what the crawl's per-edge facts need; no property-graph escape
+  hatch.
+* `subdataset` and host containment as specializations of the relations
+  mixin's `part_of`; `same_as` reserved for bridges (phase 5).
+* Outward `exact_mappings`/`related_mappings` to ForgeFed, DOAP, dcat — link
+  out, import nothing, per the vocabulary document's conclusion.
+
+Deliverables: schema under `issue-1/schema/` (drafted here; upstreamed to
+datalad-concepts only after phase 3 proves it drives a real UI); a
+`worldmap-export` converter emitting schema-conformant records from
+`worldmap.json` (the crawler's native format stays — the viewer must not
+notice this phase); `linkml validate` plus an export → validate → reimport
+round-trip in the e2e suite.
+
+### Phase 2 — formalize the lens itself
+
+`LensDefinition` is also a LinkML class — a lens is a *thing*, storable and
+shareable in the same store as the data:
+
+* slots: `collection`, `containment` (ordered property URIs that become
+  geometry), `edge_classes` (property URI → structural | route | affinity),
+  `type_filters`, `badges`, `scopes`, `primary_action`, `layout`.
+* every reference is a **URI into a named schema** — the reason phase 1
+  precedes this — and a lens linter checks each one resolves, and that every
+  relation in the collection is classified (the default class for an
+  unlisted relation is an explicit slot, not an accident).
+* the same property may be classed differently by different lenses:
+  `part_of` is structural in the deployment lens; a portfolio lens may
+  render `Project part_of` as geometry or leave it affinity. That freedom is
+  the point.
+
+Deliverables: the class; `deployment.lens.yaml` transcribing today's
+hardcoded viewer behaviour; `portfolio.lens.yaml` written against
+demo-research-information; the linter.
+
+### Phase 3 — the viewer consumes the lens (zero visible change)
+
+Replace the viewer's hardcoded walkable set, edge styling, badge grouping and
+containment logic with lens-driven equivalents served at `/api/lens/{id}`.
+The gate is severe and cheap to enforce: **the unchanged e2e suite must stay
+green** — the deployment lens must reproduce today's behaviour exactly, on
+the fixture and all conformance scenarios. If the portfolio lens later needs
+a code fork, this phase failed.
+
+### Phase 4 — second collection, portfolio lens, real data
+
+Load an export of the CON research-group graph (the orinoco/dump-things data
+behind psychoinformatics.de) as a second collection; render it under the
+portfolio lens: force layout, `navigate` action, the type-filter legend.
+Decision point here, not before: whether `app.py` grows multi-collection
+support or is replaced by dump-things-service (the data is already in its
+shape; try it, keep `app.py` as the fallback). The e2e walk generalizes per
+lens: which invariants apply is derived from the lens (collapse/containment
+checks only where `containment` is non-empty), so the portfolio collection
+gets its own conformance run rather than a copy of the suite.
+
+### Phase 5 — bridges and portals
+
+`Bridge` as a schema class: subject, object, key kind (dataset id, canonical
+URL, host, DOI, person), confidence, evidence — the same discipline as
+`annex_incapable_assumed` and `direction: inferred`. A generator computes
+bridges over the strong keys only; portal badges render them; activating a
+portal pivots the pane to the other lens focused on the bridged nodes,
+breadcrumb pushed, the pivot a step in the one exploration history. e2e: the
+fixture gains a miniature portfolio collection naming the fixture's github
+repository as an Instrument — invariants: the portal badge appears, the
+pivot lands focused on the bridged node, undo returns to the origin pane.
+
+### Phase 6 — comfort and scale
+
+Side-by-side panes with linked selection; affinity co-highlighting in the
+worldmap; person-key bridges once `actor` lands; perspectives
+(`lens + visible-set + layout + focus`) stored as things and shared like any
+other record. Order within this phase by demand, not by plan.
+
+### What stays true throughout
+
+* The crawler's native JSON remains the emission format; schema records are
+  an export of it, not a replacement, until well after phase 4.
+* Nodes are never merged across collections; bridges are explicit records.
+* No second viewer. One codebase, N lens documents.
+* A phase is done when the e2e suite tests it — the suite, not the demo, is
+  the definition of done.
