@@ -1,0 +1,3347 @@
+{
+  "base": "http://127.0.0.1:8861",
+  "when": "2026-08-26T03:39:01.407Z",
+  "runs": [
+    {
+      "scenario": "s1-spacetop",
+      "mode": "sticky",
+      "firstPaintMs": 51.1,
+      "coldLoadMs": 313,
+      "expansions": [
+        {
+          "key": "d:lena|remote:out",
+          "newNodes": 16,
+          "tier1Ran": true,
+          "layoutMs": 63.5,
+          "netMs": 5.1,
+          "containers": {
+            "n": 1,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersCorner": {
+            "n": 1,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersAnchor": {
+            "n": 1,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersOther": {
+            "n": 1,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "grown": [],
+          "focus": 0,
+          "leaves": {
+            "n": 1,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesInside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 1,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "tier2": [
+            {
+              "container": "h:aws",
+              "kids": 1,
+              "pinned": 0,
+              "engine": "grid",
+              "fcoseMs": 0,
+              "ms": 0.3
+            },
+            {
+              "container": "h:discovery",
+              "kids": 1,
+              "pinned": 0,
+              "engine": "grid",
+              "fcoseMs": 0,
+              "ms": 0.2
+            },
+            {
+              "container": "h:github",
+              "kids": 3,
+              "pinned": 0,
+              "engine": "grid",
+              "fcoseMs": 0,
+              "ms": 0.3
+            },
+            {
+              "container": "h:rolando",
+              "kids": 2,
+              "pinned": 0,
+              "engine": "grid-after-fcose-overlapped(1)",
+              "fcoseMs": 12.7,
+              "ms": 29.3
+            },
+            {
+              "container": "h:smaug",
+              "kids": 1,
+              "pinned": 0,
+              "engine": "grid",
+              "fcoseMs": 0,
+              "ms": 0.5
+            },
+            {
+              "container": "h:typhon",
+              "kids": 2,
+              "pinned": 0,
+              "engine": "grid-after-fcose-overlapped(1)",
+              "fcoseMs": 3.6,
+              "ms": 7.1
+            }
+          ]
+        },
+        {
+          "key": "d:typhon|remote:out",
+          "newNodes": 2,
+          "tier1Ran": true,
+          "layoutMs": 5.5,
+          "netMs": 10.7,
+          "containers": {
+            "n": 7,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersCorner": {
+            "n": 7,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersAnchor": {
+            "n": 7,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersOther": {
+            "n": 7,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "grown": [],
+          "focus": 0,
+          "leaves": {
+            "n": 11,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesInside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 11,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "tier2": [
+            {
+              "container": "h:openneuro",
+              "kids": 1,
+              "pinned": 0,
+              "engine": "grid",
+              "fcoseMs": 0,
+              "ms": 0.3
+            }
+          ]
+        },
+        {
+          "key": "d:rolando|remote:in",
+          "newNodes": 2,
+          "tier1Ran": true,
+          "layoutMs": 5.9,
+          "netMs": 11.7,
+          "containers": {
+            "n": 8,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersCorner": {
+            "n": 8,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersAnchor": {
+            "n": 8,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersOther": {
+            "n": 8,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "grown": [],
+          "focus": 0,
+          "leaves": {
+            "n": 12,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesInside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 12,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "tier2": [
+            {
+              "container": "h:hjlaptop",
+              "kids": 1,
+              "pinned": 0,
+              "engine": "grid",
+              "fcoseMs": 0,
+              "ms": 0.3
+            }
+          ]
+        },
+        {
+          "key": "d:smaug|remote:out",
+          "newNodes": 1,
+          "tier1Ran": false,
+          "layoutMs": 10.6,
+          "netMs": 10.5,
+          "containers": {
+            "n": 9,
+            "median": 0,
+            "mean": 16.44,
+            "max": 97,
+            "moved": 2
+          },
+          "containersCorner": {
+            "n": 9,
+            "median": 0,
+            "mean": 10.78,
+            "max": 97,
+            "moved": 1
+          },
+          "containersAnchor": {
+            "n": 9,
+            "median": 0,
+            "mean": 10.78,
+            "max": 97,
+            "moved": 1
+          },
+          "containersOther": {
+            "n": 8,
+            "median": 0,
+            "mean": 12.13,
+            "max": 97,
+            "moved": 1
+          },
+          "grown": [
+            "h:smaug"
+          ],
+          "focus": 0,
+          "leaves": {
+            "n": 13,
+            "median": 0,
+            "mean": 7.46,
+            "max": 97,
+            "moved": 1
+          },
+          "leavesInside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 13,
+            "median": 0,
+            "mean": 7.46,
+            "max": 97,
+            "moved": 1
+          },
+          "tier2": [
+            {
+              "container": "h:smaug",
+              "kids": 2,
+              "pinned": 1,
+              "engine": "fcose",
+              "fcoseMs": 5.6,
+              "ms": 9.7
+            }
+          ]
+        },
+        {
+          "key": "d:discovery|same_annex_uuid:out",
+          "newNodes": 1,
+          "tier1Ran": false,
+          "layoutMs": 6.7,
+          "netMs": 48.2,
+          "containers": {
+            "n": 9,
+            "median": 0,
+            "mean": 5.67,
+            "max": 51,
+            "moved": 1
+          },
+          "containersCorner": {
+            "n": 9,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersAnchor": {
+            "n": 9,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersOther": {
+            "n": 8,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "grown": [
+            "h:discovery"
+          ],
+          "focus": 0,
+          "leaves": {
+            "n": 14,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesInside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 14,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "tier2": [
+            {
+              "container": "h:discovery",
+              "kids": 2,
+              "pinned": 1,
+              "engine": "fcose",
+              "fcoseMs": 3,
+              "ms": 6.1
+            }
+          ]
+        },
+        {
+          "key": "h:github|contains:out",
+          "newNodes": 0,
+          "tier1Ran": false,
+          "layoutMs": 0.5,
+          "netMs": 46.6,
+          "containers": {
+            "n": 9,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersCorner": {
+            "n": 9,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersAnchor": {
+            "n": 9,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersOther": {
+            "n": 8,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "grown": [],
+          "focus": 0,
+          "leaves": {
+            "n": 15,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesInside": {
+            "n": 3,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 12,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "tier2": []
+        }
+      ],
+      "final": {
+        "nodes": 24,
+        "edges": 25,
+        "tier1Runs": 4,
+        "tier2Runs": 11,
+        "reach": {
+          "scenario": "s1-spacetop",
+          "total": 24,
+          "visible": 24,
+          "reachable_relations_only": 24,
+          "reachable_with_contains": 24,
+          "needs_contains": 0,
+          "unreachable": 0,
+          "unreached_roots": []
+        }
+      }
+    },
+    {
+      "scenario": "s2-babs-ria",
+      "mode": "sticky",
+      "firstPaintMs": 56.9,
+      "coldLoadMs": 316,
+      "expansions": [
+        {
+          "key": "d:super|subdataset:out",
+          "newNodes": 2,
+          "tier1Ran": false,
+          "layoutMs": 0.8,
+          "netMs": 4.8,
+          "containers": {
+            "n": 2,
+            "median": 94.87,
+            "mean": 94.87,
+            "max": 94.87,
+            "moved": 2
+          },
+          "containersCorner": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersAnchor": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersOther": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "grown": [
+            "h:discovery"
+          ],
+          "focus": 94.87,
+          "leaves": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesInside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "tier2": [
+            {
+              "container": "d:super",
+              "kids": 2,
+              "pinned": 0,
+              "engine": "grid",
+              "fcoseMs": 0,
+              "ms": 0.5
+            }
+          ]
+        },
+        {
+          "key": "d:super|worktree_of:in",
+          "newNodes": 4,
+          "tier1Ran": true,
+          "layoutMs": 11.8,
+          "netMs": 47.2,
+          "containers": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersCorner": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersAnchor": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersOther": {
+            "n": 1,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "grown": [],
+          "focus": 0,
+          "leaves": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesInside": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "tier2": [
+            {
+              "container": "h:lena",
+              "kids": 3,
+              "pinned": 0,
+              "engine": "grid",
+              "fcoseMs": 0,
+              "ms": 0.4
+            }
+          ]
+        },
+        {
+          "key": "d:super|remote:out",
+          "newNodes": 2,
+          "tier1Ran": true,
+          "layoutMs": 12.3,
+          "netMs": 44.6,
+          "containers": {
+            "n": 3,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersCorner": {
+            "n": 3,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersAnchor": {
+            "n": 3,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersOther": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "grown": [],
+          "focus": 0,
+          "leaves": {
+            "n": 5,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesInside": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 3,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "tier2": [
+            {
+              "container": "h:ria",
+              "kids": 1,
+              "pinned": 0,
+              "engine": "grid",
+              "fcoseMs": 0,
+              "ms": 0.4
+            }
+          ]
+        },
+        {
+          "key": "d:ria|part:out",
+          "newNodes": 40,
+          "tier1Ran": false,
+          "layoutMs": 1.4,
+          "netMs": 52.7,
+          "containers": {
+            "n": 5,
+            "median": 0,
+            "mean": 294.27,
+            "max": 735.67,
+            "moved": 2
+          },
+          "containersCorner": {
+            "n": 5,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersAnchor": {
+            "n": 5,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersOther": {
+            "n": 3,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "grown": [
+            "h:ria"
+          ],
+          "focus": 735.67,
+          "leaves": {
+            "n": 5,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesInside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 5,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "tier2": [
+            {
+              "container": "d:ria",
+              "kids": 40,
+              "pinned": 0,
+              "engine": "grid",
+              "fcoseMs": 0,
+              "ms": 0.5
+            }
+          ]
+        },
+        {
+          "key": "d:ria-sub-001|remote:out",
+          "newNodes": 0,
+          "tier1Ran": false,
+          "layoutMs": 1,
+          "netMs": 88.4,
+          "containers": {
+            "n": 5,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersCorner": {
+            "n": 5,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersAnchor": {
+            "n": 5,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersOther": {
+            "n": 5,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "grown": [],
+          "focus": 0,
+          "leaves": {
+            "n": 45,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesInside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 45,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "tier2": []
+        }
+      ],
+      "final": {
+        "nodes": 50,
+        "edges": 86,
+        "tier1Runs": 3,
+        "tier2Runs": 5,
+        "reach": {
+          "scenario": "s2-babs-ria",
+          "total": 51,
+          "visible": 50,
+          "reachable_relations_only": 51,
+          "reachable_with_contains": 51,
+          "needs_contains": 0,
+          "unreachable": 0,
+          "unreached_roots": []
+        }
+      }
+    },
+    {
+      "scenario": "s3-forks",
+      "mode": "sticky",
+      "firstPaintMs": 12.5,
+      "coldLoadMs": 306,
+      "expansions": [
+        {
+          "key": "d:mine|remote:out",
+          "newNodes": 2,
+          "tier1Ran": true,
+          "layoutMs": 10.9,
+          "netMs": 5.7,
+          "containers": {
+            "n": 1,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersCorner": {
+            "n": 1,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersAnchor": {
+            "n": 1,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersOther": {
+            "n": 1,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "grown": [],
+          "focus": 0,
+          "leaves": {
+            "n": 1,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesInside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 1,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "tier2": [
+            {
+              "container": "h:github",
+              "kids": 1,
+              "pinned": 0,
+              "engine": "grid",
+              "fcoseMs": 0,
+              "ms": 0.5
+            }
+          ]
+        },
+        {
+          "key": "d:upstream|fork_of:in",
+          "newNodes": 60,
+          "tier1Ran": false,
+          "layoutMs": 259.8,
+          "netMs": 47,
+          "containers": {
+            "n": 2,
+            "median": 843.77,
+            "mean": 421.88,
+            "max": 843.77,
+            "moved": 1
+          },
+          "containersCorner": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersAnchor": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersOther": {
+            "n": 1,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "grown": [
+            "h:github"
+          ],
+          "focus": 0,
+          "leaves": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesInside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "tier2": [
+            {
+              "container": "h:github",
+              "kids": 61,
+              "pinned": 1,
+              "engine": "grid-after-fcose-overlapped(247)",
+              "fcoseMs": 192.1,
+              "ms": 258.5
+            }
+          ]
+        },
+        {
+          "key": "h:lena|contains:out",
+          "newNodes": 1,
+          "tier1Ran": false,
+          "layoutMs": 1.9,
+          "netMs": 19.5,
+          "containers": {
+            "n": 2,
+            "median": 51,
+            "mean": 25.5,
+            "max": 51,
+            "moved": 1
+          },
+          "containersCorner": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersAnchor": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersOther": {
+            "n": 1,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "grown": [
+            "h:lena"
+          ],
+          "focus": 51,
+          "leaves": {
+            "n": 62,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesInside": {
+            "n": 1,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 61,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "tier2": [
+            {
+              "container": "h:lena",
+              "kids": 2,
+              "pinned": 1,
+              "engine": "grid",
+              "fcoseMs": 0,
+              "ms": 0.5
+            }
+          ]
+        },
+        {
+          "key": "d:proj-a-clone|remote:out",
+          "newNodes": 1,
+          "tier1Ran": false,
+          "layoutMs": 73,
+          "netMs": 19.8,
+          "containers": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersCorner": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersAnchor": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersOther": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "grown": [],
+          "focus": 0,
+          "leaves": {
+            "n": 63,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesInside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 63,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "tier2": [
+            {
+              "container": "h:github",
+              "kids": 62,
+              "pinned": 61,
+              "engine": "grid-after-fcose-overlapped(1)",
+              "fcoseMs": 29.8,
+              "ms": 70.8
+            }
+          ]
+        },
+        {
+          "key": "d:proj-a|shares_history_with:out",
+          "newNodes": 1,
+          "tier1Ran": false,
+          "layoutMs": 61.6,
+          "netMs": 18.7,
+          "containers": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersCorner": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersAnchor": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersOther": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "grown": [],
+          "focus": 0,
+          "leaves": {
+            "n": 64,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesInside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 64,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "tier2": [
+            {
+              "container": "h:github",
+              "kids": 63,
+              "pinned": 62,
+              "engine": "grid-after-fcose-overlapped(1)",
+              "fcoseMs": 20.2,
+              "ms": 60
+            }
+          ]
+        },
+        {
+          "key": "d:tpl|shares_history_with:in",
+          "newNodes": 1,
+          "tier1Ran": false,
+          "layoutMs": 56.7,
+          "netMs": 17.6,
+          "containers": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersCorner": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersAnchor": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersOther": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "grown": [],
+          "focus": 0,
+          "leaves": {
+            "n": 65,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesInside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 65,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "tier2": [
+            {
+              "container": "h:github",
+              "kids": 64,
+              "pinned": 63,
+              "engine": "grid-after-fcose-overlapped(1)",
+              "fcoseMs": 16.4,
+              "ms": 55.2
+            }
+          ]
+        }
+      ],
+      "final": {
+        "nodes": 68,
+        "edges": 66,
+        "tier1Runs": 2,
+        "tier2Runs": 7,
+        "reach": {
+          "scenario": "s3-forks",
+          "total": 68,
+          "visible": 68,
+          "reachable_relations_only": 68,
+          "reachable_with_contains": 68,
+          "needs_contains": 0,
+          "unreachable": 0,
+          "unreached_roots": []
+        }
+      }
+    },
+    {
+      "scenario": "s1-spacetop",
+      "mode": "full",
+      "firstPaintMs": 50.8,
+      "coldLoadMs": 309,
+      "expansions": [
+        {
+          "key": "d:lena|remote:out",
+          "newNodes": 16,
+          "tier1Ran": true,
+          "layoutMs": 60.4,
+          "netMs": 9.7,
+          "containers": {
+            "n": 1,
+            "median": 305.97,
+            "mean": 305.97,
+            "max": 305.97,
+            "moved": 1
+          },
+          "containersCorner": {
+            "n": 1,
+            "median": 305.97,
+            "mean": 305.97,
+            "max": 305.97,
+            "moved": 1
+          },
+          "containersAnchor": {
+            "n": 1,
+            "median": 305.97,
+            "mean": 305.97,
+            "max": 305.97,
+            "moved": 1
+          },
+          "containersOther": {
+            "n": 1,
+            "median": 305.97,
+            "mean": 305.97,
+            "max": 305.97,
+            "moved": 1
+          },
+          "grown": [],
+          "focus": 305.97,
+          "leaves": {
+            "n": 1,
+            "median": 305.97,
+            "mean": 305.97,
+            "max": 305.97,
+            "moved": 1
+          },
+          "leavesInside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 1,
+            "median": 305.97,
+            "mean": 305.97,
+            "max": 305.97,
+            "moved": 1
+          },
+          "tier2": [
+            {
+              "container": "h:aws",
+              "kids": 1,
+              "pinned": 0,
+              "engine": "grid",
+              "fcoseMs": 0,
+              "ms": 0.3
+            },
+            {
+              "container": "h:discovery",
+              "kids": 1,
+              "pinned": 0,
+              "engine": "grid",
+              "fcoseMs": 0,
+              "ms": 0.2
+            },
+            {
+              "container": "h:github",
+              "kids": 3,
+              "pinned": 0,
+              "engine": "grid",
+              "fcoseMs": 0,
+              "ms": 0.1
+            },
+            {
+              "container": "h:rolando",
+              "kids": 2,
+              "pinned": 0,
+              "engine": "grid-after-fcose-overlapped(1)",
+              "fcoseMs": 13,
+              "ms": 29
+            },
+            {
+              "container": "h:smaug",
+              "kids": 1,
+              "pinned": 0,
+              "engine": "grid",
+              "fcoseMs": 0,
+              "ms": 0.7
+            },
+            {
+              "container": "h:typhon",
+              "kids": 2,
+              "pinned": 0,
+              "engine": "grid-after-fcose-overlapped(1)",
+              "fcoseMs": 3.6,
+              "ms": 7.2
+            }
+          ]
+        },
+        {
+          "key": "d:typhon|remote:out",
+          "newNodes": 2,
+          "tier1Ran": true,
+          "layoutMs": 5.8,
+          "netMs": 64.3,
+          "containers": {
+            "n": 7,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersCorner": {
+            "n": 7,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersAnchor": {
+            "n": 7,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersOther": {
+            "n": 7,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "grown": [],
+          "focus": 0,
+          "leaves": {
+            "n": 11,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesInside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 11,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "tier2": [
+            {
+              "container": "h:openneuro",
+              "kids": 1,
+              "pinned": 0,
+              "engine": "grid",
+              "fcoseMs": 0,
+              "ms": 0.3
+            }
+          ]
+        },
+        {
+          "key": "d:rolando|remote:in",
+          "newNodes": 2,
+          "tier1Ran": true,
+          "layoutMs": 8.4,
+          "netMs": 12.6,
+          "containers": {
+            "n": 8,
+            "median": 88,
+            "mean": 120.5,
+            "max": 481,
+            "moved": 4
+          },
+          "containersCorner": {
+            "n": 8,
+            "median": 88,
+            "mean": 120.5,
+            "max": 481,
+            "moved": 4
+          },
+          "containersAnchor": {
+            "n": 8,
+            "median": 88,
+            "mean": 120.5,
+            "max": 481,
+            "moved": 4
+          },
+          "containersOther": {
+            "n": 8,
+            "median": 88,
+            "mean": 120.5,
+            "max": 481,
+            "moved": 4
+          },
+          "grown": [],
+          "focus": 0,
+          "leaves": {
+            "n": 12,
+            "median": 88,
+            "mean": 95,
+            "max": 481,
+            "moved": 6
+          },
+          "leavesInside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 12,
+            "median": 88,
+            "mean": 95,
+            "max": 481,
+            "moved": 6
+          },
+          "tier2": [
+            {
+              "container": "h:hjlaptop",
+              "kids": 1,
+              "pinned": 0,
+              "engine": "grid",
+              "fcoseMs": 0,
+              "ms": 3
+            }
+          ]
+        },
+        {
+          "key": "d:smaug|remote:out",
+          "newNodes": 1,
+          "tier1Ran": true,
+          "layoutMs": 14.9,
+          "netMs": 10.2,
+          "containers": {
+            "n": 9,
+            "median": 0,
+            "mean": 17,
+            "max": 102,
+            "moved": 2
+          },
+          "containersCorner": {
+            "n": 9,
+            "median": 0,
+            "mean": 11.33,
+            "max": 102,
+            "moved": 1
+          },
+          "containersAnchor": {
+            "n": 9,
+            "median": 0,
+            "mean": 11.33,
+            "max": 102,
+            "moved": 1
+          },
+          "containersOther": {
+            "n": 8,
+            "median": 0,
+            "mean": 12.75,
+            "max": 102,
+            "moved": 1
+          },
+          "grown": [
+            "h:smaug"
+          ],
+          "focus": 0,
+          "leaves": {
+            "n": 13,
+            "median": 0,
+            "mean": 23.54,
+            "max": 102,
+            "moved": 3
+          },
+          "leavesInside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 13,
+            "median": 0,
+            "mean": 23.54,
+            "max": 102,
+            "moved": 3
+          },
+          "tier2": [
+            {
+              "container": "h:smaug",
+              "kids": 2,
+              "pinned": 1,
+              "engine": "fcose",
+              "fcoseMs": 5.3,
+              "ms": 9.9
+            }
+          ]
+        },
+        {
+          "key": "d:discovery|same_annex_uuid:out",
+          "newNodes": 1,
+          "tier1Ran": true,
+          "layoutMs": 22.8,
+          "netMs": 10.6,
+          "containers": {
+            "n": 9,
+            "median": 102,
+            "mean": 85,
+            "max": 102,
+            "moved": 8
+          },
+          "containersCorner": {
+            "n": 9,
+            "median": 102,
+            "mean": 79.34,
+            "max": 102,
+            "moved": 7
+          },
+          "containersAnchor": {
+            "n": 9,
+            "median": 102,
+            "mean": 79.34,
+            "max": 102,
+            "moved": 7
+          },
+          "containersOther": {
+            "n": 8,
+            "median": 102,
+            "mean": 89.25,
+            "max": 102,
+            "moved": 7
+          },
+          "grown": [
+            "h:discovery"
+          ],
+          "focus": 0.02,
+          "leaves": {
+            "n": 14,
+            "median": 102,
+            "mean": 87.43,
+            "max": 102,
+            "moved": 12
+          },
+          "leavesInside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 14,
+            "median": 102,
+            "mean": 87.43,
+            "max": 102,
+            "moved": 12
+          },
+          "tier2": [
+            {
+              "container": "h:discovery",
+              "kids": 2,
+              "pinned": 1,
+              "engine": "fcose",
+              "fcoseMs": 3.9,
+              "ms": 9.9
+            }
+          ]
+        },
+        {
+          "key": "h:github|contains:out",
+          "newNodes": 0,
+          "tier1Ran": true,
+          "layoutMs": 5.4,
+          "netMs": 10.1,
+          "containers": {
+            "n": 9,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersCorner": {
+            "n": 9,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersAnchor": {
+            "n": 9,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersOther": {
+            "n": 8,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "grown": [],
+          "focus": 0,
+          "leaves": {
+            "n": 15,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesInside": {
+            "n": 3,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 12,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "tier2": []
+        }
+      ],
+      "final": {
+        "nodes": 24,
+        "edges": 25,
+        "tier1Runs": 7,
+        "tier2Runs": 11,
+        "reach": {
+          "scenario": "s1-spacetop",
+          "total": 24,
+          "visible": 24,
+          "reachable_relations_only": 24,
+          "reachable_with_contains": 24,
+          "needs_contains": 0,
+          "unreachable": 0,
+          "unreached_roots": []
+        }
+      }
+    },
+    {
+      "scenario": "s2-babs-ria",
+      "mode": "full",
+      "firstPaintMs": 11,
+      "coldLoadMs": 299,
+      "expansions": [
+        {
+          "key": "d:super|subdataset:out",
+          "newNodes": 2,
+          "tier1Ran": true,
+          "layoutMs": 3.3,
+          "netMs": 5.4,
+          "containers": {
+            "n": 2,
+            "median": 94.87,
+            "mean": 94.87,
+            "max": 94.87,
+            "moved": 2
+          },
+          "containersCorner": {
+            "n": 2,
+            "median": 0.01,
+            "mean": 0.01,
+            "max": 0.01,
+            "moved": 0
+          },
+          "containersAnchor": {
+            "n": 2,
+            "median": 0.01,
+            "mean": 0.01,
+            "max": 0.01,
+            "moved": 0
+          },
+          "containersOther": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "grown": [
+            "h:discovery"
+          ],
+          "focus": 94.87,
+          "leaves": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesInside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "tier2": [
+            {
+              "container": "d:super",
+              "kids": 2,
+              "pinned": 0,
+              "engine": "grid",
+              "fcoseMs": 0,
+              "ms": 0.3
+            }
+          ]
+        },
+        {
+          "key": "d:super|worktree_of:in",
+          "newNodes": 4,
+          "tier1Ran": true,
+          "layoutMs": 9.5,
+          "netMs": 8.9,
+          "containers": {
+            "n": 2,
+            "median": 607.01,
+            "mean": 607.01,
+            "max": 607.01,
+            "moved": 2
+          },
+          "containersCorner": {
+            "n": 2,
+            "median": 607.01,
+            "mean": 607.01,
+            "max": 607.01,
+            "moved": 2
+          },
+          "containersAnchor": {
+            "n": 2,
+            "median": 607.01,
+            "mean": 607.01,
+            "max": 607.01,
+            "moved": 2
+          },
+          "containersOther": {
+            "n": 1,
+            "median": 607.01,
+            "mean": 607.01,
+            "max": 607.01,
+            "moved": 1
+          },
+          "grown": [],
+          "focus": 607.01,
+          "leaves": {
+            "n": 2,
+            "median": 607.01,
+            "mean": 607.01,
+            "max": 607.01,
+            "moved": 2
+          },
+          "leavesInside": {
+            "n": 2,
+            "median": 607.01,
+            "mean": 607.01,
+            "max": 607.01,
+            "moved": 2
+          },
+          "leavesOutside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "tier2": [
+            {
+              "container": "h:lena",
+              "kids": 3,
+              "pinned": 0,
+              "engine": "grid",
+              "fcoseMs": 0,
+              "ms": 0.7
+            }
+          ]
+        },
+        {
+          "key": "d:super|remote:out",
+          "newNodes": 2,
+          "tier1Ran": true,
+          "layoutMs": 18.5,
+          "netMs": 51.8,
+          "containers": {
+            "n": 3,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersCorner": {
+            "n": 3,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersAnchor": {
+            "n": 3,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersOther": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "grown": [],
+          "focus": 0,
+          "leaves": {
+            "n": 5,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesInside": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 3,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "tier2": [
+            {
+              "container": "h:ria",
+              "kids": 1,
+              "pinned": 0,
+              "engine": "grid",
+              "fcoseMs": 0,
+              "ms": 0.2
+            }
+          ]
+        },
+        {
+          "key": "d:ria|part:out",
+          "newNodes": 40,
+          "tier1Ran": true,
+          "layoutMs": 4.1,
+          "netMs": 47.1,
+          "containers": {
+            "n": 5,
+            "median": 306,
+            "mean": 460.16,
+            "max": 691.4,
+            "moved": 5
+          },
+          "containersCorner": {
+            "n": 5,
+            "median": 306,
+            "mean": 219.6,
+            "max": 306,
+            "moved": 5
+          },
+          "containersAnchor": {
+            "n": 5,
+            "median": 306,
+            "mean": 219.6,
+            "max": 306,
+            "moved": 5
+          },
+          "containersOther": {
+            "n": 3,
+            "median": 306,
+            "mean": 306,
+            "max": 306,
+            "moved": 3
+          },
+          "grown": [
+            "h:ria"
+          ],
+          "focus": 691.4,
+          "leaves": {
+            "n": 5,
+            "median": 306,
+            "mean": 306,
+            "max": 306,
+            "moved": 5
+          },
+          "leavesInside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 5,
+            "median": 306,
+            "mean": 306,
+            "max": 306,
+            "moved": 5
+          },
+          "tier2": [
+            {
+              "container": "d:ria",
+              "kids": 40,
+              "pinned": 0,
+              "engine": "grid",
+              "fcoseMs": 0,
+              "ms": 0.6
+            }
+          ]
+        },
+        {
+          "key": "d:ria-sub-001|remote:out",
+          "newNodes": 0,
+          "tier1Ran": true,
+          "layoutMs": 3.5,
+          "netMs": 67.3,
+          "containers": {
+            "n": 5,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersCorner": {
+            "n": 5,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersAnchor": {
+            "n": 5,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersOther": {
+            "n": 5,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "grown": [],
+          "focus": 0,
+          "leaves": {
+            "n": 45,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesInside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 45,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "tier2": []
+        }
+      ],
+      "final": {
+        "nodes": 50,
+        "edges": 86,
+        "tier1Runs": 6,
+        "tier2Runs": 5,
+        "reach": {
+          "scenario": "s2-babs-ria",
+          "total": 51,
+          "visible": 50,
+          "reachable_relations_only": 51,
+          "reachable_with_contains": 51,
+          "needs_contains": 0,
+          "unreachable": 0,
+          "unreached_roots": []
+        }
+      }
+    },
+    {
+      "scenario": "s3-forks",
+      "mode": "full",
+      "firstPaintMs": 12.4,
+      "coldLoadMs": 301,
+      "expansions": [
+        {
+          "key": "d:mine|remote:out",
+          "newNodes": 2,
+          "tier1Ran": true,
+          "layoutMs": 10.1,
+          "netMs": 4.9,
+          "containers": {
+            "n": 1,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersCorner": {
+            "n": 1,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersAnchor": {
+            "n": 1,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersOther": {
+            "n": 1,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "grown": [],
+          "focus": 0,
+          "leaves": {
+            "n": 1,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesInside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 1,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "tier2": [
+            {
+              "container": "h:github",
+              "kids": 1,
+              "pinned": 0,
+              "engine": "grid",
+              "fcoseMs": 0,
+              "ms": 0.5
+            }
+          ]
+        },
+        {
+          "key": "d:upstream|fork_of:in",
+          "newNodes": 60,
+          "tier1Ran": true,
+          "layoutMs": 261.9,
+          "netMs": 49.5,
+          "containers": {
+            "n": 2,
+            "median": 843.77,
+            "mean": 651.38,
+            "max": 843.77,
+            "moved": 2
+          },
+          "containersCorner": {
+            "n": 2,
+            "median": 458.99,
+            "mean": 229.5,
+            "max": 458.99,
+            "moved": 1
+          },
+          "containersAnchor": {
+            "n": 2,
+            "median": 458.99,
+            "mean": 229.5,
+            "max": 458.99,
+            "moved": 1
+          },
+          "containersOther": {
+            "n": 1,
+            "median": 458.99,
+            "mean": 458.99,
+            "max": 458.99,
+            "moved": 1
+          },
+          "grown": [
+            "h:github"
+          ],
+          "focus": 0.01,
+          "leaves": {
+            "n": 2,
+            "median": 458.99,
+            "mean": 229.5,
+            "max": 458.99,
+            "moved": 1
+          },
+          "leavesInside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 2,
+            "median": 458.99,
+            "mean": 229.5,
+            "max": 458.99,
+            "moved": 1
+          },
+          "tier2": [
+            {
+              "container": "h:github",
+              "kids": 61,
+              "pinned": 1,
+              "engine": "grid-after-fcose-overlapped(247)",
+              "fcoseMs": 193,
+              "ms": 258.7
+            }
+          ]
+        },
+        {
+          "key": "h:lena|contains:out",
+          "newNodes": 1,
+          "tier1Ran": true,
+          "layoutMs": 4.7,
+          "netMs": 21.3,
+          "containers": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersCorner": {
+            "n": 2,
+            "median": 51,
+            "mean": 25.5,
+            "max": 51,
+            "moved": 1
+          },
+          "containersAnchor": {
+            "n": 2,
+            "median": 51,
+            "mean": 25.5,
+            "max": 51,
+            "moved": 1
+          },
+          "containersOther": {
+            "n": 1,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "grown": [
+            "h:lena"
+          ],
+          "focus": 0,
+          "leaves": {
+            "n": 62,
+            "median": 0,
+            "mean": 0.82,
+            "max": 51,
+            "moved": 1
+          },
+          "leavesInside": {
+            "n": 1,
+            "median": 51,
+            "mean": 51,
+            "max": 51,
+            "moved": 1
+          },
+          "leavesOutside": {
+            "n": 61,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "tier2": [
+            {
+              "container": "h:lena",
+              "kids": 2,
+              "pinned": 1,
+              "engine": "grid",
+              "fcoseMs": 0,
+              "ms": 0.3
+            }
+          ]
+        },
+        {
+          "key": "d:proj-a-clone|remote:out",
+          "newNodes": 1,
+          "tier1Ran": true,
+          "layoutMs": 72.2,
+          "netMs": 16.1,
+          "containers": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersCorner": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersAnchor": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersOther": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "grown": [],
+          "focus": 0,
+          "leaves": {
+            "n": 63,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesInside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 63,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "tier2": [
+            {
+              "container": "h:github",
+              "kids": 62,
+              "pinned": 61,
+              "engine": "grid-after-fcose-overlapped(1)",
+              "fcoseMs": 28.6,
+              "ms": 69
+            }
+          ]
+        },
+        {
+          "key": "d:proj-a|shares_history_with:out",
+          "newNodes": 1,
+          "tier1Ran": true,
+          "layoutMs": 70.8,
+          "netMs": 14.4,
+          "containers": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersCorner": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersAnchor": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersOther": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "grown": [],
+          "focus": 0,
+          "leaves": {
+            "n": 64,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesInside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 64,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "tier2": [
+            {
+              "container": "h:github",
+              "kids": 63,
+              "pinned": 62,
+              "engine": "grid-after-fcose-overlapped(1)",
+              "fcoseMs": 22.6,
+              "ms": 67.4
+            }
+          ]
+        },
+        {
+          "key": "d:tpl|shares_history_with:in",
+          "newNodes": 1,
+          "tier1Ran": true,
+          "layoutMs": 74.6,
+          "netMs": 15.8,
+          "containers": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersCorner": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersAnchor": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "containersOther": {
+            "n": 2,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "grown": [],
+          "focus": 0,
+          "leaves": {
+            "n": 65,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesInside": {
+            "n": 0,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "leavesOutside": {
+            "n": 65,
+            "median": 0,
+            "mean": 0,
+            "max": 0,
+            "moved": 0
+          },
+          "tier2": [
+            {
+              "container": "h:github",
+              "kids": 64,
+              "pinned": 63,
+              "engine": "grid-after-fcose-overlapped(1)",
+              "fcoseMs": 20.6,
+              "ms": 71.2
+            }
+          ]
+        }
+      ],
+      "final": {
+        "nodes": 68,
+        "edges": 66,
+        "tier1Runs": 7,
+        "tier2Runs": 7,
+        "reach": {
+          "scenario": "s3-forks",
+          "total": 68,
+          "visible": 68,
+          "reachable_relations_only": 68,
+          "reachable_with_contains": 68,
+          "needs_contains": 0,
+          "unreachable": 0,
+          "unreached_roots": []
+        }
+      }
+    }
+  ],
+  "notes": [],
+  "invariants": {
+    "s1-spacetop": {
+      "nodes": 24,
+      "containmentViolations": 0,
+      "overlappingPairs": 0,
+      "sample": []
+    },
+    "s2-babs-ria": {
+      "nodes": 50,
+      "containmentViolations": 0,
+      "overlappingPairs": 0,
+      "sample": []
+    },
+    "s3-forks": {
+      "nodes": 68,
+      "containmentViolations": 0,
+      "overlappingPairs": 0,
+      "sample": []
+    }
+  },
+  "collapse": {
+    "s1-spacetop": {
+      "containers": [
+        "h:lena",
+        "h:aws",
+        "h:discovery",
+        "h:github",
+        "h:rolando",
+        "h:smaug",
+        "h:typhon",
+        "h:openneuro",
+        "h:hjlaptop"
+      ],
+      "each": {
+        "h:lena": {
+          "nodes": {
+            "before": 24,
+            "after": 23
+          },
+          "edges": {
+            "before": 25,
+            "after": 25
+          },
+          "folded": 0,
+          "ok": true
+        },
+        "h:aws": {
+          "nodes": {
+            "before": 24,
+            "after": 23
+          },
+          "edges": {
+            "before": 25,
+            "after": 25
+          },
+          "folded": 0,
+          "ok": true
+        },
+        "h:discovery": {
+          "nodes": {
+            "before": 24,
+            "after": 22
+          },
+          "edges": {
+            "before": 25,
+            "after": 24
+          },
+          "folded": 1,
+          "ok": true
+        },
+        "h:github": {
+          "nodes": {
+            "before": 24,
+            "after": 21
+          },
+          "edges": {
+            "before": 25,
+            "after": 23
+          },
+          "folded": 0,
+          "ok": true
+        },
+        "h:rolando": {
+          "nodes": {
+            "before": 24,
+            "after": 22
+          },
+          "edges": {
+            "before": 25,
+            "after": 19
+          },
+          "folded": 2,
+          "ok": true
+        },
+        "h:smaug": {
+          "nodes": {
+            "before": 24,
+            "after": 22
+          },
+          "edges": {
+            "before": 25,
+            "after": 24
+          },
+          "folded": 1,
+          "ok": true
+        },
+        "h:typhon": {
+          "nodes": {
+            "before": 24,
+            "after": 22
+          },
+          "edges": {
+            "before": 25,
+            "after": 23
+          },
+          "folded": 1,
+          "ok": true
+        },
+        "h:openneuro": {
+          "nodes": {
+            "before": 24,
+            "after": 23
+          },
+          "edges": {
+            "before": 25,
+            "after": 25
+          },
+          "folded": 0,
+          "ok": true
+        },
+        "h:hjlaptop": {
+          "nodes": {
+            "before": 24,
+            "after": 23
+          },
+          "edges": {
+            "before": 25,
+            "after": 25
+          },
+          "folded": 0,
+          "ok": true
+        }
+      },
+      "all": {
+        "nodes": {
+          "before": 24,
+          "after": 9
+        },
+        "edges": {
+          "before": 25,
+          "after": 13
+        },
+        "folded": 5,
+        "ok": true
+      }
+    },
+    "s2-babs-ria": {
+      "containers": [
+        "d:super",
+        "h:discovery",
+        "h:lena",
+        "d:ria",
+        "h:ria"
+      ],
+      "each": {
+        "d:super": {
+          "nodes": {
+            "before": 50,
+            "after": 48
+          },
+          "edges": {
+            "before": 86,
+            "after": 84
+          },
+          "folded": 2,
+          "ok": true
+        },
+        "h:discovery": {
+          "nodes": {
+            "before": 50,
+            "after": 47
+          },
+          "edges": {
+            "before": 86,
+            "after": 84
+          },
+          "folded": 2,
+          "ok": true
+        },
+        "h:lena": {
+          "nodes": {
+            "before": 50,
+            "after": 47
+          },
+          "edges": {
+            "before": 86,
+            "after": 84
+          },
+          "folded": 0,
+          "ok": true
+        },
+        "d:ria": {
+          "nodes": {
+            "before": 50,
+            "after": 10
+          },
+          "edges": {
+            "before": 86,
+            "after": 7
+          },
+          "folded": 40,
+          "ok": true
+        },
+        "h:ria": {
+          "nodes": {
+            "before": 50,
+            "after": 9
+          },
+          "edges": {
+            "before": 86,
+            "after": 7
+          },
+          "folded": 40,
+          "ok": true
+        }
+      },
+      "all": {
+        "nodes": {
+          "before": 50,
+          "after": 3
+        },
+        "edges": {
+          "before": 86,
+          "after": 3
+        },
+        "folded": 42,
+        "ok": true
+      }
+    },
+    "s3-forks": {
+      "containers": [
+        "h:lena",
+        "h:github"
+      ],
+      "each": {
+        "h:lena": {
+          "nodes": {
+            "before": 68,
+            "after": 66
+          },
+          "edges": {
+            "before": 66,
+            "after": 66
+          },
+          "folded": 0,
+          "ok": true
+        },
+        "h:github": {
+          "nodes": {
+            "before": 68,
+            "after": 4
+          },
+          "edges": {
+            "before": 66,
+            "after": 3
+          },
+          "folded": 63,
+          "ok": true
+        }
+      },
+      "all": {
+        "nodes": {
+          "before": 68,
+          "after": 2
+        },
+        "edges": {
+          "before": 66,
+          "after": 2
+        },
+        "folded": 63,
+        "ok": true
+      }
+    }
+  },
+  "collapseRoundTrip": [
+    {
+      "scenario": "s2-babs-ria",
+      "container": "d:ria",
+      "nodes": 50,
+      "maxDriftPx": 0,
+      "worstId": null,
+      "whileCollapsed": {
+        "nodes": 10,
+        "edges": 7
+      }
+    },
+    {
+      "scenario": "s3-forks",
+      "container": "h:github",
+      "nodes": 68,
+      "maxDriftPx": 0,
+      "worstId": null,
+      "whileCollapsed": {
+        "nodes": 4,
+        "edges": 3
+      }
+    }
+  ],
+  "reveal": [
+    {
+      "scenario": "s3-forks",
+      "dpr": 1,
+      "nodes": 68,
+      "edges": 66,
+      "frames": {
+        "frames": 29,
+        "medianMs": 16.7,
+        "longestMs": 116.6,
+        "fps": 49.7
+      },
+      "layoutMs": 141.7,
+      "containers": {
+        "n": 1,
+        "median": 0,
+        "mean": 0,
+        "max": 0,
+        "moved": 0
+      },
+      "leaves": {
+        "n": 1,
+        "median": 51,
+        "mean": 51,
+        "max": 51,
+        "moved": 1
+      }
+    },
+    {
+      "scenario": "s2-babs-ria",
+      "dpr": 1,
+      "nodes": 51,
+      "edges": 87,
+      "frames": {
+        "frames": 19,
+        "medianMs": 16.7,
+        "longestMs": 116.6,
+        "fps": 43.9
+      },
+      "layoutMs": 24.8,
+      "containers": {
+        "n": 2,
+        "median": 0,
+        "mean": 0,
+        "max": 0,
+        "moved": 0
+      },
+      "leaves": {
+        "n": 0,
+        "median": 0,
+        "mean": 0,
+        "max": 0,
+        "moved": 0
+      }
+    },
+    {
+      "scenario": "s3-forks",
+      "dpr": 2,
+      "nodes": 68,
+      "edges": 66,
+      "frames": {
+        "frames": 27,
+        "medianMs": 16.7,
+        "longestMs": 133.3,
+        "fps": 46.3
+      },
+      "layoutMs": 149.7,
+      "containers": {
+        "n": 1,
+        "median": 0,
+        "mean": 0,
+        "max": 0,
+        "moved": 0
+      },
+      "leaves": {
+        "n": 1,
+        "median": 51,
+        "mean": 51,
+        "max": 51,
+        "moved": 1
+      }
+    },
+    {
+      "scenario": "s2-babs-ria",
+      "dpr": 2,
+      "nodes": 51,
+      "edges": 87,
+      "frames": {
+        "frames": 17,
+        "medianMs": 16.7,
+        "longestMs": 150,
+        "fps": 37.8
+      },
+      "layoutMs": 25.3,
+      "containers": {
+        "n": 2,
+        "median": 0,
+        "mean": 0,
+        "max": 0,
+        "moved": 0
+      },
+      "leaves": {
+        "n": 0,
+        "median": 0,
+        "mean": 0,
+        "max": 0,
+        "moved": 0
+      }
+    }
+  ],
+  "labels": {
+    "s1-spacetop": {
+      "fitZoom": 0.577,
+      "demand": {
+        "labelled": 3,
+        "total": 25,
+        "renderedPx": [
+          13,
+          13,
+          13
+        ],
+        "nodeFindingPx": [
+          7.5,
+          7.5,
+          7.5
+        ],
+        "plainNodePx": 6.92
+      },
+      "all": {
+        "labelled": 25,
+        "renderedPxSample": [
+          13,
+          13,
+          13,
+          13,
+          13
+        ]
+      },
+      "selected": {
+        "node": "d:rolando-x",
+        "labelled": 8,
+        "renderedPx": [
+          {
+            "label": "rolando-exchange  ▼12",
+            "px": 13
+          },
+          {
+            "label": "rolando-exchange  ▼12",
+            "px": 13
+          },
+          {
+            "label": "rolando-exchange  ▼12",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "typhon  ▲1",
+            "px": 13
+          },
+          {
+            "label": "spacetop-rolando-exchange  ▲12",
+            "px": 13
+          },
+          {
+            "label": "rolando-exchange  ▼21",
+            "px": 13
+          },
+          {
+            "label": "same annex uuid",
+            "px": 13
+          }
+        ]
+      }
+    },
+    "s2-babs-ria": {
+      "fitZoom": 0.451,
+      "demand": {
+        "labelled": 0,
+        "total": 86,
+        "renderedPx": [],
+        "nodeFindingPx": [],
+        "plainNodePx": 6.76
+      },
+      "all": {
+        "labelled": 86,
+        "renderedPxSample": [
+          13,
+          13,
+          13,
+          13,
+          13
+        ]
+      },
+      "selected": {
+        "node": "d:super",
+        "labelled": 46,
+        "renderedPx": [
+          {
+            "label": "subdataset",
+            "px": 13
+          },
+          {
+            "label": "subdataset",
+            "px": 13
+          },
+          {
+            "label": "worktree of  ▲3",
+            "px": 13
+          },
+          {
+            "label": "worktree of  ▲1",
+            "px": 13
+          },
+          {
+            "label": "worktree of  ▲17",
+            "px": 13
+          },
+          {
+            "label": "output-ria  ▼40",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "origin",
+            "px": 13
+          },
+          {
+            "label": "origin  ▲1",
+            "px": 13
+          },
+          {
+            "label": "origin  ▲1",
+            "px": 13
+          },
+          {
+            "label": "origin  ▲1",
+            "px": 13
+          },
+          {
+            "label": "origin  ▲1",
+            "px": 13
+          },
+          {
+            "label": "origin  ▲1",
+            "px": 13
+          },
+          {
+            "label": "origin  ▲1",
+            "px": 13
+          },
+          {
+            "label": "origin  ▲1",
+            "px": 13
+          },
+          {
+            "label": "origin  ▲1",
+            "px": 13
+          },
+          {
+            "label": "origin  ▲1",
+            "px": 13
+          },
+          {
+            "label": "origin  ▲1",
+            "px": 13
+          },
+          {
+            "label": "origin  ▲1",
+            "px": 13
+          },
+          {
+            "label": "origin  ▲1",
+            "px": 13
+          }
+        ]
+      }
+    },
+    "s3-forks": {
+      "fitZoom": 0.558,
+      "demand": {
+        "labelled": 2,
+        "total": 66,
+        "renderedPx": [
+          13,
+          13
+        ],
+        "nodeFindingPx": [],
+        "plainNodePx": 6.7
+      },
+      "all": {
+        "labelled": 66,
+        "renderedPxSample": [
+          13,
+          13,
+          13,
+          13,
+          13
+        ]
+      },
+      "selected": {
+        "node": "d:proj-a",
+        "labelled": 4,
+        "renderedPx": [
+          {
+            "label": "origin  ▼1",
+            "px": 13
+          },
+          {
+            "label": "candidate same as  conf 1.00",
+            "px": 13
+          },
+          {
+            "label": "origin  cont 0.19",
+            "px": 13
+          },
+          {
+            "label": "candidate same as  conf 0.19",
+            "px": 13
+          }
+        ]
+      }
+    }
+  },
+  "viewDiff": {
+    "step1Lines": 190,
+    "step2Lines": 200,
+    "identicalStateChangedLines": 0,
+    "oneExpansionChangedLines": 16,
+    "note": "changed lines counted as +/- lines in `diff -u`, including the 2 lines of saved_at timestamp"
+  },
+  "reloadDrift": {
+    "n": 24,
+    "maxPx": 0.462,
+    "medianPx": 0.006
+  },
+  "coldBoot": {
+    "samples": [
+      306,
+      317,
+      324,
+      334,
+      348
+    ],
+    "note": "fresh browser context (empty cache) each sample, navigate -> first frame with a painted seed node",
+    "medianMs": 324
+  },
+  "reach": {
+    "s1-spacetop": {
+      "total": 24,
+      "componentsRelationsOnly": 1,
+      "componentsWithContains": 1,
+      "reachableFromSeedRelationsOnly": 15,
+      "reachableWithContains": 24,
+      "needsContains": 9,
+      "roots": [
+        {
+          "root": "d:lena",
+          "size": 15,
+          "hasSeed": true
+        }
+      ]
+    },
+    "s2-babs-ria": {
+      "total": 51,
+      "componentsRelationsOnly": 1,
+      "componentsWithContains": 1,
+      "reachableFromSeedRelationsOnly": 48,
+      "reachableWithContains": 51,
+      "needsContains": 3,
+      "roots": [
+        {
+          "root": "d:super",
+          "size": 48,
+          "hasSeed": true
+        }
+      ]
+    },
+    "s3-forks": {
+      "total": 68,
+      "componentsRelationsOnly": 2,
+      "componentsWithContains": 1,
+      "reachableFromSeedRelationsOnly": 62,
+      "reachableWithContains": 68,
+      "needsContains": 6,
+      "roots": [
+        {
+          "root": "d:mine",
+          "size": 62,
+          "hasSeed": true
+        },
+        {
+          "root": "d:proj-a",
+          "size": 4,
+          "hasSeed": false
+        }
+      ]
+    }
+  }
+}

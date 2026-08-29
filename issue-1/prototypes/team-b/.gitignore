@@ -1,0 +1,7 @@
+node_modules/
+web/node_modules/
+web/dist/
+web/dist-viewer/
+__pycache__/
+.vite/
+*.log

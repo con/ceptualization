@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>worldmap of git &amp; git-annex — Team A</title>
+  </head>
+  <body>
+    <div id="app">
+      <header id="topbar">
+        <div class="brand">
+          <span class="brand-mark">◈</span>
+          <span class="brand-text">worldmap<span class="brand-dim">/git-annex</span></span>
+        </div>
+        <nav id="scenario-tabs"></nav>
+        <div class="topbar-right">
+          <label class="switch" title="Pin every already-placed node during re-layout (fCoSE fixedNodeConstraint)">
+            <input type="checkbox" id="pin-layout" checked />
+            <span>pin layout</span>
+          </label>
+          <button id="btn-relayout" class="btn" title="Full unpinned re-layout, for comparison">re-layout</button>
+          <button id="btn-fit" class="btn">fit</button>
+          <button id="btn-reset" class="btn">reset</button>
+          <button id="btn-theme" class="btn btn-icon" title="Toggle light / dark">◐</button>
+        </div>
+      </header>
+
+      <aside id="left">
+        <section class="panel" id="panel-scenario">
+          <h2 id="scenario-title">…</h2>
+          <p id="scenario-sub" class="dim"></p>
+          <div id="progress-wrap">
+            <div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
+            <div class="progress-label"><span id="progress-text">0 / 0 discovered</span></div>
+          </div>
+          <ul id="exercises" class="exercises"></ul>
+        </section>
+
+        <section class="panel" id="panel-findings">
+          <h3>findings</h3>
+          <div id="findings"></div>
+        </section>
+
+        <section class="panel" id="panel-legend">
+          <h3>legend</h3>
+          <div id="legend"></div>
+        </section>
+
+        <section class="panel" id="panel-log">
+          <h3>probe log <span class="dim" id="log-summary"></span></h3>
+          <ol id="log"></ol>
+        </section>
+      </aside>
+
+      <main id="stage">
+        <div id="cy"></div>
+        <div id="banner-slot"></div>
+        <div id="hud">
+          <div class="hud-row"><span class="hud-key">layout stability</span><span class="hud-val" id="hud-stability">—</span></div>
+          <div class="hud-row"><span class="hud-key">last probe</span><span class="hud-val" id="hud-latency">—</span></div>
+          <div class="hud-row"><span class="hud-key">elements</span><span class="hud-val" id="hud-elements">—</span></div>
+          <div class="hud-row"><span class="hud-key">containers</span><span class="hud-val" id="hud-overlap">—</span></div>
+          <div class="hud-row">
+            <label class="switch small"><input type="checkbox" id="opt-separate" checked /><span>keep containers apart (rigid)</span></label>
+          </div>
+          <div class="hud-row">
+            <label class="switch small"><input type="checkbox" id="filter-containment" /><span>draw containment edges</span></label>
+          </div>
+          <div class="hud-row" id="hud-filter-row" hidden>
+            <label class="switch small"><input type="checkbox" id="filter-inactive" /><span>hide inactive forks</span></label>
+          </div>
+          <div class="hud-row" id="hud-inactive-edges-row" hidden>
+            <label class="switch small"><input type="checkbox" id="filter-inactive-edges" /><span>draw edges to inactive forks</span></label>
+          </div>
+        </div>
+        <div id="toast"></div>
+      </main>
+
+      <aside id="right">
+        <div id="inspector"><div class="empty">Select a node to inspect it.<br /><span class="dim">Double-click a node to probe every hidden relation on it.</span></div></div>
+      </aside>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

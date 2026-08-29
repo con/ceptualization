@@ -1,0 +1,805 @@
+[
+  {
+    "test": "T1 drag x bundle (s1)",
+    "containerDragged": "h:aws",
+    "grabbedInstead": "h:aws",
+    "zoom": 0.617,
+    "containerMovedPx": 364.21,
+    "childrenFollowed": {
+      "max": 364.21,
+      "who": "d:s3",
+      "n": 1,
+      "movedN": 1
+    },
+    "outsideDrift": {
+      "max": 0,
+      "who": null,
+      "n": 22,
+      "movedN": 0
+    },
+    "leafDragged": "d:s3",
+    "leafDragOthersDrift": {
+      "max": 0,
+      "who": null,
+      "n": 23,
+      "movedN": 0
+    },
+    "edgesOpen": 25,
+    "edgesBundled": 18,
+    "edgesUnbundled": 25,
+    "rawEdges": 25,
+    "foldedBundled": 0,
+    "bundlePositionDrift": {
+      "max": 0,
+      "who": null,
+      "n": 24,
+      "movedN": 0
+    },
+    "unbundlePositionDrift": {
+      "max": 0,
+      "who": null,
+      "n": 24,
+      "movedN": 0
+    },
+    "unbundleRestoresExactEdgeSet": true,
+    "edgeCountAccounting": {
+      "bundled": "18 drawn + 0 folded = 18 vs 25 raw",
+      "bundledSumsToRaw": null
+    },
+    "memberTotalBundled": 25,
+    "memberTotalOpen": null,
+    "errs": []
+  },
+  {
+    "test": "T2 drag x collapse (s2)",
+    "container": "h:discovery",
+    "grabbed": "h:discovery",
+    "containerMovedTo": {
+      "x": 446.1573170731707,
+      "y": 263.7003902439024
+    },
+    "containerCollapseExpandRoundTripPx": 0,
+    "allNodesRoundTrip": {
+      "max": 0,
+      "who": null,
+      "n": 51,
+      "movedN": 0
+    },
+    "leafParent": "d:ria",
+    "leaf": "d:ria-sub-001",
+    "leafPlacedAt": {
+      "x": 648.9752845528456,
+      "y": 7.6756747967479555
+    },
+    "leafAfterCollapseExpand": {
+      "x": 648.9752845528456,
+      "y": 7.6756747967479555
+    },
+    "leafReturnErrorPx": 0,
+    "errs": []
+  },
+  {
+    "test": "T3 bundle x collapse (s3)",
+    "open": {
+      "drawn": 66,
+      "raw": 66,
+      "folded": 0,
+      "members": 66
+    },
+    "bundled": {
+      "drawn": 65,
+      "raw": 66,
+      "folded": 0,
+      "members": 66
+    },
+    "bundledAndCollapsed": {
+      "drawn": 2,
+      "folded": 63,
+      "members": 3
+    },
+    "collapsedOnly": {
+      "drawn": 2,
+      "folded": 63,
+      "members": 3
+    },
+    "backToOpen": {
+      "drawn": 66,
+      "raw": 66
+    },
+    "conservation": {
+      "openMembersPlusFolded": 66,
+      "bundledMembersPlusFolded": 66,
+      "bundledCollapsedMembersPlusFolded": 66,
+      "raw": 66
+    },
+    "sampleLabels": [
+      {
+        "id": "agg:d:mine>d:upstream:remote",
+        "label": "origin  ▲2",
+        "count": 1
+      },
+      {
+        "id": "agg:d:fork-yarikoptic>d:upstream:fork_of",
+        "label": "fork of  ▲14",
+        "count": 1
+      },
+      {
+        "id": "agg:d:fork-asmacdo>d:upstream:fork_of",
+        "label": "fork of  ▲6 ▼3",
+        "count": 1
+      },
+      {
+        "id": "agg:d:fork-candleindark>d:upstream:fork_of",
+        "label": "fork of  ▲2",
+        "count": 1
+      },
+      {
+        "id": "agg:d:fork-jwodder>d:upstream:fork_of",
+        "label": "fork of  ▲31 ▼12",
+        "count": 1
+      },
+      {
+        "id": "agg:d:fork-mih>d:upstream:fork_of",
+        "label": "fork of  ▲1",
+        "count": 1
+      },
+      {
+        "id": "agg:d:fork-adswa>d:upstream:fork_of",
+        "label": "fork of  ▲9 ▼1",
+        "count": 1
+      },
+      {
+        "id": "agg:d:fork-TheChymera>d:upstream:fork_of",
+        "label": "fork of  ▲4",
+        "count": 1
+      },
+      {
+        "id": "agg:d:fork-djarecka>d:upstream:fork_of",
+        "label": "fork of  ▲22 ▼5",
+        "count": 1
+      },
+      {
+        "id": "agg:d:fork-user00>d:upstream:fork_of",
+        "label": "fork of",
+        "count": 1
+      },
+      {
+        "id": "agg:d:fork-user01>d:upstream:fork_of",
+        "label": "fork of",
+        "count": 1
+      },
+      {
+        "id": "agg:d:fork-user02>d:upstream:fork_of",
+        "label": "fork of",
+        "count": 1
+      }
+    ],
+    "bundleStillOnAfterExpandAll": false,
+    "errs": []
+  },
+  {
+    "test": "T4 drag x expand (s1)",
+    "dragged": "h:aws",
+    "grabbed": "h:aws",
+    "expandedNode": {
+      "id": "d:discovery",
+      "rel": "remote:in"
+    },
+    "draggedContainerDriftPx": 0,
+    "everythingDrift": {
+      "max": 0,
+      "who": null,
+      "n": 18,
+      "movedN": 0
+    },
+    "metrics": {
+      "containers": {
+        "n": 7,
+        "median": 0,
+        "mean": 0,
+        "max": 0,
+        "moved": 0
+      },
+      "leaves": {
+        "n": 11,
+        "median": 0,
+        "mean": 0,
+        "max": 0,
+        "moved": 0
+      },
+      "tier1Ran": false
+    },
+    "errs": []
+  },
+  {
+    "test": "T5 drag x undo/redo (s1)",
+    "dragged": "h:aws",
+    "grabbed": "h:aws",
+    "undoRestoresPx": {
+      "max": 0,
+      "who": null,
+      "n": 24,
+      "movedN": 0
+    },
+    "redoRestoresPx": {
+      "max": 0,
+      "who": null,
+      "n": 24,
+      "movedN": 0
+    },
+    "interleaveBackToPx": {
+      "max": 0,
+      "who": null,
+      "n": 24,
+      "movedN": 0
+    },
+    "bundleToggleThenUndo": {
+      "afterToggle": {
+        "S": true,
+        "btn": true,
+        "edges": 18
+      },
+      "afterUndo": {
+        "S": false,
+        "btn": false,
+        "edges": 25
+      },
+      "buttonMatchesState": true
+    },
+    "historyLabels": [
+      "move s3.amazonaws.com"
+    ],
+    "errs": []
+  },
+  {
+    "test": "T6 drag x hide (s2)",
+    "leaf": "d:ria-sub-001",
+    "placedAt": {
+      "x": 711.2067479674797,
+      "y": -75.2996097560976
+    },
+    "afterShowAt": {
+      "x": 711.2067479674797,
+      "y": -75.2996097560976
+    },
+    "positionPreservedPx": 0,
+    "othersMovedWhenLeafHidden": {
+      "max": 0,
+      "who": null,
+      "n": 50,
+      "movedN": 0
+    },
+    "hideContainerOnly": {
+      "container": "d:super",
+      "driftOfEverythingElse": {
+        "max": 769.41,
+        "who": "d:sub-cont",
+        "n": 50,
+        "movedN": 2
+      },
+      "childrenStillDrawn": 2,
+      "tier1RunsAfter": 3,
+      "afterShowAllDrift": {
+        "max": 0,
+        "who": null,
+        "n": 51,
+        "movedN": 0
+      }
+    },
+    "errs": []
+  },
+  {
+    "test": "T7 drag x save/load (s2)",
+    "saved": {
+      "saved": "views/s2-babs-ria.dragtest.view.json",
+      "bytes": 5869,
+      "name": "dragtest",
+      "nodes": 51
+    },
+    "grabbed": "h:discovery",
+    "nestedContainers": [
+      "d:ria",
+      "d:super"
+    ],
+    "nestedSizesInPayload": {
+      "d:super": {
+        "w": 270,
+        "h": 256
+      },
+      "d:ria": {
+        "w": 1450,
+        "h": 868
+      }
+    },
+    "reloadDriftPx": {
+      "max": 0.48,
+      "who": "d:ria-sub-001",
+      "n": 51,
+      "movedN": 0
+    },
+    "missingAfterReload": 0,
+    "nestedBoxSizeAfterReload": [
+      {
+        "id": "d:ria",
+        "w": 1450,
+        "h": 868
+      },
+      {
+        "id": "d:super",
+        "w": 270,
+        "h": 256
+      }
+    ],
+    "nestedBoxSizeInLayout": [
+      {
+        "id": "d:ria",
+        "size": {
+          "w": 1450,
+          "h": 868,
+          "cols": 0,
+          "rows": 0,
+          "cell": {
+            "w": 210,
+            "h": 76
+          },
+          "slots": 0,
+          "kids": 0
+        }
+      },
+      {
+        "id": "d:super",
+        "size": {
+          "w": 270,
+          "h": 256,
+          "cols": 0,
+          "rows": 0,
+          "cell": {
+            "w": 210,
+            "h": 76
+          },
+          "slots": 0,
+          "kids": 0
+        }
+      }
+    ],
+    "viewFileLines": 344,
+    "diffLinesForOneMoveAfterReload": 2,
+    "viewFileLinesNoReload": 344,
+    "diffLinesForOneMoveNoReload": 1,
+    "errs": []
+  },
+  {
+    "test": "T8 edge cases",
+    "leafDraggedFarOutside": {
+      "leafPos": {
+        "x": 1746,
+        "y": 452.006
+      },
+      "boxCentre": {
+        "x": 1156,
+        "y": 86.00599999999997
+      },
+      "boxW": 1450,
+      "boxH": 868,
+      "inside": true,
+      "overflowX": -135,
+      "overflowY": -68,
+      "local": {
+        "x": 1210,
+        "y": 762
+      }
+    },
+    "containerOntoContainer": {
+      "a": "h:discovery",
+      "b": "h:lena",
+      "overlapW": 330,
+      "overlapH": 256,
+      "overlapping": true
+    },
+    "collapsedContainerDragPx": 353.25,
+    "collapsedGrabbed": "h:discovery",
+    "probeGrabbed": "h:lena",
+    "collapsedThenExpandedShiftPx": 142.27,
+    "dragDuringProbe": {
+      "busyAtGrab": true,
+      "histBefore": 0,
+      "histAfter": 1,
+      "histLabels": [
+        "expand remote:out of ~/datasets/1076_spacetop"
+      ]
+    },
+    "rapidDrags": {
+      "count": 5,
+      "expectedPx": null,
+      "netMovePx": 292.18,
+      "historyEntries": 5
+    },
+    "seedDrag": {
+      "seed": "d:lena",
+      "movedPx": 0
+    },
+    "errs": []
+  },
+  {
+    "test": "T9 bundle x grey/badges (s3)",
+    "greyOn": {
+      "inactiveEdges": 52,
+      "totalEdges": 65,
+      "inactiveOpacity": "0.15",
+      "aggregatedInactive": 0,
+      "labels": [
+        {
+          "id": "agg:h:lena>h:github:remote",
+          "lbl": "origin  ×2",
+          "n": 2
+        }
+      ]
+    },
+    "greyOffOpacity": "0.8",
+    "edgesAfterBadgeToggle": 65,
+    "bundleSurvivesBadgeToggle": true,
+    "errs": []
+  },
+  {
+    "test": "T10 empty probe abandons the wrong entry",
+    "historyAfterDrag": [
+      "move s3.amazonaws.com"
+    ],
+    "historyAfterEmptyProbe": [
+      "move s3.amazonaws.com"
+    ],
+    "dragEntryStillThere": true,
+    "canUndo": true,
+    "undoAfterEmptyProbeGoesBackTo": {
+      "vsBeforeDrag": {
+        "max": 0,
+        "who": null,
+        "n": 24,
+        "movedN": 0
+      },
+      "vsAfterDrag": {
+        "max": 283.51,
+        "who": "h:aws",
+        "n": 24,
+        "movedN": 2
+      }
+    },
+    "errs": []
+  },
+  {
+    "test": "T11 bundling on all three fixtures",
+    "s1-spacetop": {
+      "openDrawn": 25,
+      "bundledDrawn": 18,
+      "raw": 25,
+      "crossContainerRawEdges": 20,
+      "reductionPct": 28,
+      "crossEdgesDrawnWhenBundled": 13,
+      "conservation": "25 members + 0 folded = 25 vs 25 raw",
+      "aggregatedEdges": 6,
+      "longestLabel": {
+        "id": "agg:h:lena>h:rolando:remote",
+        "n": 2,
+        "len": 29,
+        "label": "origin | rolando-exchange  ×2"
+      }
+    },
+    "s2-babs-ria": {
+      "openDrawn": 87,
+      "bundledDrawn": 46,
+      "raw": 87,
+      "crossContainerRawEdges": 45,
+      "reductionPct": 47.1,
+      "crossEdgesDrawnWhenBundled": 4,
+      "conservation": "87 members + 0 folded = 87 vs 87 raw",
+      "aggregatedEdges": 2,
+      "longestLabel": {
+        "id": "agg:h:lena>h:discovery:worktree_of",
+        "n": 3,
+        "len": 15,
+        "label": "worktree of  ×3"
+      }
+    },
+    "s3-forks": {
+      "openDrawn": 66,
+      "bundledDrawn": 65,
+      "raw": 66,
+      "crossContainerRawEdges": 3,
+      "reductionPct": 1.5,
+      "crossEdgesDrawnWhenBundled": 2,
+      "conservation": "66 members + 0 folded = 66 vs 66 raw",
+      "aggregatedEdges": 1,
+      "longestLabel": {
+        "id": "agg:h:lena>h:github:remote",
+        "n": 2,
+        "len": 10,
+        "label": "origin  ×2"
+      }
+    },
+    "errs": []
+  },
+  {
+    "test": "T12 bundle x inactive",
+    "bundledDrawn": 65,
+    "aggregatedEdgeInactivity": [
+      {
+        "id": "agg:h:lena>h:github:remote",
+        "count": 2,
+        "membersInactive": 0,
+        "drawnInactive": false
+      }
+    ],
+    "errs": []
+  },
+  {
+    "test": "T13 drag during a no-op probe",
+    "busyAtDrop": true,
+    "undoWasAvailable": false,
+    "dragActuallyMoved": {
+      "max": 0,
+      "who": null,
+      "n": 24,
+      "movedN": 0
+    },
+    "historyAfter": [],
+    "dragIsUndoable": false,
+    "undoWentBackTo": {
+      "vsBeforeAll": {
+        "max": 0,
+        "who": null,
+        "n": 24,
+        "movedN": 0
+      },
+      "vsAfterDrag": {
+        "max": 0,
+        "who": null,
+        "n": 24,
+        "movedN": 0
+      }
+    },
+    "errs": []
+  },
+  {
+    "test": "T14 leaf drag then expansion inside the same container",
+    "container": "d:super",
+    "leaf": "d:sub-cont",
+    "expanded": {
+      "id": "d:sub-cont",
+      "rel": "subdataset:in"
+    },
+    "placedAt": {
+      "x": 165,
+      "y": 177.75599999999997
+    },
+    "afterExpandAt": {
+      "x": 165,
+      "y": 177.75599999999997
+    },
+    "leafDriftPx": 0,
+    "allDrift": {
+      "max": 0,
+      "who": null,
+      "n": 6,
+      "movedN": 0
+    },
+    "tier2Log": [],
+    "movedSetHonoured": [
+      "d:sub-cont"
+    ],
+    "errs": []
+  },
+  {
+    "test": "T15 leaf drag then a sibling arrives",
+    "container": "h:aws",
+    "leaf": "d:s3",
+    "gained": null,
+    "localBefore": {
+      "x": 30,
+      "y": 48
+    },
+    "localAfter": {
+      "x": 30,
+      "y": 48
+    },
+    "leafDriftPx": 0,
+    "tier2Log": [],
+    "metrics": {
+      "leaves": {
+        "n": 12,
+        "median": 0,
+        "mean": 0,
+        "max": 0,
+        "moved": 0
+      },
+      "leavesInside": {
+        "n": 0,
+        "median": 0,
+        "mean": 0,
+        "max": 0,
+        "moved": 0
+      },
+      "leavesOutside": {
+        "n": 12,
+        "median": 0,
+        "mean": 0,
+        "max": 0,
+        "moved": 0
+      }
+    },
+    "errs": []
+  },
+  {
+    "test": "T16 pinning of a dragged sibling across a tier-2 re-run",
+    "container": "d:ria",
+    "dragged": "d:ria-sub-001",
+    "hiddenThenShown": "d:ria-sub-002",
+    "draggedLeafDriftPx": 0,
+    "otherSiblingsDrift": {
+      "max": 0,
+      "who": null,
+      "n": 39,
+      "movedN": 0
+    },
+    "hiddenLeafDrift": 236,
+    "tier2Log": [
+      {
+        "container": "d:ria",
+        "kids": 40,
+        "pinned": 39,
+        "engine": "grid",
+        "fcoseMs": 0,
+        "ms": 0.8
+      }
+    ],
+    "errs": []
+  },
+  {
+    "test": "T17 clamp leaves how much room",
+    "freedom": {
+      "s1-spacetop": {
+        "containers": 9,
+        "zeroFreedomBoth": 4,
+        "zeroFreedomX": 8,
+        "rows": [
+          {
+            "container": "h:lena",
+            "kids": 1,
+            "box": {
+              "w": 270,
+              "h": 154
+            },
+            "freedomX": 0,
+            "freedomY": 0
+          },
+          {
+            "container": "h:typhon",
+            "kids": 2,
+            "box": {
+              "w": 270,
+              "h": 256
+            },
+            "freedomX": 0,
+            "freedomY": 102
+          },
+          {
+            "container": "h:smaug",
+            "kids": 2,
+            "box": {
+              "w": 270,
+              "h": 256
+            },
+            "freedomX": 0,
+            "freedomY": 102
+          },
+          {
+            "container": "h:rolando",
+            "kids": 2,
+            "box": {
+              "w": 270,
+              "h": 256
+            },
+            "freedomX": 0,
+            "freedomY": 102
+          }
+        ]
+      },
+      "s2-babs-ria": {
+        "containers": 5,
+        "zeroFreedomBoth": 2,
+        "zeroFreedomX": 3,
+        "rows": [
+          {
+            "container": "d:super",
+            "kids": 2,
+            "box": {
+              "w": 270,
+              "h": 256
+            },
+            "freedomX": 0,
+            "freedomY": 102
+          },
+          {
+            "container": "h:discovery",
+            "kids": 1,
+            "box": {
+              "w": 330,
+              "h": 334
+            },
+            "freedomX": 0,
+            "freedomY": 0
+          },
+          {
+            "container": "h:ria",
+            "kids": 1,
+            "box": {
+              "w": 1510,
+              "h": 946
+            },
+            "freedomX": 0,
+            "freedomY": 0
+          },
+          {
+            "container": "h:lena",
+            "kids": 4,
+            "box": {
+              "w": 506,
+              "h": 256
+            },
+            "freedomX": 236,
+            "freedomY": 102
+          }
+        ]
+      },
+      "s3-forks": {
+        "containers": 2,
+        "zeroFreedomBoth": 0,
+        "zeroFreedomX": 1,
+        "rows": [
+          {
+            "container": "h:lena",
+            "kids": 2,
+            "box": {
+              "w": 270,
+              "h": 256
+            },
+            "freedomX": 0,
+            "freedomY": 102
+          },
+          {
+            "container": "h:github",
+            "kids": 64,
+            "box": {
+              "w": 1686,
+              "h": 1072
+            },
+            "freedomX": 1416,
+            "freedomY": 918
+          }
+        ]
+      }
+    },
+    "zeroFreedomDrive": {
+      "node": "d:lena",
+      "movedPx": 0,
+      "historyEntriesBefore": 0,
+      "historyEntriesAfter": 0,
+      "toast": "~/datasets/1076_spacetop is already against the edge of its box"
+    },
+    "errs": []
+  },
+  {
+    "test": "T18 save -> load -> save fixpoint",
+    "linesA": 344,
+    "linesB": 344,
+    "differingLines": 1,
+    "differences": [
+      {
+        "line": 269,
+        "a": "  \"saved_at\": \"2026-08-27T21:18:58Z\",",
+        "b": "  \"saved_at\": \"2026-08-27T21:18:59Z\","
+      }
+    ],
+    "onlyTimestamp": true,
+    "errs": []
+  }
+]

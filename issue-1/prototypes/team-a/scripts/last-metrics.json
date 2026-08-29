@@ -1,0 +1,2550 @@
+{
+  "firstRender": {
+    "s1-spacetop": 10,
+    "s2-babs-ria": 11,
+    "s3-forks": 8
+  },
+  "runs": [
+    {
+      "scenario": "s1-spacetop",
+      "pin": true,
+      "expansions": [
+        {
+          "separation": {
+            "moved": 2,
+            "iterations": 2,
+            "maxShift": 6.2
+          },
+          "displacementBeforeSeparation": {
+            "n": 1,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 1,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:lena|remote:out",
+          "node": "d:lena",
+          "relation": "remote:out",
+          "latencyMs": 805,
+          "netMs": 812,
+          "layoutMs": 436,
+          "newNodes": 16,
+          "newEdges": 10,
+          "graphNodes": 18,
+          "graphEdges": 10,
+          "pinned": true,
+          "placement": "layout-utilities",
+          "displacement": {
+            "n": 1,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 1,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 23,
+            "fps": 52.7,
+            "longestFrameMs": 99.9
+          }
+        },
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 1,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 11,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 11,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:typhon|remote:out",
+          "node": "d:typhon",
+          "relation": "remote:out",
+          "latencyMs": 306,
+          "netMs": 311,
+          "layoutMs": 455,
+          "newNodes": 2,
+          "newEdges": 6,
+          "graphNodes": 20,
+          "graphEdges": 16,
+          "pinned": true,
+          "placement": "layout-utilities",
+          "displacement": {
+            "n": 11,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 11,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 26,
+            "fps": 57.2,
+            "longestFrameMs": 33.3
+          }
+        },
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 1,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 12,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 12,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:rolando|remote:out",
+          "node": "d:rolando",
+          "relation": "remote:out",
+          "latencyMs": 499,
+          "netMs": 505,
+          "layoutMs": 460,
+          "newNodes": 0,
+          "newEdges": 4,
+          "graphNodes": 20,
+          "graphEdges": 20,
+          "pinned": true,
+          "placement": "none",
+          "displacement": {
+            "n": 12,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 12,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 27,
+            "fps": 58.7,
+            "longestFrameMs": 16.7
+          }
+        },
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 1,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 12,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 12,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:smaug|remote:out",
+          "node": "d:smaug",
+          "relation": "remote:out",
+          "latencyMs": 800,
+          "netMs": 806,
+          "layoutMs": 464,
+          "newNodes": 1,
+          "newEdges": 2,
+          "graphNodes": 21,
+          "graphEdges": 22,
+          "pinned": true,
+          "placement": "layout-utilities",
+          "displacement": {
+            "n": 12,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 12,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 26,
+            "fps": 56.1,
+            "longestFrameMs": 33.3
+          }
+        },
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 1,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 13,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 13,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:discovery|same_annex_uuid:out",
+          "node": "d:discovery",
+          "relation": "same_annex_uuid:out",
+          "latencyMs": 461,
+          "netMs": 465,
+          "layoutMs": 472,
+          "newNodes": 1,
+          "newEdges": 1,
+          "graphNodes": 22,
+          "graphEdges": 23,
+          "pinned": true,
+          "placement": "layout-utilities",
+          "displacement": {
+            "n": 13,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 13,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 28,
+            "fps": 59.4,
+            "longestFrameMs": 16.7
+          }
+        },
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 1,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 14,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 14,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:rolando-x|remote:in",
+          "node": "d:rolando-x",
+          "relation": "remote:in",
+          "latencyMs": 463,
+          "netMs": 467,
+          "layoutMs": 454,
+          "newNodes": 2,
+          "newEdges": 1,
+          "graphNodes": 24,
+          "graphEdges": 24,
+          "pinned": true,
+          "placement": "layout-utilities",
+          "displacement": {
+            "n": 14,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 14,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 27,
+            "fps": 59.4,
+            "longestFrameMs": 16.7
+          }
+        },
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 1,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 15,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 15,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:typhon-bare|remote:out",
+          "node": "d:typhon-bare",
+          "relation": "remote:out",
+          "latencyMs": 529,
+          "netMs": 535,
+          "layoutMs": 457,
+          "newNodes": 0,
+          "newEdges": 0,
+          "graphNodes": 24,
+          "graphEdges": 24,
+          "pinned": true,
+          "placement": "none",
+          "displacement": {
+            "n": 15,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 15,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 27,
+            "fps": 59.1,
+            "longestFrameMs": 16.8
+          }
+        }
+      ]
+    },
+    {
+      "scenario": "s2-babs-ria",
+      "pin": true,
+      "expansions": [
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 0,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 1,
+            "mean": 38.8,
+            "max": 38.8,
+            "p95": 38.8,
+            "leaf": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 1,
+              "mean": 38.8,
+              "max": 38.8,
+              "p95": 38.8
+            }
+          },
+          "overlaps": 0,
+          "key": "d:super|subdataset:out",
+          "node": "d:super",
+          "relation": "subdataset:out",
+          "latencyMs": 766,
+          "netMs": 771,
+          "layoutMs": 473,
+          "newNodes": 2,
+          "newEdges": 2,
+          "graphNodes": 4,
+          "graphEdges": 2,
+          "pinned": true,
+          "placement": "layout-utilities",
+          "displacement": {
+            "n": 1,
+            "mean": 38.8,
+            "max": 38.8,
+            "p95": 38.8,
+            "leaf": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 1,
+              "mean": 38.8,
+              "max": 38.8,
+              "p95": 38.8
+            }
+          },
+          "frames": {
+            "frames": 28,
+            "fps": 59.2,
+            "longestFrameMs": 16.8
+          }
+        },
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 1,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 2,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 2,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:super|remote:out",
+          "node": "d:super",
+          "relation": "remote:out",
+          "latencyMs": 519,
+          "netMs": 524,
+          "layoutMs": 449,
+          "newNodes": 2,
+          "newEdges": 1,
+          "graphNodes": 6,
+          "graphEdges": 3,
+          "pinned": true,
+          "placement": "layout-utilities",
+          "displacement": {
+            "n": 2,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 2,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 27,
+            "fps": 60.1,
+            "longestFrameMs": 16.8
+          }
+        },
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 1,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 3,
+            "mean": 326.82,
+            "max": 980.45,
+            "p95": 980.45,
+            "leaf": {
+              "n": 2,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 1,
+              "mean": 980.45,
+              "max": 980.45,
+              "p95": 980.45
+            }
+          },
+          "overlaps": 0,
+          "key": "d:ria|part:out",
+          "node": "d:ria",
+          "relation": "part:out",
+          "latencyMs": 660,
+          "netMs": 665,
+          "layoutMs": 324,
+          "newNodes": 40,
+          "newEdges": 40,
+          "graphNodes": 46,
+          "graphEdges": 43,
+          "pinned": true,
+          "placement": "layout-utilities +grid(40 in d:ria)",
+          "displacement": {
+            "n": 3,
+            "mean": 326.82,
+            "max": 980.45,
+            "p95": 980.45,
+            "leaf": {
+              "n": 2,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 1,
+              "mean": 980.45,
+              "max": 980.45,
+              "p95": 980.45
+            }
+          },
+          "frames": {
+            "frames": 15,
+            "fps": 46.3,
+            "longestFrameMs": 200
+          }
+        },
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 1,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 42,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 42,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:super|worktree_of:in",
+          "node": "d:super",
+          "relation": "worktree_of:in",
+          "latencyMs": 642,
+          "netMs": 648,
+          "layoutMs": 466,
+          "newNodes": 4,
+          "newEdges": 3,
+          "graphNodes": 50,
+          "graphEdges": 46,
+          "pinned": true,
+          "placement": "layout-utilities",
+          "displacement": {
+            "n": 42,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 42,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 21,
+            "fps": 45.1,
+            "longestFrameMs": 50
+          }
+        },
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 1,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 45,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 45,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:ria-sub-001|remote:out",
+          "node": "d:ria-sub-001",
+          "relation": "remote:out",
+          "latencyMs": 701,
+          "netMs": 706,
+          "layoutMs": 472,
+          "newNodes": 0,
+          "newEdges": 1,
+          "graphNodes": 50,
+          "graphEdges": 47,
+          "pinned": true,
+          "placement": "none",
+          "displacement": {
+            "n": 45,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 45,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 22,
+            "fps": 46.7,
+            "longestFrameMs": 33.4
+          }
+        },
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 1,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 45,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 45,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:ria-sub-002|remote:out",
+          "node": "d:ria-sub-002",
+          "relation": "remote:out",
+          "latencyMs": 790,
+          "netMs": 796,
+          "layoutMs": 499,
+          "newNodes": 0,
+          "newEdges": 1,
+          "graphNodes": 50,
+          "graphEdges": 48,
+          "pinned": true,
+          "placement": "none",
+          "displacement": {
+            "n": 45,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 45,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 24,
+            "fps": 48.1,
+            "longestFrameMs": 33.4
+          }
+        }
+      ]
+    },
+    {
+      "scenario": "s3-forks",
+      "pin": true,
+      "expansions": [
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 1,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 1,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 1,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:mine|remote:out",
+          "node": "d:mine",
+          "relation": "remote:out",
+          "latencyMs": 321,
+          "netMs": 327,
+          "layoutMs": 451,
+          "newNodes": 2,
+          "newEdges": 1,
+          "graphNodes": 4,
+          "graphEdges": 1,
+          "pinned": true,
+          "placement": "layout-utilities",
+          "displacement": {
+            "n": 1,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 1,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 27,
+            "fps": 59.9,
+            "longestFrameMs": 16.8
+          }
+        },
+        {
+          "separation": {
+            "moved": 2,
+            "iterations": 2,
+            "maxShift": 56.9
+          },
+          "displacementBeforeSeparation": {
+            "n": 2,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 2,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:upstream|fork_of:in",
+          "node": "d:upstream",
+          "relation": "fork_of:in",
+          "latencyMs": 680,
+          "netMs": 688,
+          "layoutMs": 285,
+          "newNodes": 60,
+          "newEdges": 60,
+          "graphNodes": 64,
+          "graphEdges": 61,
+          "pinned": true,
+          "placement": "layout-utilities +grid(60 in h:github)",
+          "displacement": {
+            "n": 2,
+            "mean": 56.95,
+            "max": 56.95,
+            "p95": 56.95,
+            "leaf": {
+              "n": 2,
+              "mean": 56.95,
+              "max": 56.95,
+              "p95": 56.95
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 7,
+            "fps": 24.5,
+            "longestFrameMs": 300
+          }
+        },
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 1,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 62,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 62,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "h:lena|host_scan:out",
+          "node": "h:lena",
+          "relation": "host_scan:out",
+          "latencyMs": 519,
+          "netMs": 525,
+          "layoutMs": 458,
+          "newNodes": 1,
+          "newEdges": 0,
+          "graphNodes": 65,
+          "graphEdges": 61,
+          "pinned": true,
+          "placement": "layout-utilities",
+          "displacement": {
+            "n": 62,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 62,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 26,
+            "fps": 56.7,
+            "longestFrameMs": 33.3
+          }
+        },
+        {
+          "separation": {
+            "moved": 2,
+            "iterations": 60,
+            "maxShift": 299.2
+          },
+          "displacementBeforeSeparation": {
+            "n": 63,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 63,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:proj-a-clone|candidate_same_as:out",
+          "node": "d:proj-a-clone",
+          "relation": "candidate_same_as:out",
+          "latencyMs": 380,
+          "netMs": 385,
+          "layoutMs": 475,
+          "newNodes": 1,
+          "newEdges": 1,
+          "graphNodes": 66,
+          "graphEdges": 62,
+          "pinned": true,
+          "placement": "layout-utilities",
+          "displacement": {
+            "n": 63,
+            "mean": 299.21,
+            "max": 299.21,
+            "p95": 299.21,
+            "leaf": {
+              "n": 63,
+              "mean": 299.21,
+              "max": 299.21,
+              "p95": 299.21
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 24,
+            "fps": 50.5,
+            "longestFrameMs": 50
+          }
+        },
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 1,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 64,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 64,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:proj-a|candidate_same_as:out",
+          "node": "d:proj-a",
+          "relation": "candidate_same_as:out",
+          "latencyMs": 531,
+          "netMs": 535,
+          "layoutMs": 472,
+          "newNodes": 1,
+          "newEdges": 1,
+          "graphNodes": 67,
+          "graphEdges": 63,
+          "pinned": true,
+          "placement": "layout-utilities",
+          "displacement": {
+            "n": 64,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 64,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 24,
+            "fps": 50.9,
+            "longestFrameMs": 33.4
+          }
+        },
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 1,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 65,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 65,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:proj-a|shares_history_with:out",
+          "node": "d:proj-a",
+          "relation": "shares_history_with:out",
+          "latencyMs": 679,
+          "netMs": 684,
+          "layoutMs": 482,
+          "newNodes": 1,
+          "newEdges": 1,
+          "graphNodes": 68,
+          "graphEdges": 64,
+          "pinned": true,
+          "placement": "layout-utilities",
+          "displacement": {
+            "n": 65,
+            "mean": 0,
+            "max": 0,
+            "p95": 0,
+            "leaf": {
+              "n": 65,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 26,
+            "fps": 53.9,
+            "longestFrameMs": 33.4
+          }
+        }
+      ]
+    },
+    {
+      "scenario": "s1-spacetop",
+      "pin": false,
+      "expansions": [
+        {
+          "separation": {
+            "moved": 2,
+            "iterations": 2,
+            "maxShift": 4.1
+          },
+          "displacementBeforeSeparation": {
+            "n": 1,
+            "mean": 38.96,
+            "max": 38.96,
+            "p95": 38.96,
+            "leaf": {
+              "n": 1,
+              "mean": 38.96,
+              "max": 38.96,
+              "p95": 38.96
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:lena|remote:out",
+          "node": "d:lena",
+          "relation": "remote:out",
+          "latencyMs": 720,
+          "netMs": 725,
+          "layoutMs": 460,
+          "newNodes": 16,
+          "newEdges": 10,
+          "graphNodes": 18,
+          "graphEdges": 10,
+          "pinned": false,
+          "placement": "layout-utilities",
+          "displacement": {
+            "n": 1,
+            "mean": 38.96,
+            "max": 38.96,
+            "p95": 38.96,
+            "leaf": {
+              "n": 1,
+              "mean": 38.96,
+              "max": 38.96,
+              "p95": 38.96
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 26,
+            "fps": 56.5,
+            "longestFrameMs": 33.3
+          }
+        },
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 1,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 11,
+            "mean": 631.92,
+            "max": 970.69,
+            "p95": 970.69,
+            "leaf": {
+              "n": 11,
+              "mean": 631.92,
+              "max": 970.69,
+              "p95": 970.69
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:typhon|remote:out",
+          "node": "d:typhon",
+          "relation": "remote:out",
+          "latencyMs": 439,
+          "netMs": 444,
+          "layoutMs": 474,
+          "newNodes": 2,
+          "newEdges": 6,
+          "graphNodes": 20,
+          "graphEdges": 16,
+          "pinned": false,
+          "placement": "layout-utilities",
+          "displacement": {
+            "n": 11,
+            "mean": 631.92,
+            "max": 970.69,
+            "p95": 970.69,
+            "leaf": {
+              "n": 11,
+              "mean": 631.92,
+              "max": 970.69,
+              "p95": 970.69
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 28,
+            "fps": 59.1,
+            "longestFrameMs": 16.7
+          }
+        },
+        {
+          "separation": {
+            "moved": 2,
+            "iterations": 2,
+            "maxShift": 8.6
+          },
+          "displacementBeforeSeparation": {
+            "n": 12,
+            "mean": 381.66,
+            "max": 902.68,
+            "p95": 902.68,
+            "leaf": {
+              "n": 12,
+              "mean": 381.66,
+              "max": 902.68,
+              "p95": 902.68
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:rolando|remote:out",
+          "node": "d:rolando",
+          "relation": "remote:out",
+          "latencyMs": 631,
+          "netMs": 636,
+          "layoutMs": 459,
+          "newNodes": 0,
+          "newEdges": 4,
+          "graphNodes": 20,
+          "graphEdges": 20,
+          "pinned": false,
+          "placement": "none",
+          "displacement": {
+            "n": 12,
+            "mean": 382,
+            "max": 908.15,
+            "p95": 908.15,
+            "leaf": {
+              "n": 12,
+              "mean": 382,
+              "max": 908.15,
+              "p95": 908.15
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 27,
+            "fps": 58.8,
+            "longestFrameMs": 16.7
+          }
+        },
+        {
+          "separation": {
+            "moved": 2,
+            "iterations": 2,
+            "maxShift": 4.1
+          },
+          "displacementBeforeSeparation": {
+            "n": 12,
+            "mean": 467.86,
+            "max": 817.71,
+            "p95": 817.71,
+            "leaf": {
+              "n": 12,
+              "mean": 467.86,
+              "max": 817.71,
+              "p95": 817.71
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:smaug|remote:out",
+          "node": "d:smaug",
+          "relation": "remote:out",
+          "latencyMs": 588,
+          "netMs": 592,
+          "layoutMs": 461,
+          "newNodes": 1,
+          "newEdges": 2,
+          "graphNodes": 21,
+          "graphEdges": 22,
+          "pinned": false,
+          "placement": "layout-utilities",
+          "displacement": {
+            "n": 12,
+            "mean": 467.84,
+            "max": 817.71,
+            "p95": 817.71,
+            "leaf": {
+              "n": 12,
+              "mean": 467.84,
+              "max": 817.71,
+              "p95": 817.71
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 27,
+            "fps": 58.5,
+            "longestFrameMs": 16.7
+          }
+        },
+        {
+          "separation": {
+            "moved": 4,
+            "iterations": 2,
+            "maxShift": 1.6
+          },
+          "displacementBeforeSeparation": {
+            "n": 13,
+            "mean": 659.3,
+            "max": 1040.88,
+            "p95": 1040.88,
+            "leaf": {
+              "n": 13,
+              "mean": 659.3,
+              "max": 1040.88,
+              "p95": 1040.88
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:discovery|same_annex_uuid:out",
+          "node": "d:discovery",
+          "relation": "same_annex_uuid:out",
+          "latencyMs": 363,
+          "netMs": 368,
+          "layoutMs": 457,
+          "newNodes": 1,
+          "newEdges": 1,
+          "graphNodes": 22,
+          "graphEdges": 23,
+          "pinned": false,
+          "placement": "layout-utilities",
+          "displacement": {
+            "n": 13,
+            "mean": 659.62,
+            "max": 1041.39,
+            "p95": 1041.39,
+            "leaf": {
+              "n": 13,
+              "mean": 659.62,
+              "max": 1041.39,
+              "p95": 1041.39
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 27,
+            "fps": 59.1,
+            "longestFrameMs": 16.7
+          }
+        },
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 1,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 14,
+            "mean": 648.85,
+            "max": 1055.05,
+            "p95": 1055.05,
+            "leaf": {
+              "n": 14,
+              "mean": 648.85,
+              "max": 1055.05,
+              "p95": 1055.05
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:rolando-x|remote:in",
+          "node": "d:rolando-x",
+          "relation": "remote:in",
+          "latencyMs": 801,
+          "netMs": 805,
+          "layoutMs": 468,
+          "newNodes": 2,
+          "newEdges": 1,
+          "graphNodes": 24,
+          "graphEdges": 24,
+          "pinned": false,
+          "placement": "layout-utilities",
+          "displacement": {
+            "n": 14,
+            "mean": 648.85,
+            "max": 1055.05,
+            "p95": 1055.05,
+            "leaf": {
+              "n": 14,
+              "mean": 648.85,
+              "max": 1055.05,
+              "p95": 1055.05
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 27,
+            "fps": 57.8,
+            "longestFrameMs": 16.8
+          }
+        },
+        {
+          "separation": {
+            "moved": 2,
+            "iterations": 2,
+            "maxShift": 1.9
+          },
+          "displacementBeforeSeparation": {
+            "n": 15,
+            "mean": 531.04,
+            "max": 1175.44,
+            "p95": 1175.44,
+            "leaf": {
+              "n": 15,
+              "mean": 531.04,
+              "max": 1175.44,
+              "p95": 1175.44
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:typhon-bare|remote:out",
+          "node": "d:typhon-bare",
+          "relation": "remote:out",
+          "latencyMs": 560,
+          "netMs": 564,
+          "layoutMs": 474,
+          "newNodes": 0,
+          "newEdges": 0,
+          "graphNodes": 24,
+          "graphEdges": 24,
+          "pinned": false,
+          "placement": "none",
+          "displacement": {
+            "n": 15,
+            "mean": 531.03,
+            "max": 1177.19,
+            "p95": 1177.19,
+            "leaf": {
+              "n": 15,
+              "mean": 531.03,
+              "max": 1177.19,
+              "p95": 1177.19
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 28,
+            "fps": 59.1,
+            "longestFrameMs": 16.8
+          }
+        }
+      ]
+    },
+    {
+      "scenario": "s2-babs-ria",
+      "pin": false,
+      "expansions": [
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 0,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 1,
+            "mean": 176.89,
+            "max": 176.89,
+            "p95": 176.89,
+            "leaf": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 1,
+              "mean": 176.89,
+              "max": 176.89,
+              "p95": 176.89
+            }
+          },
+          "overlaps": 0,
+          "key": "d:super|subdataset:out",
+          "node": "d:super",
+          "relation": "subdataset:out",
+          "latencyMs": 520,
+          "netMs": 524,
+          "layoutMs": 452,
+          "newNodes": 2,
+          "newEdges": 2,
+          "graphNodes": 4,
+          "graphEdges": 2,
+          "pinned": false,
+          "placement": "layout-utilities",
+          "displacement": {
+            "n": 1,
+            "mean": 176.89,
+            "max": 176.89,
+            "p95": 176.89,
+            "leaf": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            },
+            "newParents": {
+              "n": 1,
+              "mean": 176.89,
+              "max": 176.89,
+              "p95": 176.89
+            }
+          },
+          "frames": {
+            "frames": 27,
+            "fps": 59.7,
+            "longestFrameMs": 16.8
+          }
+        },
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 1,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 2,
+            "mean": 280.03,
+            "max": 280.19,
+            "p95": 280.19,
+            "leaf": {
+              "n": 2,
+              "mean": 280.03,
+              "max": 280.19,
+              "p95": 280.19
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:super|remote:out",
+          "node": "d:super",
+          "relation": "remote:out",
+          "latencyMs": 625,
+          "netMs": 630,
+          "layoutMs": 462,
+          "newNodes": 2,
+          "newEdges": 1,
+          "graphNodes": 6,
+          "graphEdges": 3,
+          "pinned": false,
+          "placement": "layout-utilities",
+          "displacement": {
+            "n": 2,
+            "mean": 280.03,
+            "max": 280.19,
+            "p95": 280.19,
+            "leaf": {
+              "n": 2,
+              "mean": 280.03,
+              "max": 280.19,
+              "p95": 280.19
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 27,
+            "fps": 58.4,
+            "longestFrameMs": 16.8
+          }
+        },
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 1,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 3,
+            "mean": 555.94,
+            "max": 1113.6,
+            "p95": 1113.6,
+            "leaf": {
+              "n": 2,
+              "mean": 277.1,
+              "max": 277.1,
+              "p95": 277.1
+            },
+            "newParents": {
+              "n": 1,
+              "mean": 1113.6,
+              "max": 1113.6,
+              "p95": 1113.6
+            }
+          },
+          "overlaps": 0,
+          "key": "d:ria|part:out",
+          "node": "d:ria",
+          "relation": "part:out",
+          "latencyMs": 466,
+          "netMs": 472,
+          "layoutMs": 308,
+          "newNodes": 40,
+          "newEdges": 40,
+          "graphNodes": 46,
+          "graphEdges": 43,
+          "pinned": false,
+          "placement": "layout-utilities +grid(40 in d:ria)",
+          "displacement": {
+            "n": 3,
+            "mean": 555.94,
+            "max": 1113.6,
+            "p95": 1113.6,
+            "leaf": {
+              "n": 2,
+              "mean": 277.1,
+              "max": 277.1,
+              "p95": 277.1
+            },
+            "newParents": {
+              "n": 1,
+              "mean": 1113.6,
+              "max": 1113.6,
+              "p95": 1113.6
+            }
+          },
+          "frames": {
+            "frames": 13,
+            "fps": 42.2,
+            "longestFrameMs": 216.6
+          }
+        },
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 1,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 42,
+            "mean": 756.63,
+            "max": 998.04,
+            "p95": 955.85,
+            "leaf": {
+              "n": 42,
+              "mean": 756.63,
+              "max": 998.04,
+              "p95": 955.85
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:super|worktree_of:in",
+          "node": "d:super",
+          "relation": "worktree_of:in",
+          "latencyMs": 596,
+          "netMs": 602,
+          "layoutMs": 497,
+          "newNodes": 4,
+          "newEdges": 3,
+          "graphNodes": 50,
+          "graphEdges": 46,
+          "pinned": false,
+          "placement": "layout-utilities",
+          "displacement": {
+            "n": 42,
+            "mean": 756.63,
+            "max": 998.04,
+            "p95": 955.85,
+            "leaf": {
+              "n": 42,
+              "mean": 756.63,
+              "max": 998.04,
+              "p95": 955.85
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 19,
+            "fps": 38.2,
+            "longestFrameMs": 50
+          }
+        },
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 1,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 45,
+            "mean": 102.31,
+            "max": 360.44,
+            "p95": 210.63,
+            "leaf": {
+              "n": 45,
+              "mean": 102.31,
+              "max": 360.44,
+              "p95": 210.63
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:ria-sub-001|remote:out",
+          "node": "d:ria-sub-001",
+          "relation": "remote:out",
+          "latencyMs": 365,
+          "netMs": 370,
+          "layoutMs": 493,
+          "newNodes": 0,
+          "newEdges": 1,
+          "graphNodes": 50,
+          "graphEdges": 47,
+          "pinned": false,
+          "placement": "none",
+          "displacement": {
+            "n": 45,
+            "mean": 102.31,
+            "max": 360.44,
+            "p95": 210.63,
+            "leaf": {
+              "n": 45,
+              "mean": 102.31,
+              "max": 360.44,
+              "p95": 210.63
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 22,
+            "fps": 44.6,
+            "longestFrameMs": 33.4
+          }
+        },
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 1,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 45,
+            "mean": 366.76,
+            "max": 575.67,
+            "p95": 515.06,
+            "leaf": {
+              "n": 45,
+              "mean": 366.76,
+              "max": 575.67,
+              "p95": 515.06
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:ria-sub-002|remote:out",
+          "node": "d:ria-sub-002",
+          "relation": "remote:out",
+          "latencyMs": 338,
+          "netMs": 343,
+          "layoutMs": 478,
+          "newNodes": 0,
+          "newEdges": 1,
+          "graphNodes": 50,
+          "graphEdges": 48,
+          "pinned": false,
+          "placement": "none",
+          "displacement": {
+            "n": 45,
+            "mean": 366.76,
+            "max": 575.67,
+            "p95": 515.06,
+            "leaf": {
+              "n": 45,
+              "mean": 366.76,
+              "max": 575.67,
+              "p95": 515.06
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 22,
+            "fps": 46.1,
+            "longestFrameMs": 33.4
+          }
+        }
+      ]
+    },
+    {
+      "scenario": "s3-forks",
+      "pin": false,
+      "expansions": [
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 1,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 1,
+            "mean": 174.05,
+            "max": 174.05,
+            "p95": 174.05,
+            "leaf": {
+              "n": 1,
+              "mean": 174.05,
+              "max": 174.05,
+              "p95": 174.05
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:mine|remote:out",
+          "node": "d:mine",
+          "relation": "remote:out",
+          "latencyMs": 370,
+          "netMs": 375,
+          "layoutMs": 481,
+          "newNodes": 2,
+          "newEdges": 1,
+          "graphNodes": 4,
+          "graphEdges": 1,
+          "pinned": false,
+          "placement": "layout-utilities",
+          "displacement": {
+            "n": 1,
+            "mean": 174.05,
+            "max": 174.05,
+            "p95": 174.05,
+            "leaf": {
+              "n": 1,
+              "mean": 174.05,
+              "max": 174.05,
+              "p95": 174.05
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 28,
+            "fps": 58.2,
+            "longestFrameMs": 16.8
+          }
+        },
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 1,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 2,
+            "mean": 234.37,
+            "max": 307.13,
+            "p95": 307.13,
+            "leaf": {
+              "n": 2,
+              "mean": 234.37,
+              "max": 307.13,
+              "p95": 307.13
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:upstream|fork_of:in",
+          "node": "d:upstream",
+          "relation": "fork_of:in",
+          "latencyMs": 812,
+          "netMs": 818,
+          "layoutMs": 332,
+          "newNodes": 60,
+          "newEdges": 60,
+          "graphNodes": 64,
+          "graphEdges": 61,
+          "pinned": false,
+          "placement": "layout-utilities +grid(60 in h:github)",
+          "displacement": {
+            "n": 2,
+            "mean": 234.37,
+            "max": 307.13,
+            "p95": 307.13,
+            "leaf": {
+              "n": 2,
+              "mean": 234.37,
+              "max": 307.13,
+              "p95": 307.13
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 5,
+            "fps": 15.1,
+            "longestFrameMs": 266.7
+          }
+        },
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 1,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 62,
+            "mean": 434.37,
+            "max": 982.68,
+            "p95": 806.46,
+            "leaf": {
+              "n": 62,
+              "mean": 434.37,
+              "max": 982.68,
+              "p95": 806.46
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "h:lena|host_scan:out",
+          "node": "h:lena",
+          "relation": "host_scan:out",
+          "latencyMs": 346,
+          "netMs": 350,
+          "layoutMs": 476,
+          "newNodes": 1,
+          "newEdges": 0,
+          "graphNodes": 65,
+          "graphEdges": 61,
+          "pinned": false,
+          "placement": "layout-utilities",
+          "displacement": {
+            "n": 62,
+            "mean": 434.37,
+            "max": 982.68,
+            "p95": 806.46,
+            "leaf": {
+              "n": 62,
+              "mean": 434.37,
+              "max": 982.68,
+              "p95": 806.46
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 22,
+            "fps": 46.2,
+            "longestFrameMs": 33.4
+          }
+        },
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 1,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 63,
+            "mean": 336.41,
+            "max": 865.18,
+            "p95": 708.23,
+            "leaf": {
+              "n": 63,
+              "mean": 336.41,
+              "max": 865.18,
+              "p95": 708.23
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:proj-a-clone|candidate_same_as:out",
+          "node": "d:proj-a-clone",
+          "relation": "candidate_same_as:out",
+          "latencyMs": 717,
+          "netMs": 723,
+          "layoutMs": 479,
+          "newNodes": 1,
+          "newEdges": 1,
+          "graphNodes": 66,
+          "graphEdges": 62,
+          "pinned": false,
+          "placement": "layout-utilities",
+          "displacement": {
+            "n": 63,
+            "mean": 336.41,
+            "max": 865.18,
+            "p95": 708.23,
+            "leaf": {
+              "n": 63,
+              "mean": 336.41,
+              "max": 865.18,
+              "p95": 708.23
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 22,
+            "fps": 45.9,
+            "longestFrameMs": 33.3
+          }
+        },
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 1,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 64,
+            "mean": 351.31,
+            "max": 692.77,
+            "p95": 561.54,
+            "leaf": {
+              "n": 64,
+              "mean": 351.31,
+              "max": 692.77,
+              "p95": 561.54
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:proj-a|candidate_same_as:out",
+          "node": "d:proj-a",
+          "relation": "candidate_same_as:out",
+          "latencyMs": 757,
+          "netMs": 763,
+          "layoutMs": 468,
+          "newNodes": 1,
+          "newEdges": 1,
+          "graphNodes": 67,
+          "graphEdges": 63,
+          "pinned": false,
+          "placement": "layout-utilities",
+          "displacement": {
+            "n": 64,
+            "mean": 351.31,
+            "max": 692.77,
+            "p95": 561.54,
+            "leaf": {
+              "n": 64,
+              "mean": 351.31,
+              "max": 692.77,
+              "p95": 561.54
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 21,
+            "fps": 44.8,
+            "longestFrameMs": 83.2
+          }
+        },
+        {
+          "separation": {
+            "moved": 0,
+            "iterations": 1,
+            "maxShift": 0
+          },
+          "displacementBeforeSeparation": {
+            "n": 65,
+            "mean": 399.99,
+            "max": 841.49,
+            "p95": 642.3,
+            "leaf": {
+              "n": 65,
+              "mean": 399.99,
+              "max": 841.49,
+              "p95": 642.3
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "overlaps": 0,
+          "key": "d:proj-a|shares_history_with:out",
+          "node": "d:proj-a",
+          "relation": "shares_history_with:out",
+          "latencyMs": 501,
+          "netMs": 506,
+          "layoutMs": 475,
+          "newNodes": 1,
+          "newEdges": 1,
+          "graphNodes": 68,
+          "graphEdges": 64,
+          "pinned": false,
+          "placement": "layout-utilities",
+          "displacement": {
+            "n": 65,
+            "mean": 399.99,
+            "max": 841.49,
+            "p95": 642.3,
+            "leaf": {
+              "n": 65,
+              "mean": 399.99,
+              "max": 841.49,
+              "p95": 642.3
+            },
+            "newParents": {
+              "n": 0,
+              "mean": 0,
+              "max": 0,
+              "p95": 0
+            }
+          },
+          "frames": {
+            "frames": 21,
+            "fps": 44.3,
+            "longestFrameMs": 33.4
+          }
+        }
+      ]
+    }
+  ],
+  "revealAll": [
+    {
+      "scenario": "s1-spacetop",
+      "revealAll": true,
+      "ms": 465,
+      "newNodes": 22,
+      "newEdges": 25,
+      "graphNodes": 24,
+      "displacement": {
+        "n": 1,
+        "mean": 0,
+        "max": 0,
+        "p95": 0,
+        "leaf": {
+          "n": 1,
+          "mean": 0,
+          "max": 0,
+          "p95": 0
+        },
+        "newParents": {
+          "n": 0,
+          "mean": 0,
+          "max": 0,
+          "p95": 0
+        }
+      },
+      "frames": {
+        "frames": 26,
+        "fps": 55.9,
+        "longestFrameMs": 49.9
+      }
+    },
+    {
+      "scenario": "s2-babs-ria",
+      "revealAll": true,
+      "ms": 362,
+      "newNodes": 49,
+      "newEdges": 87,
+      "graphNodes": 51,
+      "displacement": {
+        "n": 1,
+        "mean": 802.68,
+        "max": 802.68,
+        "p95": 802.68,
+        "leaf": {
+          "n": 0,
+          "mean": 0,
+          "max": 0,
+          "p95": 0
+        },
+        "newParents": {
+          "n": 1,
+          "mean": 802.68,
+          "max": 802.68,
+          "p95": 802.68
+        }
+      },
+      "frames": {
+        "frames": 8,
+        "fps": 22.1,
+        "longestFrameMs": 216.6
+      }
+    },
+    {
+      "scenario": "s3-forks",
+      "revealAll": true,
+      "ms": 324,
+      "newNodes": 66,
+      "newEdges": 66,
+      "graphNodes": 68,
+      "displacement": {
+        "n": 1,
+        "mean": 0,
+        "max": 0,
+        "p95": 0,
+        "leaf": {
+          "n": 1,
+          "mean": 0,
+          "max": 0,
+          "p95": 0
+        },
+        "newParents": {
+          "n": 0,
+          "mean": 0,
+          "max": 0,
+          "p95": 0
+        }
+      },
+      "frames": {
+        "frames": 2,
+        "fps": 6.2,
+        "longestFrameMs": 416.6
+      }
+    }
+  ],
+  "relayout": [
+    {
+      "scenario": "s1-spacetop",
+      "ms": 456,
+      "displacement": {
+        "n": 15,
+        "mean": 454.92,
+        "max": 950.85,
+        "p95": 950.85,
+        "leaf": {
+          "n": 15,
+          "mean": 454.92,
+          "max": 950.85,
+          "p95": 950.85
+        },
+        "newParents": {
+          "n": 0,
+          "mean": 0,
+          "max": 0,
+          "p95": 0
+        }
+      },
+      "frames": {
+        "frames": 27,
+        "fps": 59.2,
+        "longestFrameMs": 16.8
+      },
+      "graphNodes": 24
+    },
+    {
+      "scenario": "s2-babs-ria",
+      "ms": 496,
+      "displacement": {
+        "n": 46,
+        "mean": 738.67,
+        "max": 1207.46,
+        "p95": 1152.63,
+        "leaf": {
+          "n": 46,
+          "mean": 738.67,
+          "max": 1207.46,
+          "p95": 1152.63
+        },
+        "newParents": {
+          "n": 0,
+          "mean": 0,
+          "max": 0,
+          "p95": 0
+        }
+      },
+      "frames": {
+        "frames": 19,
+        "fps": 38.3,
+        "longestFrameMs": 66.7
+      },
+      "graphNodes": 51
+    },
+    {
+      "scenario": "s3-forks",
+      "ms": 503,
+      "displacement": {
+        "n": 66,
+        "mean": 592.11,
+        "max": 1009.67,
+        "p95": 894.95,
+        "leaf": {
+          "n": 66,
+          "mean": 592.11,
+          "max": 1009.67,
+          "p95": 894.95
+        },
+        "newParents": {
+          "n": 0,
+          "mean": 0,
+          "max": 0,
+          "p95": 0
+        }
+      },
+      "frames": {
+        "frames": 23,
+        "fps": 45.7,
+        "longestFrameMs": 33.4
+      },
+      "graphNodes": 68
+    }
+  ],
+  "navToSeedMs": 311,
+  "problems": [],
+  "badgeBackend": {
+    "name": "cytoscape-node-html-label",
+    "error": null
+  }
+}

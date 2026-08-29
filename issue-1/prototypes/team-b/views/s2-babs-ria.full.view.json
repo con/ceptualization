@@ -1,0 +1,479 @@
+{
+  "expansions": [
+    {
+      "node": "d:ria",
+      "relation": "part"
+    },
+    {
+      "node": "d:super",
+      "relation": "remote"
+    },
+    {
+      "node": "d:super",
+      "relation": "subdataset"
+    },
+    {
+      "node": "d:super",
+      "relation": "worktree_of"
+    }
+  ],
+  "format": "worldmap-view/1",
+  "generator": "team-b graphviz-first",
+  "layout_engine": "graphviz/dot via @hpcc-js/wasm 2.35.0, output format json (xdot)",
+  "pinned": {},
+  "positions": {
+    "lineage": {
+      "d:local-super": {
+        "x": -100,
+        "y": 671
+      },
+      "d:ria": {
+        "x": -100,
+        "y": 737
+      },
+      "d:ria-sub-001": {
+        "x": -100,
+        "y": 803
+      },
+      "d:ria-sub-002": {
+        "x": -100,
+        "y": 869
+      },
+      "d:ria-sub-003": {
+        "x": -314,
+        "y": 407
+      },
+      "d:ria-sub-004": {
+        "x": -314,
+        "y": 473
+      },
+      "d:ria-sub-005": {
+        "x": -314,
+        "y": 539
+      },
+      "d:ria-sub-006": {
+        "x": -314,
+        "y": 605
+      },
+      "d:ria-sub-007": {
+        "x": -314,
+        "y": 671
+      },
+      "d:ria-sub-008": {
+        "x": -314,
+        "y": 737
+      },
+      "d:ria-sub-009": {
+        "x": -314,
+        "y": 803
+      },
+      "d:ria-sub-010": {
+        "x": -314,
+        "y": 869
+      },
+      "d:ria-sub-011": {
+        "x": -528,
+        "y": 407
+      },
+      "d:ria-sub-012": {
+        "x": -528,
+        "y": 473
+      },
+      "d:ria-sub-013": {
+        "x": -528,
+        "y": 539
+      },
+      "d:ria-sub-014": {
+        "x": -528,
+        "y": 605
+      },
+      "d:ria-sub-015": {
+        "x": -528,
+        "y": 671
+      },
+      "d:ria-sub-016": {
+        "x": -528,
+        "y": 737
+      },
+      "d:ria-sub-017": {
+        "x": -528,
+        "y": 803
+      },
+      "d:ria-sub-018": {
+        "x": -528,
+        "y": 869
+      },
+      "d:ria-sub-019": {
+        "x": -742,
+        "y": 407
+      },
+      "d:ria-sub-020": {
+        "x": -742,
+        "y": 473
+      },
+      "d:ria-sub-021": {
+        "x": -742,
+        "y": 539
+      },
+      "d:ria-sub-022": {
+        "x": -742,
+        "y": 605
+      },
+      "d:ria-sub-023": {
+        "x": -742,
+        "y": 671
+      },
+      "d:ria-sub-024": {
+        "x": -742,
+        "y": 737
+      },
+      "d:ria-sub-025": {
+        "x": -742,
+        "y": 803
+      },
+      "d:ria-sub-026": {
+        "x": -742,
+        "y": 869
+      },
+      "d:ria-sub-027": {
+        "x": -956,
+        "y": 407
+      },
+      "d:ria-sub-028": {
+        "x": -956,
+        "y": 473
+      },
+      "d:ria-sub-029": {
+        "x": 114,
+        "y": 407
+      },
+      "d:ria-sub-030": {
+        "x": 114,
+        "y": 473
+      },
+      "d:ria-sub-031": {
+        "x": 114,
+        "y": 539
+      },
+      "d:ria-sub-032": {
+        "x": 114,
+        "y": 605
+      },
+      "d:ria-sub-033": {
+        "x": 114,
+        "y": 671
+      },
+      "d:ria-sub-034": {
+        "x": 114,
+        "y": 737
+      },
+      "d:ria-sub-035": {
+        "x": 114,
+        "y": 803
+      },
+      "d:ria-sub-036": {
+        "x": 114,
+        "y": 869
+      },
+      "d:ria-sub-037": {
+        "x": -100,
+        "y": 407
+      },
+      "d:ria-sub-038": {
+        "x": -100,
+        "y": 473
+      },
+      "d:ria-sub-039": {
+        "x": -100,
+        "y": 539
+      },
+      "d:ria-sub-040": {
+        "x": -100,
+        "y": 605
+      },
+      "d:sub-cont": {
+        "x": 106,
+        "y": 39
+      },
+      "d:sub-input": {
+        "x": 314,
+        "y": 39
+      },
+      "d:super": {
+        "x": 444,
+        "y": 201
+      },
+      "d:wt-fix": {
+        "x": 106,
+        "y": 289
+      },
+      "d:wt-old": {
+        "x": 106,
+        "y": 113
+      },
+      "d:wt-qa": {
+        "x": 106,
+        "y": 201
+      }
+    },
+    "map": {
+      "d:local-super": {
+        "x": -134,
+        "y": 457
+      },
+      "d:ria": {
+        "x": 385,
+        "y": -203
+      },
+      "d:ria-sub-001": {
+        "x": -134,
+        "y": -812
+      },
+      "d:ria-sub-002": {
+        "x": -134,
+        "y": -732
+      },
+      "d:ria-sub-003": {
+        "x": -134,
+        "y": -652
+      },
+      "d:ria-sub-004": {
+        "x": -134,
+        "y": -572
+      },
+      "d:ria-sub-005": {
+        "x": -134,
+        "y": -492
+      },
+      "d:ria-sub-006": {
+        "x": -134,
+        "y": -412
+      },
+      "d:ria-sub-007": {
+        "x": -134,
+        "y": -332
+      },
+      "d:ria-sub-008": {
+        "x": -134,
+        "y": -252
+      },
+      "d:ria-sub-009": {
+        "x": 126,
+        "y": -812
+      },
+      "d:ria-sub-010": {
+        "x": 126,
+        "y": -732
+      },
+      "d:ria-sub-011": {
+        "x": 126,
+        "y": -652
+      },
+      "d:ria-sub-012": {
+        "x": 126,
+        "y": -572
+      },
+      "d:ria-sub-013": {
+        "x": 126,
+        "y": -492
+      },
+      "d:ria-sub-014": {
+        "x": 126,
+        "y": -412
+      },
+      "d:ria-sub-015": {
+        "x": 126,
+        "y": -332
+      },
+      "d:ria-sub-016": {
+        "x": 126,
+        "y": -252
+      },
+      "d:ria-sub-017": {
+        "x": 385,
+        "y": -812
+      },
+      "d:ria-sub-018": {
+        "x": 385,
+        "y": -732
+      },
+      "d:ria-sub-019": {
+        "x": 385,
+        "y": -652
+      },
+      "d:ria-sub-020": {
+        "x": 385,
+        "y": -572
+      },
+      "d:ria-sub-021": {
+        "x": 385,
+        "y": -492
+      },
+      "d:ria-sub-022": {
+        "x": 385,
+        "y": -412
+      },
+      "d:ria-sub-023": {
+        "x": 385,
+        "y": -332
+      },
+      "d:ria-sub-024": {
+        "x": 385,
+        "y": -252
+      },
+      "d:ria-sub-025": {
+        "x": 644,
+        "y": -812
+      },
+      "d:ria-sub-026": {
+        "x": 644,
+        "y": -732
+      },
+      "d:ria-sub-027": {
+        "x": 644,
+        "y": -652
+      },
+      "d:ria-sub-028": {
+        "x": 644,
+        "y": -572
+      },
+      "d:ria-sub-029": {
+        "x": 644,
+        "y": -492
+      },
+      "d:ria-sub-030": {
+        "x": 644,
+        "y": -412
+      },
+      "d:ria-sub-031": {
+        "x": 644,
+        "y": -332
+      },
+      "d:ria-sub-032": {
+        "x": 644,
+        "y": -252
+      },
+      "d:ria-sub-033": {
+        "x": 903,
+        "y": -812
+      },
+      "d:ria-sub-034": {
+        "x": 903,
+        "y": -732
+      },
+      "d:ria-sub-035": {
+        "x": 903,
+        "y": -652
+      },
+      "d:ria-sub-036": {
+        "x": 903,
+        "y": -572
+      },
+      "d:ria-sub-037": {
+        "x": 903,
+        "y": -492
+      },
+      "d:ria-sub-038": {
+        "x": 903,
+        "y": -412
+      },
+      "d:ria-sub-039": {
+        "x": 903,
+        "y": -332
+      },
+      "d:ria-sub-040": {
+        "x": 903,
+        "y": -252
+      },
+      "d:sub-cont": {
+        "x": -134,
+        "y": 61
+      },
+      "d:sub-input": {
+        "x": -134,
+        "y": -18
+      },
+      "d:super": {
+        "x": 126,
+        "y": 84
+      },
+      "d:wt-fix": {
+        "x": -134,
+        "y": 378
+      },
+      "d:wt-old": {
+        "x": -134,
+        "y": 299
+      },
+      "d:wt-qa": {
+        "x": -134,
+        "y": 220
+      }
+    }
+  },
+  "routes": {},
+  "saved_at": "2026-08-26T01:30:33Z",
+  "scenario": "s2-babs-ria",
+  "view": {
+    "mode": "lineage",
+    "pan": {
+      "x": 842,
+      "y": 151
+    },
+    "theme": "dark",
+    "zoom": 0.7705
+  },
+  "visible": [
+    "d:local-super",
+    "d:ria",
+    "d:ria-sub-001",
+    "d:ria-sub-002",
+    "d:ria-sub-003",
+    "d:ria-sub-004",
+    "d:ria-sub-005",
+    "d:ria-sub-006",
+    "d:ria-sub-007",
+    "d:ria-sub-008",
+    "d:ria-sub-009",
+    "d:ria-sub-010",
+    "d:ria-sub-011",
+    "d:ria-sub-012",
+    "d:ria-sub-013",
+    "d:ria-sub-014",
+    "d:ria-sub-015",
+    "d:ria-sub-016",
+    "d:ria-sub-017",
+    "d:ria-sub-018",
+    "d:ria-sub-019",
+    "d:ria-sub-020",
+    "d:ria-sub-021",
+    "d:ria-sub-022",
+    "d:ria-sub-023",
+    "d:ria-sub-024",
+    "d:ria-sub-025",
+    "d:ria-sub-026",
+    "d:ria-sub-027",
+    "d:ria-sub-028",
+    "d:ria-sub-029",
+    "d:ria-sub-030",
+    "d:ria-sub-031",
+    "d:ria-sub-032",
+    "d:ria-sub-033",
+    "d:ria-sub-034",
+    "d:ria-sub-035",
+    "d:ria-sub-036",
+    "d:ria-sub-037",
+    "d:ria-sub-038",
+    "d:ria-sub-039",
+    "d:ria-sub-040",
+    "d:sub-cont",
+    "d:sub-input",
+    "d:super",
+    "d:wt-fix",
+    "d:wt-old",
+    "d:wt-qa",
+    "h:discovery",
+    "h:lena",
+    "h:ria"
+  ]
+}

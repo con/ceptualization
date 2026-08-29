@@ -1,0 +1,343 @@
+{
+  "collapsed": [],
+  "containers": {
+    "h:discovery": {
+      "h": 334,
+      "w": 330,
+      "x": 135,
+      "y": 77
+    },
+    "h:lena": {
+      "h": 256,
+      "w": 506,
+      "x": -384,
+      "y": 77
+    },
+    "h:ria": {
+      "h": 946,
+      "w": 1510,
+      "x": 1156,
+      "y": 77
+    }
+  },
+  "expansions": [],
+  "format": "worldmap-view/2-twotier",
+  "generator": "team-d two-tier",
+  "layout_engine": "tier1 graphviz/dot via @hpcc-js/wasm 2.35.0 (format json/xdot) over containers only; tier2 fcose 2.2.0 over leaves in container-local coordinates; both in a Web Worker",
+  "local": {
+    "d:local-super": {
+      "in": "h:lena",
+      "x": 30,
+      "y": 48
+    },
+    "d:ria": {
+      "in": "h:ria",
+      "x": 30,
+      "y": 48
+    },
+    "d:ria-sub-001": {
+      "in": "d:ria",
+      "x": 30,
+      "y": 48
+    },
+    "d:ria-sub-002": {
+      "in": "d:ria",
+      "x": 266,
+      "y": 48
+    },
+    "d:ria-sub-003": {
+      "in": "d:ria",
+      "x": 502,
+      "y": 48
+    },
+    "d:ria-sub-004": {
+      "in": "d:ria",
+      "x": 738,
+      "y": 48
+    },
+    "d:ria-sub-005": {
+      "in": "d:ria",
+      "x": 974,
+      "y": 48
+    },
+    "d:ria-sub-006": {
+      "in": "d:ria",
+      "x": 1210,
+      "y": 48
+    },
+    "d:ria-sub-007": {
+      "in": "d:ria",
+      "x": 30,
+      "y": 150
+    },
+    "d:ria-sub-008": {
+      "in": "d:ria",
+      "x": 266,
+      "y": 150
+    },
+    "d:ria-sub-009": {
+      "in": "d:ria",
+      "x": 502,
+      "y": 150
+    },
+    "d:ria-sub-010": {
+      "in": "d:ria",
+      "x": 738,
+      "y": 150
+    },
+    "d:ria-sub-011": {
+      "in": "d:ria",
+      "x": 974,
+      "y": 150
+    },
+    "d:ria-sub-012": {
+      "in": "d:ria",
+      "x": 1210,
+      "y": 150
+    },
+    "d:ria-sub-013": {
+      "in": "d:ria",
+      "x": 30,
+      "y": 252
+    },
+    "d:ria-sub-014": {
+      "in": "d:ria",
+      "x": 266,
+      "y": 252
+    },
+    "d:ria-sub-015": {
+      "in": "d:ria",
+      "x": 502,
+      "y": 252
+    },
+    "d:ria-sub-016": {
+      "in": "d:ria",
+      "x": 738,
+      "y": 252
+    },
+    "d:ria-sub-017": {
+      "in": "d:ria",
+      "x": 974,
+      "y": 252
+    },
+    "d:ria-sub-018": {
+      "in": "d:ria",
+      "x": 1210,
+      "y": 252
+    },
+    "d:ria-sub-019": {
+      "in": "d:ria",
+      "x": 30,
+      "y": 354
+    },
+    "d:ria-sub-020": {
+      "in": "d:ria",
+      "x": 266,
+      "y": 354
+    },
+    "d:ria-sub-021": {
+      "in": "d:ria",
+      "x": 502,
+      "y": 354
+    },
+    "d:ria-sub-022": {
+      "in": "d:ria",
+      "x": 738,
+      "y": 354
+    },
+    "d:ria-sub-023": {
+      "in": "d:ria",
+      "x": 974,
+      "y": 354
+    },
+    "d:ria-sub-024": {
+      "in": "d:ria",
+      "x": 1210,
+      "y": 354
+    },
+    "d:ria-sub-025": {
+      "in": "d:ria",
+      "x": 30,
+      "y": 456
+    },
+    "d:ria-sub-026": {
+      "in": "d:ria",
+      "x": 266,
+      "y": 456
+    },
+    "d:ria-sub-027": {
+      "in": "d:ria",
+      "x": 502,
+      "y": 456
+    },
+    "d:ria-sub-028": {
+      "in": "d:ria",
+      "x": 738,
+      "y": 456
+    },
+    "d:ria-sub-029": {
+      "in": "d:ria",
+      "x": 974,
+      "y": 456
+    },
+    "d:ria-sub-030": {
+      "in": "d:ria",
+      "x": 1210,
+      "y": 456
+    },
+    "d:ria-sub-031": {
+      "in": "d:ria",
+      "x": 30,
+      "y": 558
+    },
+    "d:ria-sub-032": {
+      "in": "d:ria",
+      "x": 266,
+      "y": 558
+    },
+    "d:ria-sub-033": {
+      "in": "d:ria",
+      "x": 502,
+      "y": 558
+    },
+    "d:ria-sub-034": {
+      "in": "d:ria",
+      "x": 738,
+      "y": 558
+    },
+    "d:ria-sub-035": {
+      "in": "d:ria",
+      "x": 974,
+      "y": 558
+    },
+    "d:ria-sub-036": {
+      "in": "d:ria",
+      "x": 1210,
+      "y": 558
+    },
+    "d:ria-sub-037": {
+      "in": "d:ria",
+      "x": 30,
+      "y": 660
+    },
+    "d:ria-sub-038": {
+      "in": "d:ria",
+      "x": 266,
+      "y": 660
+    },
+    "d:ria-sub-039": {
+      "in": "d:ria",
+      "x": 502,
+      "y": 660
+    },
+    "d:ria-sub-040": {
+      "in": "d:ria",
+      "x": 738,
+      "y": 660
+    },
+    "d:sub-cont": {
+      "in": "d:super",
+      "x": 30,
+      "y": 48
+    },
+    "d:sub-input": {
+      "in": "d:super",
+      "x": 30,
+      "y": 150
+    },
+    "d:super": {
+      "in": "h:discovery",
+      "x": 30,
+      "y": 48
+    },
+    "d:wt-fix": {
+      "in": "h:lena",
+      "x": 266,
+      "y": 48
+    },
+    "d:wt-old": {
+      "in": "h:lena",
+      "x": 30,
+      "y": 150
+    },
+    "d:wt-qa": {
+      "in": "h:lena",
+      "x": 266,
+      "y": 150
+    }
+  },
+  "saved_at": "2026-08-27T21:22:45Z",
+  "scenario": "s2-babs-ria",
+  "sizes": {
+    "d:ria": {
+      "h": 868,
+      "w": 1450
+    },
+    "d:super": {
+      "h": 256,
+      "w": 270
+    }
+  },
+  "view": {
+    "labels": "demand",
+    "pan": {
+      "x": 368,
+      "y": 487
+    },
+    "theme": "dark",
+    "zoom": 0.4899
+  },
+  "visible": [
+    "d:local-super",
+    "d:ria",
+    "d:ria-sub-001",
+    "d:ria-sub-002",
+    "d:ria-sub-003",
+    "d:ria-sub-004",
+    "d:ria-sub-005",
+    "d:ria-sub-006",
+    "d:ria-sub-007",
+    "d:ria-sub-008",
+    "d:ria-sub-009",
+    "d:ria-sub-010",
+    "d:ria-sub-011",
+    "d:ria-sub-012",
+    "d:ria-sub-013",
+    "d:ria-sub-014",
+    "d:ria-sub-015",
+    "d:ria-sub-016",
+    "d:ria-sub-017",
+    "d:ria-sub-018",
+    "d:ria-sub-019",
+    "d:ria-sub-020",
+    "d:ria-sub-021",
+    "d:ria-sub-022",
+    "d:ria-sub-023",
+    "d:ria-sub-024",
+    "d:ria-sub-025",
+    "d:ria-sub-026",
+    "d:ria-sub-027",
+    "d:ria-sub-028",
+    "d:ria-sub-029",
+    "d:ria-sub-030",
+    "d:ria-sub-031",
+    "d:ria-sub-032",
+    "d:ria-sub-033",
+    "d:ria-sub-034",
+    "d:ria-sub-035",
+    "d:ria-sub-036",
+    "d:ria-sub-037",
+    "d:ria-sub-038",
+    "d:ria-sub-039",
+    "d:ria-sub-040",
+    "d:sub-cont",
+    "d:sub-input",
+    "d:super",
+    "d:wt-fix",
+    "d:wt-old",
+    "d:wt-qa",
+    "h:discovery",
+    "h:lena",
+    "h:ria"
+  ]
+}
